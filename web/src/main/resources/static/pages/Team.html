@@ -1,0 +1,221 @@
+<ul class="breadcrumb breadcrumb-page">
+			<div class="breadcrumb-label text-light-gray">You are here: </div>
+			<li><a>Home</a></li>
+			<li><a>Core</a></li>
+			<li class="active"><a>Team</a></li>
+		</ul>
+		<div class="page-header">
+			<div class="row">
+				<!-- Page header, center on small screens -->
+				<h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;Configuration</h1>
+				<div class="col-xs-12 col-sm-8"> You can manage the team and team members for each department </div>
+			</div>
+		</div> <!-- / .page-header -->
+		
+<main ng-controller="teamController">
+
+<script>
+var url="/resource/team";
+</script>
+<div>
+<div class="alert alert-danger alert-dismissible" role="alert" ng-show="showerror">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{error}}
+</div>
+<div class="alert alert-success alert-dismissible" role="alert" ng-show="showsucess">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{success}}
+</div>
+<div class="col-md-3">
+	<div class="panel panel-info panel-dark">
+		<div class="panel-body">
+   		 <button class="btn btn-primary" ng-click="clearData()" data-toggle="modal" data-target="#newTeamModal"><span class=" fa fa-plus">&nbsp</span>New Team</button>
+     	</div>
+	</div>
+</div>
+<div class="col-md-9">
+<div class="panel panel-success panel-dark">
+		<div class="panel-heading"><h3 class="panel-title">View Available Teams</h3></div>
+		<div class="panel-body">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>
+                                <button type="button" class="btn  btn-primary" ng-click="refresh()">
+                                    <span class="fa fa-refresh"></span>&nbsp;
+                                </button>
+                            </th>
+							<th>Team Name</th>
+							<th>Manager/Lead</th>
+							<th>Operations</th>
+						</tr>
+					</thead>
+					<tbody>
+					<input type="text" ng-model="searchKeyword" class="form-control ng-valid ng-dirty" id="searchTable" placeholder="Search table"  >
+						<tr ng-repeat="team in teamList | filter: searchKeyword ">
+							<td>{{$index+1}}</td>
+							<td>{{team.teamName}}</td>
+							<td><a href data-toggle="modal" data-target="#managerModal" ng-click="viewManager(team.managerId)" ng-show="team.managerId">
+							View Details</a></td>
+							<td>
+					         <button type="button" class="btn  btn-info btn-sm" ng-click="getTeamMembers(team.id)" data-toggle="modal" data-target="#teamMemberModal">
+							 <span class=" fa fa-cog">&nbsp</span>
+								Config Members
+                             </button>
+                            </td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+	</div>
+</div>
+
+</div>
+<div id="newTeamModal" class="modal fade" role="dialog">
+ <div class="modal-dialog">
+  <div class="modal-content">
+	<div class="modal-header  bg-warning">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h3 class="modal-title">New Team</h3>
+		</div>
+		<div class="modal-body">
+			<div style="padding:15px;">
+		  <form class="form-horizontal">
+			<div class="form-group">
+				<label  class="control-label">Team Name</label>
+				<div>
+					<input type="text" class="form-control" id="teamName" placeholder="Team Name" ng-model="formData.teamName">
+					<span class="help-block">Allowed : [a-zA-Z0-9] </span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">Department Name</label>
+				<div>
+					<angucomplete id="Parent_Department" placeholder="Select Department" pause="400"  selectedobject="departObj"
+		              url="/resource/departments/search?s="
+		              titlefield="departmentName"
+		              inputclass="form-control" minlength="3"/>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">Manager</label>
+				<div>
+					<angucomplete id="manager" placeholder="Select Manager" pause="400"  selectedobject="managerObj"
+		              url="/resource/users/searchByName?s="
+		              titlefield="firstName,secondName"
+		              inputclass="form-control" minlength="3"/>
+				</div>
+			</div>
+		</form>
+			  </div>
+		</div>
+		<div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="save()" data-dismiss="modal">Save</button>
+      </div>
+  </div>
+ </div>
+</div>
+
+
+<!--  Manager model -->
+	<div class="modal fade bs-example-modal-lg" id="managerModal" tabindex="-1" role="dialog">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="myModalLabel">Manager  Details</h4>
+		  </div>
+		  <div class="modal-body">
+			 <div style="padding:15px;">
+		  <form class="form-horizontal">
+			<div class="form-group">
+				<label  class="control-label">User Id</label>
+				<div>
+					<input type="text" class="form-control" ng-model="manager.userId" readonly >
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">User Name </label>
+				<div>
+					<input type="text" class="form-control"  ng-model="manager.userName" readonly >
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">Email</label>
+				<div>
+					<input type="text" class="form-control"  ng-model="manager.email" readonly >
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">Status</label>
+				<div>
+					<input type="text" class="form-control"  ng-model="manager.state" readonly >
+				</div>
+			</div>
+		</form>
+			  </div>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+
+<div id="teamMemberModal" class="modal fade" role="dialog">
+ <div class="modal-dialog">
+  <div class="modal-content">
+	<div class="modal-header  bg-warning">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h3 class="modal-title">Team Members</h3>
+		</div>
+		<div class="modal-body">
+			
+			  <div class="form-group">
+			    <label class="sr-only" for="exampleInputAmount">New Member</label>
+			    <div class="input-group">
+			      <div class="input-group-addon">New Member</div>
+			      <angucomplete id="member" placeholder="Select Member" pause="400"  selectedobject="memberObj"
+		              url="/resource/users/searchByName?s="
+		              titlefield="firstName,secondName"
+		              inputclass="form-control addMemberSrch" minlength="3"/>
+		              <span class="input-group-btn">
+		               <button type="button" class="btn btn-primary" ng-click="saveTeamMember()">Add Member</button>
+		               </span>
+			      </div>
+			  </div> 
+			  
+			<hr/>
+			<table class="table">
+					<thead>
+						<tr>
+							<th>
+                            </th>
+							<th>Member Name</th>
+							<th>Operations</th>
+						</tr>
+					</thead>
+					<tbody>
+					<input type="text" ng-model="searchKeyword" class="form-control ng-valid ng-dirty" id="searchTable" placeholder="Search table"/>
+						<tr ng-repeat="member in memberList | filter: searchKeyword ">
+							<td>{{$index+1}}</td>
+							<td>{{member.firstName}}&nbsp;{{member.secondName}}</td>
+							<td>
+					         <button type="button" class="btn  btn-danger" ng-click="deleteTeamMember(member)">
+							 <span class=" fa fa-times">&nbsp</span>
+								Delete
+                             </button>
+                            </td>
+						</tr>
+					</tbody>
+				</table>
+		</div>
+		<div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+  </div>
+ </div>
+</div>
+</main>
