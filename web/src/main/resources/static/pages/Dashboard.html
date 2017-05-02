@@ -85,7 +85,7 @@ var url="/resource/config";
 					</thead>
 					<tbody>
 						<tr ng-repeat="config in configurationList | filter: searchKeyword ">
-							<td>{{config.id}}</td>
+							<td>{{$index+1}}</td>
 							<td>{{config.key}}</td>
 							<td><input type="text" class="form-control" placeholder="Value" ng-model="config.value"></td>
 							<td>

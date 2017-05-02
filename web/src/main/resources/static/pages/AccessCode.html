@@ -88,7 +88,7 @@ var url="/resource/accessCode";
 					<tbody>
 					<input type="text" ng-model="searchKeyword" class="form-control ng-valid ng-dirty" id="searchTable" placeholder="Search table"/>
 						<tr ng-repeat="acsCode in accessCodes | filter: searchKeyword ">
-							<td>{{acsCode.id}}</td>
+							<td>{{$index+1}}</td>
 							<td>{{acsCode.accessCode}}</td>
 							<td>{{acsCode.accessDesc}}</td>
 							<td>{{acsCode.mapping}}</td>
