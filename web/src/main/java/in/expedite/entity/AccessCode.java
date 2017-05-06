@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 
@@ -14,7 +15,8 @@ import org.hibernate.validator.constraints.NotBlank;
 public class AccessCode {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="accessSeq")
+	@SequenceGenerator(name="accessSeq",allocationSize=1,initialValue=100)
 	private Long id;
 	
 	

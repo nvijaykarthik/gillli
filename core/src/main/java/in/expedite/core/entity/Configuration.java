@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
@@ -35,7 +36,8 @@ public class Configuration {
 	 * @return
 	 */
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="configSeq")
+	@SequenceGenerator(name="configSeq",allocationSize=1,initialValue=100)
 	@Column(name="ID")
 	public Integer getId() {
 		return id;

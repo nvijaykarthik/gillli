@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,9 +32,8 @@ public class UserController {
 	
 	
 	@RequestMapping(method=RequestMethod.GET,path="/principal",produces="application/json")
-	public MyUser getAuthUser() {
-		MyUser user=(MyUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		return user;
+	public MyUser getAuthUser(@RequestAttribute("myUser") MyUser myUser) {
+		return myUser;
 	}
 	
 	

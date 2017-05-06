@@ -76,6 +76,9 @@ public class ExpediteApplication extends SpringBootServletInitializer  {
 	  @Autowired 
 	  HandlerInterceptor authorizationInterceptor;
 	  
+	  @Autowired 
+	  HandlerInterceptor reSTEnrichInterceptor;
+	  
 	 @Override
 	 public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/login").setViewName("login");
@@ -85,6 +88,7 @@ public class ExpediteApplication extends SpringBootServletInitializer  {
 	 @Override
 	  public void addInterceptors(InterceptorRegistry registry) {
 		 registry.addInterceptor(authorizationInterceptor);
+		 registry.addInterceptor(reSTEnrichInterceptor);
 	 }
    }
    

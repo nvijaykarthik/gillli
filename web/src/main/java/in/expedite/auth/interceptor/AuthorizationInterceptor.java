@@ -1,4 +1,4 @@
-package in.expedite.config;
+package in.expedite.auth.interceptor;
 
 import java.util.Collections;
 import java.util.List;
