@@ -54,10 +54,6 @@ public class ReSTEnrichInterceptor extends HandlerInterceptorAdapter  {
 					access.add(authority.getAuthority());
 				});
 				request.setAttribute("authority", access);
-				
-				MutableHttpServletRequest servletRequest = new MutableHttpServletRequest(request);
-				servletRequest.putHeader("username", myUser.getUsername());
-				
 			}
 		}
 		return true;

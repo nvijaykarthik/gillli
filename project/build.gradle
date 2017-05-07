@@ -1,23 +1,19 @@
 buildscript {
-	ext {
-		springBootVersion = '1.4.2.RELEASE'
-	}
 	repositories {
         maven {url "http://jcenter.bintray.com"}
 		maven {url "http://repo1.maven.org"}
     }
-	dependencies {
-		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-	}
 }
+
+plugins { id "io.spring.dependency-management" version "1.0.0.RELEASE" }
+
+ext { springBootVersion = '1.4.2.RELEASE' }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
-apply plugin: 'org.springframework.boot'
-apply plugin: 'war'
 
-war {
-    baseName = 'gillli'
+jar {
+	baseName = 'project'
 }
 
 sourceCompatibility = 1.8
@@ -33,21 +29,16 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('com.fasterxml.jackson.datatype:jackson-datatype-hibernate5')
-	compile('org.springframework.security:spring-security-jwt')
-    compile('org.springframework.boot:spring-boot-starter-security')
-    compile('org.springframework.boot:spring-boot-starter-actuator')
-    compile('org.springframework.boot:spring-boot-starter-freemarker')
     compile('org.springframework.boot:spring-boot-starter-cache')
     compile('javax.cache:cache-api')
     compile("org.apache.commons:commons-lang3:3.5")
 	compile("org.apache.commons:commons-collections4:4.1")
-	compile("com.atlassian.commonmark:commonmark:0.9.0")
 	compile('com.h2database:h2')
-	compile('io.jsonwebtoken:jjwt:0.7.0')
-	compile project(':core')
-	compile project(':project')
-	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
+	compile("com.atlassian.commonmark:commonmark:0.9.0")
 	 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
-	
+}
+
+dependencyManagement {
+    imports { mavenBom("org.springframework.boot:spring-boot-dependencies:${springBootVersion}") }
 }

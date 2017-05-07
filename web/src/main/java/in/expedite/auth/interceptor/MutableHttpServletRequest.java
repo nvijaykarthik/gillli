@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
  
+//not used 
 final class MutableHttpServletRequest extends HttpServletRequestWrapper {
     // holds custom header and value mapping
     private final Map<String, String> customHeaders;
