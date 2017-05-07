@@ -1,6 +1,5 @@
 package in.expedite.repository;
 
-import java.time.temporal.Temporal;
 import java.util.Date;
 
 import javax.persistence.EntityManager;
