@@ -58,8 +58,6 @@ public class Project {
 	@Column
 	private String modifiedBy;
 	
-
-
 	public Long getId() {
 		return id;
 	}
