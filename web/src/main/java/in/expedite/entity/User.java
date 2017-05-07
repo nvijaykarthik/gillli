@@ -66,6 +66,13 @@ public class User {
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")  
 	private Date modifiedDate=new Date();
 	
+	@Column
+	private String createdBy;
+	
+	@Column
+	private String modifiedBy;
+	
+	
 	public String getUserId() {
 		return userId;
 	}
@@ -135,6 +142,22 @@ public class User {
 		return "User [userId=" + userId + ", firstName=" + firstName + ", secondName=" + secondName + ", email=" + email
 				+ ", password=" + password + ", state=" + state + ", createdDate=" + createdDate + ", modifiedDate="
 				+ modifiedDate + "]";
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
 	}
 }
 

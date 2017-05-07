@@ -10,6 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -68,26 +69,26 @@ public class UserController {
 	}
 	
 	@RequestMapping(path="/update",method=RequestMethod.POST,produces="application/json")
-	public ExJsonResponse updateUser(@RequestBody User user){
-		userService.updateUser(user);
+	public ExJsonResponse updateUser(@RequestBody User user,@RequestHeader(required=false) String username){
+		userService.updateUser(user,username);
 		return new ExJsonResponse(0,"Sucessfully Updated");
 	}
 	
 	@RequestMapping(path="/updatePwd",method=RequestMethod.GET,produces="application/json")
 	public ExJsonResponse updatePwd(@RequestParam String userId,@RequestParam String password){
-		userService.updatePassword(userId, password);
+		userService.updatePassword(userId, password,userId);
 		return new ExJsonResponse(0,"Sucessfully Updated");
 	}
 	
 	@RequestMapping(path="/resetPwd",method=RequestMethod.GET,produces="application/json")
 	public ExJsonResponse resetUserPwd(@RequestParam String userId){
-		userService.resetPassword(userId);
+		userService.resetPassword(userId,userId);
 		return new ExJsonResponse(0,"Password Reset Sucessfull");
 	}
 	
 	@RequestMapping(path="/addRolesToUser",method=RequestMethod.POST,produces="application/json")
-	public ExJsonResponse addRoleToUser(@RequestBody UserRole userRole){
-		userService.addUserRole(userRole);
+	public ExJsonResponse addRoleToUser(@RequestBody UserRole userRole,@RequestHeader(required=false) String username){
+		userService.addUserRole(userRole,username);
 		return new ExJsonResponse(0,"Roles Configured Successfully");
 	}
 	

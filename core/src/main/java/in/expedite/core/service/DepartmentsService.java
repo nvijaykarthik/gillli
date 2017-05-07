@@ -1,5 +1,7 @@
 package in.expedite.core.service;
 
+import java.util.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -29,7 +31,11 @@ public class DepartmentsService {
 		return departmentRepo.findAll(spec, pg);
 	}
 	
-	public Department addDepartment(Department dept){
+	public Department addDepartment(Department dept,String username){
+		dept.setCreatedBy(username);
+		dept.setModifiedBy(username);
+		dept.setCreatedDate(new Date());
+		dept.setModifiedDate(new Date());
 		return departmentRepo.save(dept);
 	}
 	

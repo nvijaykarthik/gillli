@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,16 +36,16 @@ public class RoleController {
 	}
 	
 	@RequestMapping(produces="application/json",method=RequestMethod.POST)
-	public ExJsonResponse addRole(@Valid @RequestBody Role role){
+	public ExJsonResponse addRole(@Valid @RequestBody Role role,@RequestHeader(required=false) String username){
 		LOG.info("Adding new Role" + role.toString());
-		rs.addRole(role);
+		rs.addRole(role,username);
     	return new ExJsonResponse(0,"Sucessfully Added");
 	}
 	
 	@RequestMapping(produces="application/json",method=RequestMethod.PATCH)
-	public ExJsonResponse toggleStatus(@Valid @RequestBody Role role){
+	public ExJsonResponse toggleStatus(@Valid @RequestBody Role role,@RequestHeader(required=false) String username){
 		LOG.info("Toggling status" + role);
-		rs.toggleStatusRole(role);
+		rs.toggleStatusRole(role,username);
     	return new ExJsonResponse(0,"Sucessfully Activated");
 	}
 	
@@ -55,9 +56,9 @@ public class RoleController {
 	}
 
 	@RequestMapping(path="/accessRef",produces="application/json",method=RequestMethod.POST)
-	public ExJsonResponse addRoleAccessRef(@Valid @RequestBody RoleAccessXref ref){
+	public ExJsonResponse addRoleAccessRef(@Valid @RequestBody RoleAccessXref ref,@RequestHeader(required=false) String username){
 		LOG.info("Getting Access List for the Role" + ref);
-		rs.addRoleAccess(ref);
+		rs.addRoleAccess(ref,username);
 		return new ExJsonResponse(0,"Sucessfully Added");
 	}
 	

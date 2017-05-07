@@ -2,6 +2,7 @@ package in.expedite.service;
 
 
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -54,8 +55,12 @@ public class RoleService {
 	 * @param role
 	 * @return
 	 */
-	public Role addRole(Role role){
+	public Role addRole(Role role,String username){
 		LOG.debug("Adding Role :" + role);
+		role.setCreatedBy(username);
+		role.setModifiedBy(username);
+		role.setCreatedDate(new Date());
+		role.setModifiedDate(new Date());
 		return rRepo.save(role);
 	}
 	
@@ -64,13 +69,16 @@ public class RoleService {
 	 * @param role
 	 * @return
 	 */
-	public Role toggleStatusRole(Role role){
+	public Role toggleStatusRole(Role role,String username){
 		if(role.getStatus().equals(State.ACTIVE.toString())){
     		role.setStatus(State.INACTIVE.toString());
 		}else if(role.getStatus().equals(State.INACTIVE.toString())){
 			role.setStatus(State.ACTIVE.toString());
 		}
+		
 		LOG.debug("toggle Status:"+role);
+		role.setModifiedBy(username);
+		role.setModifiedDate(new Date());
 		return rRepo.save(role);
 	}
 	
@@ -79,7 +87,11 @@ public class RoleService {
 	 * @param roleAccess
 	 * @return
 	 */
-	public RoleAccessXref addRoleAccess(RoleAccessXref roleAccess){
+	public RoleAccessXref addRoleAccess(RoleAccessXref roleAccess,String username){
+		roleAccess.setCreatedBy(username);
+		roleAccess.setModifiedBy(username);
+		roleAccess.setCreatedDate(new Date());
+		roleAccess.setModifiedDate(new Date());
 		LOG.debug("Adding Role Access : "+roleAccess);
 		return raxRepo.save(roleAccess);
 	}

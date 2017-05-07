@@ -1,5 +1,7 @@
 package in.expedite.core.service;
 
+import java.util.Date;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,7 +56,22 @@ public class ConfigurationService {
 	 * @param conf
 	 * @return
 	 */
-	public Configuration saveConfiguration(Configuration conf){
+	public Configuration saveConfiguration(Configuration conf,String username){
+			conf.setCreatedBy(username);
+			conf.setModifiedBy(username);
+			conf.setCreatedDate(new Date());
+			conf.setModifiedDate(new Date());
+		return configurationRepository.save(conf);
+	}
+	
+	/**
+	 * Save and update the configuration
+	 * @param conf
+	 * @return
+	 */
+	public Configuration updateConfiguration(Configuration conf,String username){
+			conf.setModifiedBy(username);
+			conf.setModifiedDate(new Date());
 		return configurationRepository.save(conf);
 	}
 	

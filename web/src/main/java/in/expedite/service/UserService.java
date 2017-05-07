@@ -1,5 +1,6 @@
 package in.expedite.service;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -83,9 +84,11 @@ public class UserService {
 	 * @param user
 	 * @return
 	 */
-	public User deActivate(User user) {
+	public User deActivate(User user,String username) {
 		log.debug("Deactivating user " + user);
 		user.setState(State.INACTIVE.toString());
+		user.setModifiedBy(username);
+		user.setModifiedDate(new Date());
 		return userRepository.save(user);
 	}
 
@@ -95,9 +98,9 @@ public class UserService {
 	 * @param userId
 	 * @return
 	 */
-	public void resetPassword(String userId) {
+	public void resetPassword(String userId,String username) {
 		log.debug("Resetting Password " + userId);
-		userDao.setPasswordForUser(userId,encoder.encode("password"));
+		userDao.setPasswordForUser(userId,encoder.encode("password"),username,new Date());
 	}
 
 	
@@ -107,9 +110,9 @@ public class UserService {
 	 * @param userId
 	 * @return
 	 */
-	public void updatePassword(String userId,String password) {
+	public void updatePassword(String userId,String password,String username) {
 		log.debug("Resetting Password " + userId);
-		userDao.setPasswordForUser(userId,encoder.encode(password));
+		userDao.setPasswordForUser(userId,encoder.encode(password),username,new Date());
 	}
 	/**
 	 * Updating User
@@ -117,8 +120,12 @@ public class UserService {
 	 * @param user
 	 * @return
 	 */
-	public User updateUser(User user) {
+	public User updateUser(User user,String username) {
 		log.debug("Updating user " + user);
+		user.setCreatedBy(username);
+		user.setModifiedBy(username);
+		user.setCreatedDate(new Date());
+		user.setModifiedDate(new Date());
 		return userRepository.save(user);
 	}
 
@@ -152,8 +159,12 @@ public class UserService {
 		return userRepository.findAll(spec, pg);
 	}
 	
-	public UserRole addUserRole(UserRole userRoles){
+	public UserRole addUserRole(UserRole userRoles,String username){
 		log.debug("Added User Role");
+		userRoles.setCreatedBy(username);
+		userRoles.setModifiedBy(username);
+		userRoles.setCreatedDate(new Date());
+		userRoles.setModifiedDate(new Date());
 		return userRoleRepo.save(userRoles);
 	}
 	

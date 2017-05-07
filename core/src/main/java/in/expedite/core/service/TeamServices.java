@@ -1,5 +1,6 @@
 package in.expedite.core.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,17 @@ public class TeamServices {
 	@Autowired
 	private TeamMemberRepository teamMemberRepository;
 	
-	public void addTeam(Team team){
+	public void addTeam(Team team,String username){
+		team.setCreatedBy(username);
+		team.setModifiedBy(username);
+		team.setCreatedDate(new Date());
+		team.setModifiedDate(new Date());
+		teamRepository.save(team);
+	}
+	
+	public void updateTeam(Team team,String username){
+		team.setModifiedBy(username);
+		team.setModifiedDate(new Date());
 		teamRepository.save(team);
 	}
 	
@@ -29,7 +40,11 @@ public class TeamServices {
 	}
 	
 	
-	public void addTeamMember(TeamMember teamMember) {
+	public void addTeamMember(TeamMember teamMember,String username) {
+		teamMember.setCreatedBy(username);
+		teamMember.setModifiedBy(username);
+		teamMember.setCreatedDate(new Date());
+		teamMember.setModifiedDate(new Date());
 		teamMemberRepository.save(teamMember);
 	}
 

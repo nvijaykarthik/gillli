@@ -1,5 +1,7 @@
 package in.expedite.core.entity;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +9,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 public class Team {
@@ -25,6 +31,21 @@ public class Team {
 	@Column
 	private Long departmentId;
 
+	@Column
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+	private Date createdDate=new Date();
+	
+	@Column
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+	private Date modifiedDate=new Date();
+	
+	@Column
+	private String createdBy;
+	
+	@Column
+	private String modifiedBy;
 	
 	@Override
 	public String toString() {
@@ -61,6 +82,38 @@ public class Team {
 
 	public void setDepartmentId(Long departmentId) {
 		this.departmentId = departmentId;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public Date getModifiedDate() {
+		return modifiedDate;
+	}
+
+	public void setModifiedDate(Date modifiedDate) {
+		this.modifiedDate = modifiedDate;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getModifiedBy() {
+		return modifiedBy;
+	}
+
+	public void setModifiedBy(String modifiedBy) {
+		this.modifiedBy = modifiedBy;
 	}
 
 }
