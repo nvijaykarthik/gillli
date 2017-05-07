@@ -20,7 +20,6 @@ public class ProjectController {
 	@Autowired
 	private ProjectService projectService;
 	
-	
 	@RequestMapping(path="/projectType",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<ProjectType> getProjectType(){
 		return projectService.getAllProjectTypes();
