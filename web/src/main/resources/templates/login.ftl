@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>Sign In - PixelAdmin</title>
+	<title>Sign In - Gillli</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
 	<!-- Open Sans font from Google CDN -->
@@ -43,7 +43,7 @@
 -->
 	<div class="signin-header" style="background:#333;color:#fff;">
 		<div class="demo-logo"><img src="/images/logo-big.png" alt="" style="margin-top: -4px;"></div>&nbsp;
-		<strong>Expedite</strong>
+		<strong>Gillli</strong>
 	</div> <!-- / .header -->
 
 	<h1 class="form-header">Sign in to your Account</h1>

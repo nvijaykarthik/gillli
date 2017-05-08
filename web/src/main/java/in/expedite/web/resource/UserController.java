@@ -68,7 +68,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(path="/update",method=RequestMethod.POST,produces="application/json")
-	public ExJsonResponse updateUser(@RequestBody User user,@RequestHeader(required=false) String username){
+	public ExJsonResponse updateUser(@RequestBody User user,@RequestAttribute(required=false) String username){
 		userService.updateUser(user,username);
 		return new ExJsonResponse(0,"Sucessfully Updated");
 	}
@@ -86,7 +86,7 @@ public class UserController {
 	}
 	
 	@RequestMapping(path="/addRolesToUser",method=RequestMethod.POST,produces="application/json")
-	public ExJsonResponse addRoleToUser(@RequestBody UserRole userRole,@RequestHeader(required=false) String username){
+	public ExJsonResponse addRoleToUser(@RequestBody UserRole userRole,@RequestAttribute(required=false) String username){
 		userService.addUserRole(userRole,username);
 		return new ExJsonResponse(0,"Roles Configured Successfully");
 	}

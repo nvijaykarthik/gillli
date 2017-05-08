@@ -4,10 +4,15 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.expedite.core.entity.Project;
 import in.expedite.core.entity.ProjectDocType;
 import in.expedite.core.entity.ProjectType;
 import in.expedite.core.service.ProjectService;
@@ -28,5 +33,20 @@ public class ProjectController {
 	@RequestMapping(path="/projectDocType",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<ProjectDocType> getProjectDocType(){
 		return projectService.getAllProjectDocTypes();
+	}
+	
+	@RequestMapping(path="/newProject",method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
+	public Project addNewProject(@RequestBody String projectName,@RequestAttribute(required=false) String username ){
+		return projectService.addNewProject(projectName, username);
+	}
+	
+	@RequestMapping(path="/updateProject",method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
+	public Project updateProject(@RequestBody Project project,@RequestAttribute(required=false) String username ){
+		return projectService.updateProject(project, username);
+	}
+	
+	@RequestMapping(method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public Project getProjectView(@RequestParam Long id){
+		return projectService.getProjectView(id);
 	}
 }

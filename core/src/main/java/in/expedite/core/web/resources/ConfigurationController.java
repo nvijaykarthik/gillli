@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,14 +49,14 @@ public class ConfigurationController {
 	}
 	
 	@RequestMapping(produces="application/json",method=RequestMethod.POST)
-	public ExJsonResponse addConfig(@Valid @RequestBody Configuration cfg,@RequestHeader(required=false,name="username") String username){
+	public ExJsonResponse addConfig(@Valid @RequestBody Configuration cfg,@RequestAttribute(required=false,name="username") String username){
 		LOG.info("Adding new configuration property" + cfg.toString());
 		cs.saveConfiguration(cfg,username);
     	return new ExJsonResponse(0,"Sucessfully Added");
 	}
 	
 	@RequestMapping(produces="application/json",method=RequestMethod.PATCH)
-	public ExJsonResponse saveConfig(@Valid @RequestBody Configuration cfg,@RequestHeader(required=false,name="username") String username)	{
+	public ExJsonResponse saveConfig(@Valid @RequestBody Configuration cfg,@RequestAttribute(required=false,name="username") String username)	{
 		LOG.info("Updating existing configuration property" + cfg.toString());
 		cs.updateConfiguration(cfg,username);
 		return new ExJsonResponse(0,"Sucessfully Updated");

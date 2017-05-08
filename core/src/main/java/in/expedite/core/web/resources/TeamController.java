@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,7 +26,7 @@ public class TeamController {
 	private TeamServices teamServices;
 	
 	@RequestMapping(method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
-	public ExJsonResponse addTeam(@RequestBody Team team,@RequestHeader(required=false) String username){
+	public ExJsonResponse addTeam(@RequestBody Team team,@RequestAttribute(required=false) String username){
 		teamServices.addTeam(team,username);
 		return new ExJsonResponse(0, "Succesfully Added");
 	}
@@ -38,7 +39,7 @@ public class TeamController {
 	
 	
 	@RequestMapping(path="/addMember",method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
-	public ExJsonResponse addTeamMember(@RequestBody TeamMember teamMember,@RequestHeader(required=false) String username){
+	public ExJsonResponse addTeamMember(@RequestBody TeamMember teamMember,@RequestAttribute(required=false) String username){
 		teamServices.addTeamMember(teamMember,username);
 		return new ExJsonResponse(0, "Succesfully Added");
 	}

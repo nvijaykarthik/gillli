@@ -22,8 +22,10 @@ public class Project {
 	@SequenceGenerator(name="projSeq",allocationSize=1,initialValue=100)
 	private Long id;
 	
-	@Column
+	@Column(nullable=false,unique=true)
 	private String name;
+	
+	
 	
 	@Column
 	private String summary;
@@ -41,6 +43,8 @@ public class Project {
 	@Column
 	private String description;
 	
+	@Column(nullable=false)
+	private String status="New";
 	
 	@Column
 	@Temporal(TemporalType.TIMESTAMP)
@@ -105,6 +109,7 @@ public class Project {
 
 	public void setName(String name) {
 		this.name = name;
+
 	}
 
 	public String getSummary() {
@@ -149,9 +154,12 @@ public class Project {
 
 	@Override
 	public String toString() {
-		return "Project [id=" + id + ", name=" + name + ", type=" + type + ", managers=" + managers + ", owners="
-				+ owners + ", createdDate=" + createdDate + ", modifiedDate=" + modifiedDate + ", createdBy="
-				+ createdBy + ", modifiedBy=" + modifiedBy + "]";
+		return "Project [id=" + id + ", name=" + name + ", type=" + type
+				+ ", managers=" + managers + ", owners=" + owners + ", status=" + status + ", createdDate="
+				+ createdDate + ", modifiedDate=" + modifiedDate + ", createdBy=" + createdBy + ", modifiedBy="
+				+ modifiedBy + "]";
 	}
+
+
 
 }

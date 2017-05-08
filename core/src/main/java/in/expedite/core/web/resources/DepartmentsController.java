@@ -1,6 +1,7 @@
 package in.expedite.core.web.resources;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,7 +41,7 @@ public class DepartmentsController {
 	
 	
 	@RequestMapping(method=RequestMethod.POST,produces="application/json")
-	public ExJsonResponse addDepartment(@RequestBody Department deps,@RequestHeader(required=false,name="username") String username){
+	public ExJsonResponse addDepartment(@RequestBody Department deps,@RequestAttribute(required=false,name="username") String username){
 		departmentService.addDepartment(deps,username);
 		return new ExJsonResponse(0,"Sucessfully Added");
 	}

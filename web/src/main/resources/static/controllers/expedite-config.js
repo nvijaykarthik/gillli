@@ -1,5 +1,7 @@
 var app = angular.module('myApp', ['ngRoute','ui.bootstrap','angucomplete']);
 
+var namespace="";
+
 app.config(function($routeProvider) {
    
 	var resolveController = function(path) {
@@ -34,6 +36,9 @@ app.config(function($routeProvider) {
   })
    .when('/configuration', {
     templateUrl : 'pages/Configuration.html',
+  })
+  .when('/projectView/:projectId', {
+    templateUrl : 'pages/ProjectView.html',
   })
   .otherwise({redirectTo: '/'});
 });
