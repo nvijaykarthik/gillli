@@ -9,9 +9,11 @@ import org.springframework.stereotype.Service;
 
 import in.expedite.core.entity.Project;
 import in.expedite.core.entity.ProjectDocType;
+import in.expedite.core.entity.ProjectStatus;
 import in.expedite.core.entity.ProjectType;
 import in.expedite.core.repository.ProjectDocTypeRepository;
 import in.expedite.core.repository.ProjectRepository;
+import in.expedite.core.repository.ProjectStatusRepository;
 import in.expedite.core.repository.ProjectTypeRepository;
 
 @Service
@@ -22,6 +24,9 @@ public class ProjectService {
 	
 	@Autowired
 	private ProjectDocTypeRepository projectDocTypeRepository;
+	
+	@Autowired
+	private ProjectStatusRepository projectStatusRepository;
 	
 	@Autowired
 	private ProjectRepository projectRepository; 
@@ -35,6 +40,10 @@ public class ProjectService {
 
 	public List<ProjectDocType> getAllProjectDocTypes() {
 		return projectDocTypeRepository.findAll();
+	}
+	
+	public List<ProjectStatus> getAllProjectStatus() {
+		return projectStatusRepository.findAll();
 	}
 	
 	public Project addNewProject(String projectName,String username){

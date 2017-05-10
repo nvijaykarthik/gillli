@@ -23,6 +23,8 @@ app.controller('projectController', function($scope,$http,$log,$httpParamSeriali
 
 app.controller('projectViewController', function($scope,$http,$log,$httpParamSerializerJQLike,$routeParams,$location) {
 
+	$scope.projectInfoData={};
+	
 	$http({
         method : "GET",
         url : namespace+'/resource/project?id='+$routeParams.projectId
@@ -34,4 +36,31 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
          $scope.error=response.data.message;
     });
 	
+	
+	$http({
+        method : "GET",
+        url : namespace+'/resource/project/projectType'
+    }).then(function success(response) {
+         $scope.projectTypes = response.data;
+    }, function failure(response) {
+        $log.error(response.status)
+         $scope.showerror=true;
+         $scope.error=response.data.message;
+    });
+	
+	$http({
+        method : "GET",
+        url : namespace+'/resource/project/projectStatus'
+    }).then(function success(response) {
+         $scope.status = response.data;
+    }, function failure(response) {
+        $log.error(response.status)
+         $scope.showerror=true;
+         $scope.error=response.data.message;
+    });
+	
+	
+	$scope.populateInfo=function(projectInfo){
+		$scope.projectInfoData=projectInfo;
+	}
 });

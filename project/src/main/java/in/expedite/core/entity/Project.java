@@ -46,6 +46,12 @@ public class Project {
 	@Column(nullable=false)
 	private String status="New";
 	
+	
+	@Column
+	@Temporal(TemporalType.TIMESTAMP)
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")  
+	private Date targetDate=new Date();
+	
 	@Column
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")  
@@ -158,6 +164,22 @@ public class Project {
 				+ ", managers=" + managers + ", owners=" + owners + ", status=" + status + ", createdDate="
 				+ createdDate + ", modifiedDate=" + modifiedDate + ", createdBy=" + createdBy + ", modifiedBy="
 				+ modifiedBy + "]";
+	}
+
+	public Date getTargetDate() {
+		return targetDate;
+	}
+
+	public void setTargetDate(Date targetDate) {
+		this.targetDate = targetDate;
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 

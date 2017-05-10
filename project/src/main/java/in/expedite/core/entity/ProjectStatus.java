@@ -7,6 +7,14 @@ import javax.persistence.Id;
 public class ProjectStatus {
 
 	@Id
-	private String Status;
+	private String status;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	
 }

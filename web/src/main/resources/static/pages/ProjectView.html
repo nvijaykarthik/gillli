@@ -2,79 +2,195 @@
 <main ng-controller="projectViewController">
 
 <ul class="breadcrumb breadcrumb-page">
-			<div class="breadcrumb-label text-light-gray">You are here: </div>
-			<li><a>Home</a></li>
-			<li><a>Project</a></li>
-			<li class="active"><a >Project View</a></li>
-		</ul>
-		<div class="page-header">
-			<div class="row">
-				<!-- Page header, center on small screens -->
-				<h4 class="col-xs-12 col-sm-4 text-center text-left-sm">{{project.name}}</h4>
-				<div class="col-xs-12 col-sm-8"></div>
-			</div>
-		</div> <!-- / .page-header -->
-		
-
-
-<script>
-var url="/resource/project";
+	<div class="breadcrumb-label text-light-gray">You are here:</div>
+	<li><a>Home</a></li>
+	<li><a>Project</a></li>
+	<li class="active"><a>Project View</a></li>
+</ul>
+<div class="page-header">
+	<div class="row">
+		<!-- Page header, center on small screens -->
+		<h1 class="col-xs-12 col-sm-4 text-center text-left-sm">{{project.name}}</h1>
+		<div class="col-xs-12 col-sm-8"></div>
+	</div>
+</div>
+<!-- / .page-header --> <script>
+	var url = "/resource/project";
 </script>
 <div id="configurator">
-<div class="alert alert-danger alert-dismissible" role="alert" ng-show="showerror">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    {{error}}
-</div>
-<div class="alert alert-success alert-dismissible" role="alert" ng-show="showsucess">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    {{success}}
-</div>
-<div class="col-md-3">
-	<div class="panel panel-default ">
+	<div class="alert alert-danger alert-dismissible" role="alert"
+		ng-show="showerror">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{{error}}
 	</div>
-</div>
-<div class="col-md-9">
-<div class="panel panel-info">
-	<div class="panel-body">
-	<button class="fa fa-edit pull-right btn btn-default"></button>
-	<table width="100%"> 
-	<tr>
-	<th>Id:</th>
-	<td>{{project.id}}</td>
-	<th>Type:</th>
-	<td>{{project.type}}</td>
-	</tr>
-	<tr>
-	<th>Status:</th>
-	<td>{{project.status}}</td>
-	<th>Date:</th>
-	<td>{{project.createdDate}}</td>
-	</tr>
-	<tr>
-	<th colspan="4">Summary:</th>
-	</tr>
-	<tr>
-	<td colspan="4">{{project.summary}}sdasdasdas</td>
-	</tr>
-	</table>
+	<div class="alert alert-success alert-dismissible" role="alert"
+		ng-show="showsucess">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{{success}}
+	</div>
+	<div class="col-md-3">
+		<div class="panel panel-default "></div>
+	</div>
+	<div class="col-md-9">
+		<div class="panel panel-info">
+			<div class="panel-body">
+				<fieldset class="form-group">
+					<legend>Project Information</legend>
+					<button class="fa fa-edit pull-right btn btn-default formEdit"
+					 data-toggle="modal" data-target="#projectInfo" ng-click="populateInfo(project)">
+					 </button>
+					<table class="project-display-table">
+						<tr>
+							<th>Id:</th>
+							<td>{{project.id}}</td>
+							<th>Type:</th>
+							<td>{{project.type}}</td>
+						</tr>
+						<tr>
+							<th>Status:</th>
+							<td>{{project.status}}</td>
+							<th>Created Date:</th>
+							<td>{{project.createdDate}}</td>
+						</tr>
+						<tr>
+							<th>Target Live Date:</th>
+							<td>{{project.targetDate}}</td>
+
+						</tr>
+						<tr>
+							<th colspan="4">Summary:</th>
+						</tr>
+						<tr>
+							<td colspan="4">{{project.summary}}</td>
+						</tr>
+					</table>
+				</fieldset>
+
+				<fieldset class="form-group">
+					<legend>Description</legend>
+					<button class="fa fa-edit pull-right btn btn-default"
+					data-toggle="modal" data-target="#description"
+					></button>
+
+					<p>{{project.description}}</p>
+				</fieldset>
+
+				<div ng-init="selectedTab = 1;">
+					<ul class="nav nav-tabs">
+						<li ng-class="{active: selectedTab == 1}"><a href
+							ng-click="selectedTab = 1;">Comments </a></li>
+						<li ng-class="{active: selectedTab == 2}"><a href
+							ng-click="selectedTab = 2;">History</a></li>
+
+					</ul>
+
+					<div class="tab-content" ng-show="selectedTab == 1">Comments</div>
+
+					<div class="tab-content" ng-show="selectedTab == 2">History</div>
+
+					
+				</div>
+			</div>
+
+		</div>
 	</div>
 </div>
 
-<div class="panel panel-info">
-	<div class="panel-body">
-	<button class="fa fa-edit pull-right btn btn-default"></button>
-	<strong>Description</strong>
-	<p>{{project.description}}</p>
-	</div>
-</div>	
 
-<div>
-  <ul class="nav nav-tabs">
-    <li class="active"><a href>Comments</a></li>
-  </ul>
-    
-</div>	
+<!-- Model for project Details  -->
+<div id="projectInfo" class="modal fade" role="dialog">
+ <div class="modal-dialog modal-xl">
+  <div class="modal-content">
+	<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">Update the project information (projectId :{{projectInfoData.id}})</h4>
+		</div>
+		<div class="modal-body">
+		<form class="form-horizontal modal-form"  >
+			<div class="form-group">
+				<label for="disabledinput" class="control-label">Project Name</label>
+				<div>
+					<input type="text" class="form-control" id="name" placeholder="name" ng-model="projectInfoData.name">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="disabledinput" class="control-label">Type</label>
+				<div>
+					<select class="form-control" ng-model="projectInfoData.type" id="type">
+						<option ng-repeat="type in projectTypes" value="{{type.type}}" ng-selected="{{type.type === projectInfoData.type}}">{{type.type}} </option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="disabledinput" class="control-label">Status</label>
+				<div>
+					<select class="form-control" ng-model="projectInfoData.status" id="status">
+						<option ng-repeat="sts in status" value="{{sts.status}}" ng-selected="{{sts.status === projectInfoData.status}}">{{sts.status}} </option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="disabledinput" class="control-label">Target Date</label>
+				<div>
+					<input type="text" class="form-control" id="targetDate" placeholder="Target Date" ng-model="projectInfoData.targetDate">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="disabledinput" class="control-label">Summary</label>
+				<div>
+					<textarea type="text" class="form-control" id="summary" placeholder="Summary" rows="5" ng-model="projectInfoData.summary"></textarea>
+				</div>
+			</div>
+   		</form>
+		</div>
+		<div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" ng-click="save()" data-dismiss="modal">Save</button>
+      </div>
+  </div>
+ </div>
 </div>
-</div>
+<!-- Model for Project Details  -->
 
-</main>
+<!-- Model for Description Details  -->
+<div id="description" class="modal fade" role="dialog">
+ <div class="modal-dialog modal-xl">
+  <div class="modal-content">
+	<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h4 class="modal-title">Description</h4>
+		</div>
+		<div class="modal-body ">
+		<div ng-init="selectedCmtTab = 1;">
+					<ul class="nav nav-tabs">
+						<li ng-class="{active: selectedCmtTab == 1}"><a href
+							ng-click="selectedCmtTab = 1;">Edit </a></li>
+						<li ng-class="{active: selectedCmtTab == 2}"><a href
+							ng-click="selectedCmtTab = 2;">Preview</a></li>
+
+					</ul>
+
+					<div class="tab-content" ng-show="selectedCmtTab == 1">Edit</div>
+
+					<div class="tab-content" ng-show="selectedCmtTab == 2">Preview</div>
+
+					
+				</div>
+		</div>
+		<div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+  </div>
+ </div>
+</div>
+<!-- Model for project Details  -->
+
+
+
+ </main>
