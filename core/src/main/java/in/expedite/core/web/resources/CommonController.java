@@ -16,7 +16,7 @@ public class CommonController {
 	@Autowired
 	private CommonService commonService;
 
-	@RequestMapping(path="/parseToHtml",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(path="/parseToHtml",method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
 	public String getParsedContent(@RequestBody String content) {
 		return commonService.getParsedText(content);
 	}

@@ -43,8 +43,8 @@
 				<fieldset class="form-group">
 					<legend>Project Information</legend>
 					<button class="fa fa-edit pull-right btn btn-default formEdit"
-					 data-toggle="modal" data-target="#projectInfo" ng-click="populateInfo(project)">
-					 </button>
+						data-toggle="modal" data-target="#projectInfo"
+						ng-click="populateInfo(project)"></button>
 					<table class="project-display-table">
 						<tr>
 							<th>Id:</th>
@@ -74,11 +74,14 @@
 
 				<fieldset class="form-group">
 					<legend>Description</legend>
-					<button class="fa fa-edit pull-right btn btn-default"
-					data-toggle="modal" data-target="#description"
-					></button>
-
-					<p>{{project.description}}</p>
+					
+					<div class="panel panel-default">
+    					<div class="panel-body">
+    					<button class="fa fa-edit pull-right btn btn-default"
+						data-toggle="modal" data-target="#description" ng-click="populateInfo(project)"></button>
+    					<p id="project_description" class="withborder"></p></div>
+  					</div>
+					
 				</fieldset>
 
 				<div ng-init="selectedTab = 1;">
@@ -94,7 +97,7 @@
 
 					<div class="tab-content" ng-show="selectedTab == 2">History</div>
 
-					
+
 				</div>
 			</div>
 
@@ -105,92 +108,128 @@
 
 <!-- Model for project Details  -->
 <div id="projectInfo" class="modal fade" role="dialog">
- <div class="modal-dialog modal-xl">
-  <div class="modal-content">
-	<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h4 class="modal-title">Update the project information (projectId :{{projectInfoData.id}})</h4>
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Update the project information
+					(projectId :{{projectInfoData.id}})</h4>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal modal-form">
+					<div class="form-group">
+						<label for="disabledinput" class="control-label">Project
+							Name</label>
+						<div>
+							<input type="text" class="form-control" id="name"
+								placeholder="name" ng-model="projectInfoData.name">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="disabledinput" class="control-label">Type</label>
+						<div>
+							<select class="form-control" ng-model="projectInfoData.type"
+								id="type">
+								<option ng-repeat="type in projectTypes" value="{{type.type}}"
+									ng-selected="{{type.type === projectInfoData.type}}">{{type.type}}
+								</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="disabledinput" class="control-label">Status</label>
+						<div>
+							<select class="form-control" ng-model="projectInfoData.status"
+								id="status">
+								<option ng-repeat="sts in status" value="{{sts.status}}"
+									ng-selected="{{sts.status === projectInfoData.status}}">{{sts.status}}
+								</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="disabledinput" class="control-label">Target
+							Date</label>
+						<div id="trgtDtClndr">
+							<div class="input-group date">
+								<input type="text" class="form-control" id="targetDate"
+									placeholder="Target Date" ng-model="projectInfoData.targetDate">
+								<span class="input-group-addon"> <i
+									class="fa fa-calendar"></i></span>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="disabledinput" class="control-label">Summary</label>
+						<div>
+							<textarea type="text" class="form-control" id="summary"
+								placeholder="Summary" rows="5"
+								ng-model="projectInfoData.summary"></textarea>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary"
+					ng-click="saveProjectInfo(projectInfoData)" data-dismiss="modal">Save</button>
+			</div>
 		</div>
-		<div class="modal-body">
-		<form class="form-horizontal modal-form"  >
-			<div class="form-group">
-				<label for="disabledinput" class="control-label">Project Name</label>
-				<div>
-					<input type="text" class="form-control" id="name" placeholder="name" ng-model="projectInfoData.name">
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="disabledinput" class="control-label">Type</label>
-				<div>
-					<select class="form-control" ng-model="projectInfoData.type" id="type">
-						<option ng-repeat="type in projectTypes" value="{{type.type}}" ng-selected="{{type.type === projectInfoData.type}}">{{type.type}} </option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="disabledinput" class="control-label">Status</label>
-				<div>
-					<select class="form-control" ng-model="projectInfoData.status" id="status">
-						<option ng-repeat="sts in status" value="{{sts.status}}" ng-selected="{{sts.status === projectInfoData.status}}">{{sts.status}} </option>
-					</select>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="disabledinput" class="control-label">Target Date</label>
-				<div>
-					<input type="text" class="form-control" id="targetDate" placeholder="Target Date" ng-model="projectInfoData.targetDate">
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="disabledinput" class="control-label">Summary</label>
-				<div>
-					<textarea type="text" class="form-control" id="summary" placeholder="Summary" rows="5" ng-model="projectInfoData.summary"></textarea>
-				</div>
-			</div>
-   		</form>
-		</div>
-		<div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" ng-click="save()" data-dismiss="modal">Save</button>
-      </div>
-  </div>
- </div>
+	</div>
 </div>
-<!-- Model for Project Details  -->
-
-<!-- Model for Description Details  -->
+<!-- Model for Project Details  --> <!-- Model for Description Details  -->
 <div id="description" class="modal fade" role="dialog">
- <div class="modal-dialog modal-xl">
-  <div class="modal-content">
-	<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h4 class="modal-title">Description</h4>
-		</div>
-		<div class="modal-body ">
-		<div ng-init="selectedCmtTab = 1;">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Description</h4>
+			</div>
+			<div class="modal-body ">
+				<div ng-init="selectedCmtTab = 1;">
 					<ul class="nav nav-tabs">
 						<li ng-class="{active: selectedCmtTab == 1}"><a href
 							ng-click="selectedCmtTab = 1;">Edit </a></li>
 						<li ng-class="{active: selectedCmtTab == 2}"><a href
-							ng-click="selectedCmtTab = 2;">Preview</a></li>
-
+							ng-click="selectedCmtTab = 2;preview();">Preview</a></li>
+						<li ng-class="{active: selectedCmtTab == 3}"><a href
+							ng-click="selectedCmtTab = 3;getHelp(); ">Help</a></li>
 					</ul>
 
-					<div class="tab-content" ng-show="selectedCmtTab == 1">Edit</div>
+					<div class="tab-content" ng-show="selectedCmtTab == 1">
+						<div class="form-group">
+							<label for="disabledinput" class="control-label">Description</label>
+							<form>
+							<div>
+								<textarea type="text" class="form-control" id="description"
+									rows="15" ng-model="projectInfoData.description"></textarea>
+							</div>
+							</form>
+						</div>
 
-					<div class="tab-content" ng-show="selectedCmtTab == 2">Preview</div>
+					</div>
 
+					<div class="tab-content" ng-show="selectedCmtTab == 2" id="previewOnDesc">
 					
+					</div>
+					<div class="tab-content" ng-show="selectedCmtTab == 3" id="markdownHelp">
+						
+					</div>
 				</div>
+
+
+			</div>
 		</div>
 		<div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-  </div>
- </div>
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary"
+				ng-click="saveProjectInfo(projectInfoData)" data-dismiss="modal">Save</button>
+		</div>
+	</div>
 </div>
-<!-- Model for project Details  -->
-
-
-
- </main>
+</div>
+<!-- Model for project Details  --> <script>
+	$('#trgtDtClndr .input-group.date').datepicker({
+		format : "yyyy-mm-dd 00:00:00"
+	});
+</script> </main>
