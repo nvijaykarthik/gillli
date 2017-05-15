@@ -11,6 +11,7 @@ import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -36,6 +37,9 @@ public class ProjectComments {
 	
 	@Column
 	private String createdBy;
+	
+	@Transient
+	private String parsedData;
 		
 	public Long getId() {
 		return id;
@@ -67,6 +71,22 @@ public class ProjectComments {
 
 	public void setCreatedDate(Date createdDate) {
 		this.createdDate = createdDate;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
+	}
+
+	public String getParsedData() {
+		return parsedData;
+	}
+
+	public void setParsedData(String parsedData) {
+		this.parsedData = parsedData;
 	}
 	
 }

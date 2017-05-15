@@ -47,19 +47,24 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
  	         $scope.error="Error while processing html";
  	    });
          
+         
     }, function failure(response) {
         $log.error(response.status)
          $scope.showerror=true;
          $scope.error=response.data.message;
     });
 	}
+	
 	$scope.loadProj($routeParams.projectId);
+
+	
 	$scope.getHelp=function(){
 	$http({
         method : "GET",
         url : namespace+'/markdown.json'
     }).then(function success(response) {
          $("#markdownHelp").html( response.data.help);
+         $("#markdownHelpComment").html( response.data.help);s
     }, function failure(response) {
         $log.error(response.status)
          $scope.showerror=true;
@@ -128,5 +133,66 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 	         $scope.error="Error while processing html";
 	    });
 	}
+	
+	$scope.projectComments={};
+	
+	$scope.loadComment=function(id){
+		$http({
+	        method : "GET",
+	        url : namespace+'/resource/project/comments?projectId='+id
+	    }).then(function success(response) {
+	         $scope.comments = response.data;
+	    }, function failure(response) {
+	        $log.error(response.status)
+	         $scope.showerror=true;
+	         $scope.error=response.data.message;
+	    });
+		
+	}
+	
+	$scope.loadComment($routeParams.projectId);
+	
+	$scope.addComment=function(project){
+		$scope.projectComments['projectId']=project.id;
+	}
+	
+	$scope.saveComment=function(){
+		$http({
+            method  : 'POST',
+            url     : namespace+'/resource/project/comments',
+            data    : $scope.projectComments,
+            headers : {'Content-Type': 'application/json'}
+           }).then(
+           function success(resp){
+               $log.info(resp.data);
+               $scope.loadComment($scope.projectComments.projectId);
+            },
+           function failure(resp){
+            alert("Error Updating Project");
+            $log.error(resp.data)
+            $scope.project=$scope.projectInfoData;
+           });
+	}
+	
+	
+	$scope.previewComment=function(){
+		$http({
+	        method : "POST",
+	        url : namespace+'/resource/common/parseToHtml',
+	        data:$scope.projectComments.comment,
+	        headers : {'Content-Type': 'application/json'},
+	        transformResponse: [function (data, headers) {
+	        return data;
+	        }],
+	    }).then(function success(response) {
+	    	   $("#previewOnComment").html(response.data);
+	    }, function failure(response) {
+	        $log.error(response.status)
+	         $scope.showerror=true;
+	         $scope.error="Error while processing html";
+	    });
+	}
+	
+	
 	
 });

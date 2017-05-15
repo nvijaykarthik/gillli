@@ -1,0 +1,22 @@
+.easy-markdown{
+
+    display: block;
+    left:0;
+    top:0;
+    width: 100%;
+
+}
+.easy-preview{
+   
+    display: block;
+    top:0;
+    left: 100%;
+    width: 100%;
+
+}
+.easy-markdown.is-hidden{
+    left:-105%;
+}
+.easy-preview.is-visible{
+    left:0;
+}

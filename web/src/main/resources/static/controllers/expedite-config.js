@@ -63,6 +63,15 @@ app.directive('capitalize', function() {
     };
   });
 
+app.directive('toHtml', function() {
+	  return {
+		  link: function(scope, element, attr) {
+			element.html(attr.raw);  
+		  }
+		   
+		  };
+		});
+
 app.directive('loading',   ['$http' ,function ($http){
     return {
         restrict: 'A',
@@ -84,3 +93,62 @@ app.directive('loading',   ['$http' ,function ($http){
     	};
 
 	}]);
+
+
+
+app.controller('markdownController', function($scope,$http,$log,$element) {
+
+	$scope.toBold=function(){
+
+        // Append/remove ### surround the selection
+        var chunk, cursor, selected = $element.getSelection(),
+            content = e.getContent();
+        if (selected.length === 0) {
+            // Give extra word
+            chunk = e.locale.header.description + '\n';
+        } else {
+            chunk = selected.text + '\n';
+        }
+        var key = 0,
+            hash='',
+            start = selected.start-1,
+            end = selected.start,
+            prevChr = content.substring(start,end); 
+        while (/^\s+$|^#+$/.test(prevChr)){
+            if (/^#+$/.test(prevChr))
+                hash = hash+'#';
+            key +=1;
+            prevChr = content.substring(start-key,end-key);
+        }
+
+        if (hash.length > 0){
+            // already a title
+            var startLinePos,
+                endLinePos = content.indexOf('\n', selected.start);
+        
+            //  more  than ### -> #
+            if (hash.length > 2){
+                hash = '#';
+                startLinePos = content.indexOf('\n', selected.start - 5);
+                e.setSelection(startLinePos, endLinePos+1);
+                e.replaceSelection('\n'+hash+' '+chunk);
+                cursor = startLinePos+3;
+            }else{
+                hash = hash +'#';
+                startLinePos = content.indexOf('\n', selected.start - (hash.length + 1));
+                e.setSelection(startLinePos, endLinePos+1);
+                e.replaceSelection('\n'+hash+' '+chunk);
+                cursor = selected.start + 1;
+            }
+        }else{
+
+            // new title
+            hash= '#';
+            e.replaceSelection('\n'+hash+' '+ chunk);
+            cursor = selected.start + 3;
+        }
+        e.setSelection(cursor, cursor + chunk.length-1);
+        return false;
+    
+	}
+});

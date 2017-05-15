@@ -3,14 +3,19 @@ package in.expedite.core.service;
 import java.util.Date;
 import java.util.List;
 
+import org.commonmark.node.Node;
+import org.commonmark.parser.Parser;
+import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import in.expedite.core.entity.Project;
+import in.expedite.core.entity.ProjectComments;
 import in.expedite.core.entity.ProjectDocType;
 import in.expedite.core.entity.ProjectStatus;
 import in.expedite.core.entity.ProjectType;
+import in.expedite.core.repository.ProjectCommentsRepository;
 import in.expedite.core.repository.ProjectDocTypeRepository;
 import in.expedite.core.repository.ProjectRepository;
 import in.expedite.core.repository.ProjectStatusRepository;
@@ -30,6 +35,9 @@ public class ProjectService {
 	
 	@Autowired
 	private ProjectRepository projectRepository; 
+	
+	@Autowired
+	private ProjectCommentsRepository projectCommentsRepo;
 	
 	@Value("${expedite.page.size}")
 	private Integer pageSize;
@@ -65,5 +73,29 @@ public class ProjectService {
 
 	public Project getProjectView(Long id) {
 		return projectRepository.findOne(id);
+	}
+	
+	public List<ProjectComments> getAllCommentsForProject(Long projectId){
+		 
+		List<ProjectComments> comments=projectCommentsRepo.findByProjectId(projectId);
+		
+		Parser parser = Parser.builder().build();
+		
+		HtmlRenderer renderer = HtmlRenderer.builder().build();
+
+		comments.forEach(comment->{
+			Node document = parser.parse(comment.getComment());
+			String html=renderer.render(document); 
+			comment.setParsedData(html);
+		});
+		
+		return comments;
+	}
+
+	public void addCommentsForProject(ProjectComments projectComments, String username) {
+		projectComments.setCreatedDate(new Date());
+		projectComments.setCreatedBy(username);
+		projectCommentsRepo.save(projectComments);
+		
 	}
 }

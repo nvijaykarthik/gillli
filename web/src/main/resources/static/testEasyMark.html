@@ -1,0 +1,47 @@
+
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>easyMarkdown Demo</title>
+<link href="http://www.cssscript.com/wp-includes/css/sticky.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
+<link href="css/easyMarkdown.css" rel="stylesheet" type="text/css">
+<style>
+body { background-color:#ECF0F1;}
+</style>
+</head>
+
+<body>
+<div class="container" style="margin:150px auto; max-width:600px;">
+<h2>With Bootstrap</h2>
+<textarea rows="10" class="form-control" id="editor"></textarea>
+</div>
+<script src="js/easyMarkdown.js"></script>
+<script>
+easyMarkdown(document.getElementById('editor'),{
+    btnClass:'btn btn-danger',
+    framework:'bootstrap',
+    icons : {
+        bold: 'fa fa-bold fa-fw',
+        italic: 'fa fa-italic fa-fw',
+        header: 'fa fa-header fa-fw',
+        image: 'fa fa-picture-o fa-fw',
+        link: 'fa fa-link fa-fw',
+        ol: 'fa fa-list-ol fa-fw',
+        ul: 'fa fa-list-ul fa-fw',
+        comment: 'fa fa-comment fa-fw',
+        code: 'fa fa-code fa-fw',
+        preview: 'fa fa-search fa-fw',
+        back: 'fa fa-backward fa-fw'
+    }
+
+});
+</script>
+
+</body>
+</html>

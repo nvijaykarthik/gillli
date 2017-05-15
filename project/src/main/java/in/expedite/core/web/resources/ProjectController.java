@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import in.expedite.core.entity.Project;
+import in.expedite.core.entity.ProjectComments;
 import in.expedite.core.entity.ProjectDocType;
 import in.expedite.core.entity.ProjectStatus;
 import in.expedite.core.entity.ProjectType;
@@ -54,5 +55,17 @@ public class ProjectController {
 	@RequestMapping(method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	public Project getProjectView(@RequestParam Long id){
 		return projectService.getProjectView(id);
+	}
+	
+	
+	@RequestMapping(path="/comments",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<ProjectComments> getProjectComments(@RequestParam Long projectId){
+		return projectService.getAllCommentsForProject(projectId);
+	}
+	
+	
+	@RequestMapping(path="/comments",method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
+	public void addProjectComments(@RequestBody ProjectComments projectComments,@RequestAttribute(required=false) String username){
+		projectService.addCommentsForProject(projectComments,username);
 	}
 }
