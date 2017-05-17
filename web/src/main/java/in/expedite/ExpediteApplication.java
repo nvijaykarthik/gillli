@@ -153,7 +153,7 @@ public class ExpediteApplication extends SpringBootServletInitializer  {
 		protected void configure(HttpSecurity http) throws Exception {
 			http
 			   .antMatcher("/resource/**")
-			   .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+			   .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
 			   .and()
 			   .exceptionHandling().authenticationEntryPoint(restAuthenticationEntryPoint)
 			   .and()
