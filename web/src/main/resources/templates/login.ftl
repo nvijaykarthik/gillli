@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<html>
 <!--[if IE 8]>         <html class="ie8"> <![endif]-->
 <!--[if IE 9]>         <html class="ie9 gt-ie8"> <![endif]-->
 <!--[if gt IE 9]><!--> <html class="gt-ie8 gt-ie9 not-ie"> <!--<![endif]-->
@@ -19,7 +19,7 @@
 	<link href="css/themes.min.css" rel="stylesheet" type="text/css">
 
 	<!--[if lt IE 9]>
-		<script src="assets/javascripts/ie.min.js"></script>
+		<script src="assets/javascripts/ie.min.js"  type="text/javascript"></script>
 	<![endif]-->
 
 </head>
@@ -90,18 +90,16 @@
 <!-- Expedite's javascripts -->
 		<script src="js/jquery-1.10.2.min.js"></script> 
 		<script src="js/bootstrap.min.js"></script>
-		<script src="js/expedite-admin.min.js"></script>
 		<script src="js/angular.min.js"></script>
 		<script src="js/angular-route.min.js"></script>
 		<script src="js/angular-resource.min.js"></script>
-	    <script src="js/expedite-config.js"></script>
-		<script src="js/expedite.js"></script>
+
 
 
 
 <script type="text/javascript">
 	$(document).ready(function(){
-			$("#signin-form_id").validate({ focusInvalid: true, errorPlacement: function () {} });
+			/* $("#signin-form_id").validate({ focusInvalid: true, errorPlacement: function () {} });
 			
 			// Validate username
 			$("#username").rules("add", {
@@ -113,7 +111,8 @@
 			$("#password").rules("add", {
 				required: true,
 				minlength: 6
-			});
+			}); 
+			*/
 	});
 </script>
 

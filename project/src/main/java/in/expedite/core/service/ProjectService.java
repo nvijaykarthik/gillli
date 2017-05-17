@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 import in.expedite.core.entity.Project;
 import in.expedite.core.entity.ProjectComments;
 import in.expedite.core.entity.ProjectDocType;
+import in.expedite.core.entity.ProjectDocuments;
 import in.expedite.core.entity.ProjectStatus;
 import in.expedite.core.entity.ProjectType;
 import in.expedite.core.repository.ProjectCommentsRepository;
 import in.expedite.core.repository.ProjectDocTypeRepository;
+import in.expedite.core.repository.ProjectDocumentsRepository;
 import in.expedite.core.repository.ProjectRepository;
 import in.expedite.core.repository.ProjectStatusRepository;
 import in.expedite.core.repository.ProjectTypeRepository;
@@ -35,6 +37,9 @@ public class ProjectService {
 	
 	@Autowired
 	private ProjectRepository projectRepository; 
+	
+	@Autowired
+	private ProjectDocumentsRepository projectDocumentsRepository;
 	
 	@Autowired
 	private ProjectCommentsRepository projectCommentsRepo;
@@ -98,4 +103,15 @@ public class ProjectService {
 		projectCommentsRepo.save(projectComments);
 		
 	}
+	
+	public void updateDocument(ProjectDocuments projDoc,String userName){
+		projDoc.setCreatedBy(userName);
+		projDoc.setCreatedDate(new Date());
+		projectDocumentsRepository.save(projDoc);
+	}
+	
+	public List<ProjectDocuments> getDocumentsForProject(Long projectId){
+		return projectDocumentsRepository.findByProjectId(projectId);
+	}
+	
 }

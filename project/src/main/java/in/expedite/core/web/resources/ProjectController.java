@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import in.expedite.core.entity.Project;
 import in.expedite.core.entity.ProjectComments;
 import in.expedite.core.entity.ProjectDocType;
+import in.expedite.core.entity.ProjectDocuments;
 import in.expedite.core.entity.ProjectStatus;
 import in.expedite.core.entity.ProjectType;
 import in.expedite.core.service.ProjectService;
@@ -68,4 +69,15 @@ public class ProjectController {
 	public void addProjectComments(@RequestBody ProjectComments projectComments,@RequestAttribute(required=false) String username){
 		projectService.addCommentsForProject(projectComments,username);
 	}
+	
+	@RequestMapping(path="/updateDocument",method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
+	public void updateDocument(@RequestBody ProjectDocuments projectDocuments,@RequestAttribute(required=false) String username){
+		projectService.updateDocument(projectDocuments,username);
+
+	}
+	@RequestMapping(path="/documentsList",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<ProjectDocuments> getProjectDocuments(@RequestParam Long projectId){
+		return projectService.getDocumentsForProject(projectId);
+	}
+	
 }

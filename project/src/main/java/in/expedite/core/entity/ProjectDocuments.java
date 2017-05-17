@@ -30,8 +30,8 @@ public class ProjectDocuments {
 	@Column
 	private String type;
 	
-	@Column
-	private String content;
+	@Column(length=2048)
+	private String url;
 
 	@Column
 	@Temporal(TemporalType.TIMESTAMP)
@@ -73,12 +73,29 @@ public class ProjectDocuments {
 		this.type = type;
 	}
 
-	public String getContent() {
-		return content;
+
+	public String getUrl() {
+		return url;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
+	}
+
+	public String getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(String createdBy) {
+		this.createdBy = createdBy;
 	}
 
 }

@@ -192,7 +192,91 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 	         $scope.error="Error while processing html";
 	    });
 	}
+	$scope.uploadFormData={};
 	
+	// Add events
+	$('#uploadFormData_file').on('change', prepareUpload);
 	
+	var projectfiles;
+	
+	function prepareUpload(event){
+		projectfiles = event.target.files;
+		
+	}
+	$scope.uploadDoc={};
+	$scope.upload=function(){
+		
+		var frmdata = new FormData();
+		console.log(projectfiles)
+		if(projectfiles.length>0){
+			
+			$.each(projectfiles, function(key, value){
+				frmdata.append("file", value);
+			});
+			
+			frmdata.append("projectId",$("#uploadFormData_projectId").val());
+			
+			$.ajax({
+			    url: namespace+'/resource/common/uploadDoc',
+			    data: frmdata,
+			    cache: false,
+			    contentType: false,
+			    processData: false,
+			    type: 'POST',
+			    success: function(data){
+			        console.log(data.message);
+			        $scope.uploadDoc['title']=data.fileName
+					$scope.uploadDoc['url']="/resource/common/downloadDoc?projectId="+$("#uploadFormData_projectId").val()+"&fileName="+data.fileName
+					$scope.uploadDoc['projectId']=$("#uploadFormData_projectId").val();
+			        $scope.updateDocForProj();
+			        
+			    },
+			    error:function(data){
+			    	console.log(data.message);
+			    }
+			});
+			
+		}else if(projectfiles.length===0){
+			$scope.uploadDoc['title']=$("#uploadFormData_title").val();
+			$scope.uploadDoc['url']=$("#uploadFormData_url").val();
+			$scope.uploadDoc['projectId']=$("#uploadFormData_projectId").val();
+			$scope.updateDocForProj();
+		}
+
+	}
+	
+	$scope.updateDocForProj=function(){
+		$http({
+            method  : 'POST',
+            url     : namespace+'/resource/project/updateDocument',
+            data    : $scope.uploadDoc,
+            headers : {'Content-Type': 'application/json'}
+           }).then(
+           function success(resp){
+               $log.info(resp.data);
+               $scope.getDocForProj($scope.uploadDoc.projectId);
+            },
+           function failure(resp){
+            alert("Error Updating Project");
+            $log.error(resp.data)
+            $scope.project=$scope.projectInfoData;
+           });
+		
+	}
+	
+	$scope.getDocForProj=function(id){
+		$http({
+	        method : "GET",
+	        url : namespace+'/resource/project/documentsList?projectId='+id
+	    }).then(function success(response) {
+	    	 $scope.noDocs=false;
+	         $scope.documentsList = response.data;
+	    }, function failure(response) {
+	        $log.error(response.status)
+	         $scope.noDocs=true;
+	    });
+	}
+	
+	$scope.getDocForProj($routeParams.projectId);
 	
 });

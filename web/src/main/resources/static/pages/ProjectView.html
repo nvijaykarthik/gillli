@@ -38,14 +38,25 @@
 		<div class="panel panel-default ">
 			<div class="panel-heading">
 				<h3 class="panel-title pull-left">Attachments</h3>
-				<button class="btn btn-sm btn-success pull-right">
+				<button class="btn btn-sm btn-success pull-right"  data-toggle="modal"
+								data-target="#projFileUpload" >
 					<span class="glyphicon glyphicon-paperclip"></span>
 				</button>
 				<div class="clearfix"></div>
 			</div>
 			<div class="panel-body"
-				style="padding: 0; border: 0px; height: 250px; overflow-y: auto">
-
+				style="padding: 4px; border: 0px; height: 250px; overflow-y: auto">
+				<p ng-show=noDocs>No Document to List</p>
+		
+				<div class="list-group">
+				  <a href="{{docs.url}}" class="list-group-item" ng-repeat="docs in documentsList">
+				    <strong class="list-group-item-heading">{{docs.title}}</strong>
+				    <p class="list-group-item-text" style="font-size:11px;">
+				    By : {{docs.createdBy}} , On {{docs.createdDate}} 
+				    </p>
+				  </a>
+				</div>
+				
 			</div>
 		</div>
 
@@ -313,7 +324,63 @@
 		</div>
 	</div>
 </div>
-<!-- Model for Description Details  --> <script>
+<!-- Model for Description Details  -->
+
+<!-- Model for File upload Details  --> <!-- Model for Comment Details  -->
+<div id="projFileUpload" class="modal fade" role="dialog">
+	<div class="modal-dialog ">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h4 class="modal-title">Upload/Add Documents for : {{project.name}}</h4>
+			</div>
+			<div class="modal-body" ng-init="selectedUploadTab = 1;">
+				<ul class="nav nav-tabs">
+					<li ng-class="{active: selectedUploadTab == 1}"><a href
+						ng-click="selectedUploadTab = 1;">External File Link </a></li>
+					<li ng-class="{active: selectedUploadTab == 2}"><a href
+						ng-click="selectedUploadTab = 2">Upload File</a></li>
+				</ul>
+			
+			<div class="tab-content" ng-show="selectedUploadTab == 1">
+				<div class="form-group">
+						<label for="disabledinput" class="control-label">Title</label>
+						<div>
+							 <input type="text" class="form-control"  id="uploadFormData_title">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="disabledinput" class="control-label">URL</label>
+						<div>
+							 <input type="text" class="form-control"  id="uploadFormData_url">
+						</div>
+					</div>
+			</div>
+					
+			<div class="tab-content" ng-show="selectedUploadTab == 2">
+			 <div class="form-group">
+					<label for="disabledinput" class="control-label">Select File</label>
+					<div>
+						 <input type="file" class="form-control"  id="uploadFormData_file">
+					</div>
+			 </div>
+			</div>
+			
+			 <input type="hidden" id="uploadFormData_projectId" value={{project.id}}>
+			 
+			</div>
+		</div>
+		<div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-primary"
+				ng-click="upload()" data-dismiss="modal">Save</button>
+		</div>
+	</div>
+</div>
+<!-- Model for file upload ends -->
+
+
+ <script>
 	$('#trgtDtClndr .input-group.date').datepicker({
 		format : "yyyy-mm-dd 00:00:00"
 	});
