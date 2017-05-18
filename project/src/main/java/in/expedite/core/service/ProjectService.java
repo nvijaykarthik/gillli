@@ -113,5 +113,9 @@ public class ProjectService {
 	public List<ProjectDocuments> getDocumentsForProject(Long projectId){
 		return projectDocumentsRepository.findByProjectId(projectId);
 	}
+
+	public List<Project> searchProject(String query) {
+		return projectRepository.searchProject(query.toLowerCase());
+	}
 	
 }

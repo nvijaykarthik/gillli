@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 
@@ -28,6 +29,8 @@ public class AuthServerConfiguration {
 		ExceptionHandlerMapping mapping = new ExceptionHandlerMapping();
 		Map<Class<? extends Exception>,ExceptionErrorMapping> exceptionHandler = new HashMap<>();
 		exceptionHandler.put(HttpMessageNotReadableException.class, new ExceptionErrorMapping(HttpStatus.BAD_REQUEST,invReqMsg));
+		exceptionHandler.put(DataIntegrityViolationException.class, new ExceptionErrorMapping(HttpStatus.CONFLICT,"Record Already Exist"));
+		
 		mapping.setExceptionHandler(exceptionHandler);	
 		return mapping;	
 	}

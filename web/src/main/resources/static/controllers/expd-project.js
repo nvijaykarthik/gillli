@@ -15,7 +15,7 @@ app.controller('projectController', function($scope,$http,$log,$httpParamSeriali
                        $location.path( "/projectView/"+resp.data.id );
                     },
                    function failure(resp){
-                    alert("Error Creating Project");
+                    alert("Error Creating Project :"+resp.data.message);
                     $log.error(resp.data)
                    });
 	}
@@ -23,6 +23,7 @@ app.controller('projectController', function($scope,$http,$log,$httpParamSeriali
 
 app.controller('projectViewController', function($scope,$http,$log,$httpParamSerializerJQLike,$routeParams,$location) {
 
+	$scope.projectNotFound=false;
 	
 	$scope.projectInfoData={};
 	$scope.loadProj=function(projectId){
@@ -30,28 +31,30 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
         method : "GET",
         url : namespace+'/resource/project?id='+projectId
     }).then(function success(response) {
+    	
          $scope.project = response.data;
+         $scope.projectNotFound=false;
+         if($scope.project.description){
          $http({
  	        method : "POST",
  	        url : namespace+'/resource/common/parseToHtml',
  	        data:$scope.project.description,
  	        headers : {'Content-Type': 'application/json'},
  	        transformResponse: [function (data, headers) {
- 	        return data;
+ 	        	return data;
  	        }],
  	    }).then(function success(response) {
- 	    	 $("#project_description").html(response.data);
+ 	    	$("#project_description").html(response.data);
  	    }, function failure(response) {
- 	        $log.error(response.status)
- 	         $scope.showerror=true;
- 	         $scope.error="Error while processing html";
+ 	        $log.error(response.status);
+ 	        $log.error(response.data);
  	    });
-         
+        }
          
     }, function failure(response) {
-        $log.error(response.status)
-         $scope.showerror=true;
-         $scope.error=response.data.message;
+        $log.error(response.status);
+         $log.error(response.data);
+         $scope.projectNotFound=true;
     });
 	}
 	

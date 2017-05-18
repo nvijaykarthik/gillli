@@ -80,4 +80,9 @@ public class ProjectController {
 		return projectService.getDocumentsForProject(projectId);
 	}
 	
+	
+	@RequestMapping(path="/search",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<Project> searchProject(@RequestParam String query){
+		return projectService.searchProject(query);
+	}
 }

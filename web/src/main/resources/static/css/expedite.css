@@ -1,43 +1,77 @@
-.pointer
-{
+.pointer {
 	cursor: pointer;
 }
 
- .project-display-table{
-  	width:85%;	
-  }
-  
-  .project-display-table tr th{
-  	width:20%;
-  	text-align:left;
-  	padding:4px;
-  }
-  
-  .project-display-table tr td{
-  	width:30%;	
-  	text-align:left;
-  	padding:4px;
-  }
-  
- 	@media (min-width: 768px) {
-  .modal-xl {
-    width: 96%;
-   max-width:1200px;
-  }
+.project-display-table {
+	width: 85%;
 }
-  .angucomplete-dropdown{
-   z-index:100;
-   overflow-y: auto;
-    max-height: 200px;
-    border:solid 1px #f6f6f6;
-    background:#f2f2f2;
-  }
-  
-  .formEdit{
-  	z-index:1980;
-  }
-  .modal-form{
-  
-  margin:10px;
-  
-  }
+
+.project-display-table tr th {
+	width: 20%;
+	text-align: left;
+	padding: 4px;
+}
+
+.project-display-table tr td {
+	width: 30%;
+	text-align: left;
+	padding: 4px;
+}
+
+@media ( min-width : 768px) {
+	.modal-xl {
+		width: 96%;
+		max-width: 1200px;
+	}
+}
+
+.angucomplete-dropdown {
+	z-index: 100;
+	overflow-y: auto;
+	max-height: 200px;
+	border: solid 1px #f6f6f6;
+	background: #f2f2f2;
+}
+
+.formEdit {
+	z-index: 1980;
+}
+
+.modal-form {
+	margin: 10px;
+}
+
+.searchResult {
+	background: #fff;
+	border: #333333 solid 1px;
+
+}
+
+.searchResult .cont{
+	padding: 5px;
+	
+}
+.searchResult .cls{
+	text-align:center;	
+}
+
+.searchProject {
+    clear: both;
+    display: table;
+    width: 100%;
+    display: inline-block;
+}
+.searchList{
+	padding: 0 5px 0;
+    list-style-type: none;
+    -webkit-column-count: 4;
+    column-count: 4;
+    -webkit-column-gap: 1em;
+    -ms-column-gap: 1em;
+    column-gap: 1em;
+}
+.search-result {
+    width: auto;
+    display: list-item;
+    height: 22px;
+}

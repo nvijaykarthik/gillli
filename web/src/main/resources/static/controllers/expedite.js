@@ -656,3 +656,41 @@ app.controller('authController', function($scope,$http,$log) {
     });
 	
 });
+app.controller('navSearchController', function($scope,$http,$log) {
+	$scope.showSearch=false;
+	$scope.search=function(query){
+		$scope.showMoreThan25=false;
+		if(query.length>=4){
+			$scope.showSearch=true;
+			
+			$http({
+		        method : "GET",
+		        url : "/resource/project/search?query="+query,
+		    }).then(function success(response) {
+		    	if(response.data.length<=25){
+		    		$scope.searchProjectResult = response.data;
+		    	}else{
+		    		$scope.showMoreThan25=true;
+		    	}
+		    	
+		    }, function failure(response) {
+		    	console.log(response.status)
+		        console.log(response.data);
+		        $scope.showSearchError=true;
+		    });
+			
+		}else{
+			$scope.showSearch=false;
+		}
+	}
+	
+	$scope.closeSearch=function(){
+		$scope.showSearch=false;
+		$scope.query="";
+	}
+	
+
+});
+
+
+
