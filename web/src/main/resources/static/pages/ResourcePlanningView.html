@@ -1,0 +1,63 @@
+<ul class="breadcrumb breadcrumb-page">
+			<div class="breadcrumb-label text-light-gray">You are here: </div>
+			<li><a>Home</a></li>
+			<li><a>Resource Planning</a></li>
+			<li class="active"><a>Plan</a></li>
+		</ul>
+		<div class="page-header">
+			
+			<div class="row">
+				<!-- Page header, center on small screens -->
+				<h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;Resource Planning</h1>
+				<div class="col-xs-12 col-sm-8">Plan resource and projects  </div>
+			</div>
+		</div> <!-- / .page-header -->
+		
+<main ng-controller="resourcePlanningController">
+
+<script>
+	var url="/resource/resourcePlanning";
+</script>
+<div class="panel panel-info">
+	<div class="panel-body">
+	</div>
+</div>
+<div id="planningView" style="overflow:auto;">
+	<table class="resourceView">
+	<thead>
+		<th>Resource Name</th>
+		<th>Project Name</th>
+		<th>Phase</th>
+		<th>Start Date</th>
+		<th>End Date</th>
+		<th>Total Effort</th>
+		<th>Effort Per day</th>
+        <th ng-repeat=" i in range track by $index" ng-style="weekEnd(i.day)"><div class="tblDate">{{i.MonDD}}</div></th>
+	</thead>
+		<tr ng-repeat="rd in data.data" ng-init="color=getRandomColor();" ng-mouseenter="resMouseEnter(rd,$event)" ng-mouseleave="resMouseleave()" ng-mousemove="resMousemove($event)">
+
+		  <td><div class="tblTxt">{{rd.resourceName}}</div></td>
+		  <td><div class="tblTxt">{{rd.projectName}}</div></td>
+		  <td><div class="tblTxt">{{rd.phase}}</div></td>
+		  <td><div class="tblTxt">{{rd.startDate}}</div></td>
+		  <td><div class="tblTxt">{{rd.endDate}}</div></td>
+		  <td><div class="tblTxtEff">{{rd.totalEffort}}</div></td>
+		  <td><div class="tblTxtEff">{{rd.efforPerDay}}</div></td>
+		 <td ng-repeat="i in range track by $index" ng-style="rowClass(rd,$index,color)">
+		 </td>
+		 
+		</tr>
+	<tfoot>
+		<th>Resource Name</th>
+		<th>Project Name</th>
+		<th>Phase</th>
+		<th>Start Date</th>
+		<th>End Date</th>
+		<th>Total Effort</th>
+		<th>Effort Per day</th>
+        <th ng-repeat=" i in range track by $index" ng-style="weekEnd(i.day)"><div class="tblDate">{{i.MonDD}}</div></th>
+	</tfoot>
+	</tbody>
+	</table>
+</div>
+</main>

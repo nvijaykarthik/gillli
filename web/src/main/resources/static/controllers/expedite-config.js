@@ -40,6 +40,9 @@ app.config(function($routeProvider) {
   .when('/projectView/:projectId', {
     templateUrl : 'pages/ProjectView.html',
   })
+   .when('/resourcePlanning', {
+    templateUrl : 'pages/ResourcePlanningView.html',
+  })
   .otherwise({redirectTo: '/'});
 });
 

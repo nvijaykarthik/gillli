@@ -75,3 +75,38 @@
     display: list-item;
     height: 22px;
 }
+
+.resourceView{
+	table-layout:fixed;
+	border-collapse:collapse;
+	border:1px solid grey;
+	background:#fff;
+	padding : 10px;
+}
+.resourceView th,td{
+	border:solid 0.5px #f2f2f2;
+	font-size: 11px;
+}
+
+.resourceView td .tblTxt{
+	width:80px;
+	height:20px;
+	overflow:hidden;
+	white-space: nowrap
+}
+.resourceView td .tblTxtEff{
+	width:30px;
+	height:20px;
+	overflow:hidden;
+	white-space: nowrap
+}
+
+.resourceView .colored{
+	border:none;
+}
+
+.resourceView th .tblDate{
+	width:25px;
+	height:30px;
+	overflow:hidden;
+}
