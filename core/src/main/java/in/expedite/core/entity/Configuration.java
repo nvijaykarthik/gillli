@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -95,6 +96,7 @@ public class Configuration {
 	 * get value
 	 * @return
 	 */
+	@Lob
 	@Column(name="VALUE",nullable=true)
 	public String getValue() {
 		return value;

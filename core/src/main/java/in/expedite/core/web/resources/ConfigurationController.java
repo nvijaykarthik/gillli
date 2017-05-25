@@ -72,4 +72,11 @@ public class ConfigurationController {
 		LOG.info("List of mappings:" + pattern);
 		return handlerMapping.getHandlerMethods().keySet();
 	}
+	
+	@RequestMapping(path="/perConfig",produces="application/json",method=RequestMethod.GET)
+	public Configuration getConfiguration(@RequestParam(name="key") String key) throws Exception{
+		LOG.info("Retrieving configuration for : " +key);
+		Configuration conf=cs.getConfiguration(key);
+		return  conf;
+	}
 }

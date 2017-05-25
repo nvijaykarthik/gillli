@@ -34,6 +34,14 @@ public class ConfigurationService {
 	}
 	
 	/**
+	 * Find the required configuration
+	 * @param key
+	 * @return
+	 */
+	public Configuration getConfiguration(String key){
+		return configurationRepository.findByKey(key);  
+	}
+	/**
 	 * Get all the available configuration 
 	 * @return
 	 */

@@ -6,10 +6,12 @@ app.controller('ConfigController', function($scope,$http,$log,$httpParamSerializ
             $scope.showerror=false;
             $scope.success="";
             $scope.error="";
+            
         }
     $scope.reset=function(){
     	$scope.search={};
     	$scope.refresh();
+    	$scope.showSearchText=false;
     }
     $scope.currentPage = 0;
     $scope.add = function() {
@@ -36,6 +38,7 @@ app.controller('ConfigController', function($scope,$http,$log,$httpParamSerializ
     
     $scope.refresh = function(){
     $scope.resetPage();
+    $scope.showSearchText=true;
 	    $http({
 	        method : "GET",
 	        url : url+ "?p="+$scope.currentPage+"&"+$httpParamSerializerJQLike($scope.search)
@@ -78,6 +81,7 @@ app.controller('ConfigController', function($scope,$http,$log,$httpParamSerializ
     }
        $scope.resetPage();
        $scope.refresh();
+       $scope.showSearchText=false;
        /** Pagination Starts**/
 
        $scope.range = function() {
@@ -185,6 +189,35 @@ app.controller('roleController', function($scope,$http,$log) {
     }
 
    
+    $scope.getHelp = function(){
+        $scope.resetPage();
+    	    $http({
+    	        method : "GET",
+    	        url : namespace+"/resource/config/perConfig?key=ROLE_HELP",
+    	    }).then(function success(response) {             
+                $http({
+         	        method : "POST",
+         	        url : namespace+'/resource/common/parseToHtml',
+         	        data:response.data.value,
+         	        headers : {'Content-Type': 'application/json'},
+         	        transformResponse: [function (data, headers) {
+         	        	return data;
+         	        }],
+         	    }).then(function success(res) {
+         	    	$("#role_help").html(res.data);
+         	    }, function failure(response) {
+         	        $log.error(response.status);
+         	        $log.error(response.data);
+         	    });
+                
+    	    }, function failure(response) {
+    	         $log.error(response.status)
+                 $scope.showerror=true;
+                 $scope.error=response.data.message;
+    	    });
+        }
+    
+    
     $scope.toggle=function (role)
     {
         $scope.resetPage();
@@ -287,6 +320,35 @@ app.controller('roleController', function($scope,$http,$log) {
 //accessCodes
 app.controller('accessCodeController', function($scope,$http,$log) {
 	$scope.formData = {};
+	
+	$scope.getHelp = function(){
+        $scope.resetPage();
+    	    $http({
+    	        method : "GET",
+    	        url : namespace+"/resource/config/perConfig?key=ACCESS_HELP",
+    	    }).then(function success(response) {             
+                $http({
+         	        method : "POST",
+         	        url : namespace+'/resource/common/parseToHtml',
+         	        data:response.data.value,
+         	        headers : {'Content-Type': 'application/json'},
+         	        transformResponse: [function (data, headers) {
+         	        	return data;
+         	        }],
+         	    }).then(function success(res) {
+         	    	$("#access_help").html(res.data);
+         	    }, function failure(response) {
+         	        $log.error(response.status);
+         	        $log.error(response.data);
+         	    });
+                
+    	    }, function failure(response) {
+    	         $log.error(response.status)
+                 $scope.showerror=true;
+                 $scope.error=response.data.message;
+    	    });
+        }
+	
 	
     $scope.resetPage=function(){
             $scope.showsucess=false;

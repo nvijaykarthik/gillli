@@ -7,4 +7,5 @@ import in.expedite.core.entity.Configuration;
 
 public interface ConfigurationRepository extends PagingAndSortingRepository<Configuration, Integer>,JpaSpecificationExecutor<Configuration>{
 
+	public Configuration findByKey(String key);
 }

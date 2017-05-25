@@ -17,7 +17,23 @@
 <script>
 var url="/resource/accessCode";
 </script>
-<div id="role">
+<div >
+<div class="topButtons">
+	<div class="btn-group">
+		<button type="button" class="btn btn-default" data-toggle="modal" data-target="#newAccess">Add Access Codes</button>
+		<button type="button" class="btn btn-default" ng-click="getHelp()" data-toggle="modal" data-target="#accessHelp">Help</button>
+		<!-- <button type="button" class="btn">Right</button>
+		<div class="btn-group">
+			<button type="button" class="btn dropdown-toggle" data-toggle="dropdown">Dropdown&nbsp;<i class="fa fa-caret-down"></i></button>
+			<ul class="dropdown-menu">
+				<li><a href="ui-buttons.html#">Dropdown link</a></li>
+				<li><a href="ui-buttons.html#">Dropdown link</a></li>
+			</ul>
+		</div> -->
+	</div>
+</div>
+
+
 <div class="alert alert-danger alert-dismissible" role="alert" ng-show="showerror">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     {{error}}
@@ -26,47 +42,8 @@ var url="/resource/accessCode";
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     {{success}}
 </div>
-<div class="col-md-4">
-	<div class="panel panel-info panel-dark">
-		<div class="panel-heading"><h3 class="panel-title">Add Access Code</h3></div>
-		<div class="panel-body">
-   		<form class="form-horizontal">
-			<div class="form-group">
-				<label for="disabledinput" class="control-label">Mapping</label>
-				<div>
-					<select class="form-control" ng-model="formData.state" id="accessMapping" ng-change="update()">
-						<option ng-repeat="mapping in mappings" value="{{mapping.patternsCondition.patterns[0]}}:{{mapping.methodsCondition.methods[0]}}">{{mapping.patternsCondition.patterns[0]}}:{{mapping.methodsCondition.methods[0]}} </option>
-					</select>
-					<span class="help-block">Select from Drop Down</span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="disabledinput" class="control-label">Method</label>
-				<div>
-					<input type="text" class="form-control" id="menuLnk" placeholder="Menu Link Name" readonly ng-model="formData.method">
-					<span class="help-block">Allowed String (A-Z,0-9,_) </span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="disabledinput" class="control-label"></label>
-				<div>
-					<input type="text" class="form-control" id="access-Code" placeholder="Access Code" ng-model="formData.accessCode" capitalize>
-					<span class="help-block">In Capital Letters Allowed String (A-Z,0-9,_) </span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label for="inputPassword" class="control-label">Access Code Description</label>
-				<div>
-					<input type="text" class="form-control" id="access-Desc" placeholder="Access Code Description" ng-model="formData.accessDesc">
-					<span class="help-block">Some description on Access Code</span>
-				</div>
-			</div>
-			 <button class="btn btn-primary" ng-click="add()"><span class=" fa fa-plus">&nbsp</span>Add</button>
-   		</form>
-  		</div>
-	</div>
-</div>
-<div class="col-md-8">
+
+<div class="col-md-12">
 <div class="panel panel-success panel-dark">
 		<div class="panel-heading"><h3 class="panel-title">View Available Access Codes</h3></div>
 		<div class="panel-body">
@@ -74,7 +51,7 @@ var url="/resource/accessCode";
 					<thead>
 						<tr>
 							<th>
-                                <button type="button" class="btn  btn-primary" ng-click="refresh()">
+                                <button type="button" class="btn  btn-success btn-sm" ng-click="refresh()">
                                     <span class="fa fa-refresh"></span>&nbsp;
                                 </button>
                             </th>
@@ -94,8 +71,8 @@ var url="/resource/accessCode";
 							<td>{{acsCode.mapping}}</td>
 							<td>{{acsCode.method}}</td>
 							<td>
-							<button type="button" class="btn  btn-danger" ng-click="del(acsCode)">
-							<span class=" fa fa-trash">&nbsp</span>
+							<button type="button" class="btn  btn-danger btn-sm" ng-click="del(acsCode)">
+								<span class="glyphicon glyphicon-trash"></span>
 								Delete
                              </button>
                             </td>
@@ -107,4 +84,72 @@ var url="/resource/accessCode";
 </div>
 </div>
 
+<div id="newAccess" class="modal fade" role="dialog">
+ <div class="modal-dialog modal-lg">
+  <div class="modal-content">
+	<div class="modal-header  bg-warning">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h3 class="modal-title">New Access</h3>
+		</div>
+		<div class="modal-body" >
+			<div class="forms">
+				<div class="form-group">
+				<label for="disabledinput" class="control-label">Mapping</label>
+				<div>
+					<select class="form-control" ng-model="formData.state" id="accessMapping" ng-change="update()">
+						<option ng-repeat="mapping in mappings" value="{{mapping.patternsCondition.patterns[0]}}:{{mapping.methodsCondition.methods[0]}}">{{mapping.patternsCondition.patterns[0]}}:{{mapping.methodsCondition.methods[0]}} </option>
+					</select>
+					<span class="help-block">Select from Drop Down</span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="disabledinput" class="control-label">Method</label>
+				<div>
+					<input type="text" class="form-control" id="menuLnk" placeholder="Menu Link Name" readonly ng-model="formData.method">
+					<span class="help-block">Allowed String (A-Z,0-9,_) </span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="disabledinput" class="control-label">Access Code</label>
+				<div>
+					<input type="text" class="form-control" id="access-Code" placeholder="Access Code" ng-model="formData.accessCode" capitalize>
+					<span class="help-block">In Capital Letters Allowed String (A-Z,0-9,_) </span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="inputPassword" class="control-label">Access Code Description</label>
+				<div>
+					<input type="text" class="form-control" id="access-Desc" placeholder="Access Code Description" ng-model="formData.accessDesc">
+					<span class="help-block">Some description on Access Code</span>
+				</div>
+			</div>
+		
+			</div>
+		</div>
+		<div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-outline" data-dismiss="modal">Close</button>
+        	 <button class="btn btn-sm btn-primary" ng-click="add()" data-dismiss="modal"><span class=" fa fa-floppy-o">&nbsp</span>Save</button>
+      </div>
+  </div>
+ </div>
+</div>
+
+<div id="accessHelp" class="modal fade" role="dialog">
+ <div class="modal-dialog modal-lg">
+  <div class="modal-content">
+	<div class="modal-header  bg-warning">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h3 class="modal-title">Access Screen Help</h3>
+		</div>
+		<div class="modal-body" >
+			<div id="access_help">
+					 
+   			</div>
+		</div>
+		<div class="modal-footer">
+        <button type="button" class="btn btn-sm btn-outline" data-dismiss="modal">Close</button>
+      </div>
+  </div>
+ </div>
+</div>
 </main>
