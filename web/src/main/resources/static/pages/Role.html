@@ -1,28 +1,32 @@
 <ul class="breadcrumb breadcrumb-page">
-			<div class="breadcrumb-label text-light-gray">You are here: </div>
-			<li><a>Home</a></li>
-			<li><a>Administration</a></li>
-			<li class="active"><a>Role</a></li>
-		</ul>
-		<div class="page-header">
-			<div class="row">
-				<!-- Page header, center on small screens -->
-				<h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;Configuration</h1>
-				<div class="col-xs-12 col-sm-8">Roles once added cannot be deleted , It can only be deactivated </div>
-			</div>
-		</div> <!-- / .page-header -->
-		
-<main ng-controller="roleController">
+	<div class="breadcrumb-label text-light-gray">You are here:</div>
+	<li><a>Home</a></li>
+	<li><a>Administration</a></li>
+	<li class="active"><a>Role</a></li>
+</ul>
+<div class="page-header">
+	<div class="row">
+		<!-- Page header, center on small screens -->
+		<h1 class="col-xs-12 col-sm-4 text-center text-left-sm">
+			<i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;Configuration
+		</h1>
+		<div class="col-xs-12 col-sm-8">Roles once added cannot be
+			deleted , It can only be deactivated</div>
+	</div>
+</div>
+<!-- / .page-header -->
 
-<script>
-var url="/resource/role";
+<main ng-controller="roleController"> <script>
+	var url = "/resource/role";
 </script>
 <div>
-<div class="topButtons">
-	<div class="btn-group">
-		<button type="button" class="btn btn-default" data-toggle="modal" data-target="#newRole">Add Role</button>
-		<button type="button" class="btn btn-default" ng-click="getHelp()" data-toggle="modal" data-target="#roleHelp">Help</button>
-		<!-- <button type="button" class="btn">Right</button>
+	<div class="topButtons">
+		<div class="btn-group">
+			<button type="button" class="btn btn-default" data-toggle="modal"
+				data-target="#newRole">Add Role</button>
+			<button type="button" class="btn btn-default" ng-click="getHelp()"
+				data-toggle="modal" data-target="#roleHelp">Help</button>
+			<!-- <button type="button" class="btn">Right</button>
 		<div class="btn-group">
 			<button type="button" class="btn dropdown-toggle" data-toggle="dropdown">Dropdown&nbsp;<i class="fa fa-caret-down"></i></button>
 			<ul class="dropdown-menu">
@@ -30,136 +34,160 @@ var url="/resource/role";
 				<li><a href="ui-buttons.html#">Dropdown link</a></li>
 			</ul>
 		</div> -->
+		</div>
 	</div>
-</div>
-<div class="alert alert-danger alert-dismissible" role="alert" ng-show="showerror">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    {{error}}
-</div>
-<div class="alert alert-success alert-dismissible" role="alert" ng-show="showsucess">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    {{success}}
-</div>
-<div class="col-md-12">
-<div class="panel panel-success panel-dark">
-		<div class="panel-heading"><h3 class="panel-title">View Available Roles</h3></div>
-		<div class="panel-body">
+	<div class="alert alert-danger alert-dismissible" role="alert"
+		ng-show="showerror">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{{error}}
+	</div>
+	<div class="alert alert-success alert-dismissible" role="alert"
+		ng-show="showsucess">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{{success}}
+	</div>
+	<div class="col-md-12">
+		<div class="panel panel-success panel-dark">
+			<div class="panel-heading">
+				<h3 class="panel-title">View Available Roles</h3>
+			</div>
+			<div class="panel-body">
 				<table class="table">
 					<thead>
 						<tr>
 							<th>
-                                <button type="button" class="btn  btn-success btn-sm" ng-click="refresh()">
-                                    <span class="fa fa-refresh"></span>&nbsp;
-                                </button>
-                            </th>
+								<button type="button" class="btn  btn-success btn-sm"
+									ng-click="refresh()">
+									<span class="fa fa-refresh"></span>&nbsp;
+								</button>
+							</th>
 							<th>Role Code</th>
 							<th>Role Description</th>
 							<th>Options</th>
 						</tr>
 					</thead>
 					<tbody>
-					<input type="text" ng-model="searchKeyword" class="form-control ng-valid ng-dirty" id="searchTable" placeholder="Search table"  >
+						<input type="text" ng-model="searchKeyword"
+							class="form-control ng-valid ng-dirty" id="searchTable"
+							placeholder="Search table">
 						<tr ng-repeat="role in roleList | filter: searchKeyword ">
 							<td>{{$index+1}}</td>
 							<td>{{role.roleCode}}</td>
 							<td>{{role.roleDescription}}</td>
 							<td>
-							<div class="btn-group">
-							<button type="button" class="btn  btn-info btn-sm" ng-click="toggle(role)">
-								<span class=" fa fa-exchange"></span>
-								{{role.status}}
-                             </button>
-     
-                             <button type="button" class="btn  btn-info btn-sm" ng-click="configAccess(role)" data-toggle="modal" data-target="#roleAccesslist">
-								<span class=" fa fa-cog"></span>
-								Config Access
-                             </button>
-                             </div>
-                            </td>
+								<div class="btn-group">
+									<button type="button" class="btn  btn-info btn-sm"
+										ng-click="toggle(role)">
+										<span class=" fa fa-exchange"></span> {{role.status}}
+									</button>
+
+									<button type="button" class="btn  btn-info btn-sm"
+										ng-click="configAccess(role)" data-toggle="modal"
+										data-target="#roleAccesslist">
+										<span class=" fa fa-cog"></span> Config Access
+									</button>
+								</div>
+							</td>
 						</tr>
 					</tbody>
 				</table>
 			</div>
+		</div>
 	</div>
-</div>
 
 </div>
 <div id="roleAccesslist" class="modal fade" role="dialog">
- <div class="modal-dialog">
-  <div class="modal-content">
-	<div class="modal-header  bg-warning">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h3 class="modal-title">Access to the role :  {{selectedRole.roleDescription}}</h3>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header  bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h3 class="modal-title">Access to the role :
+					{{selectedRole.roleDescription}}</h3>
+			</div>
+			<div class="modal-body">
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="access in accessList">
+						<input id="{{access.accessCode}}" type="checkbox"
+						value="{{access.accessCode}}"
+						ng-checked="selection.indexOf(access.accessCode) > -1"
+						ng-click="toggleSelection(access.accessCode)" /> <label>
+							{{access.accessDesc}} </label>
+					</li>
+				</ul>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn  btn-outline" data-dismiss="modal">Close</button>
+			</div>
 		</div>
-		<div class="modal-body">
-		<ul class="list-group">
-		 <li class="list-group-item" ng-repeat="access in accessList" >
-		  <input id="{{access.accessCode}}" type="checkbox" value="{{access.accessCode}}" ng-checked="selection.indexOf(access.accessCode) > -1" ng-click="toggleSelection(access.accessCode)" />
-		    <label>	{{access.accessDesc}}
-		   </label>
-		 </li>
-		 </ul>
-		</div>
-		<div class="modal-footer">
-        <button type="button" class="btn  btn-outline" data-dismiss="modal">Close</button>
-      </div>
-  </div>
- </div>
+	</div>
 </div>
 
 
 <div id="newRole" class="modal fade" role="dialog">
- <div class="modal-dialog">
-  <div class="modal-content">
-	<div class="modal-header  bg-warning">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h3 class="modal-title">Add New Role</h3>
-		</div>
-		<div class="modal-body" >
-			<div class="forms">
-			<div class="form-group">
-				<label for="disabledinput" class="control-label">Role</label>
-				<div>
-					<input type="text" class="form-control" id="roleCode" placeholder="Role Code" ng-model="formData.roleCode" capitalize>
-					<span class="help-block">In Capital Letters Allowed String (A-Z,0-9,_) </span>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header  bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h3 class="modal-title">Add New Role</h3>
+			</div>
+			<div class="modal-body">
+				<div class="forms">
+					<div class="form-group">
+						<label for="disabledinput" class="control-label">Role</label>
+						<div>
+							<input type="text" class="form-control" id="roleCode"
+								placeholder="Role Code" ng-model="formData.roleCode" capitalize>
+							<span class="help-block">In Capital Letters Allowed String
+								(A-Z,0-9,_) </span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="inputPassword" class="control-label">Description</label>
+						<div>
+							<input type="text" class="form-control" id="description"
+								placeholder="Role Description"
+								ng-model="formData.roleDescription"> <span
+								class="help-block">Some description on Role</span>
+						</div>
+					</div>
+
 				</div>
 			</div>
-			<div class="form-group">
-				<label for="inputPassword" class="control-label">Description</label>
-				<div>
-					<input type="text" class="form-control" id="description" placeholder="Role Description" ng-model="formData.roleDescription">
-					<span class="help-block">Some description on Role</span>
-				</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-outline"
+					data-dismiss="modal">Close</button>
+				<button class="btn btn-sm btn-primary" ng-click="add()"
+					data-dismiss="modal">
+					<span class=" fa fa-floppy-o">&nbsp</span>Save
+				</button>
 			</div>
-			 
-   		</div>
 		</div>
-		<div class="modal-footer">
-        <button type="button" class="btn btn-sm btn-outline" data-dismiss="modal">Close</button>
-        <button class="btn btn-sm btn-primary" ng-click="add()" data-dismiss="modal"><span class=" fa fa-floppy-o" >&nbsp</span>Save</button>
-      </div>
-  </div>
- </div>
+	</div>
 </div>
 
 
 <div id="roleHelp" class="modal fade" role="dialog">
- <div class="modal-dialog modal-lg">
-  <div class="modal-content">
-	<div class="modal-header  bg-warning">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h3 class="modal-title">Role Screen Help</h3>
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header  bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h3 class="modal-title">Role Screen Help</h3>
+			</div>
+			<div class="modal-body">
+				<div id="role_help"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-sm btn-outline"
+					data-dismiss="modal">Close</button>
+			</div>
 		</div>
-		<div class="modal-body" >
-			<div id="role_help">
-					 
-   			</div>
-		</div>
-		<div class="modal-footer">
-        <button type="button" class="btn btn-sm btn-outline" data-dismiss="modal">Close</button>
-      </div>
-  </div>
- </div>
+	</div>
 </div>
 
 </main>

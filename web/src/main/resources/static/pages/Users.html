@@ -1,87 +1,78 @@
 <ul class="breadcrumb breadcrumb-page">
-			<div class="breadcrumb-label text-light-gray">You are here: </div>
-			<li><a>Home</a></li>
-			<li><a>Administration</a></li>
-			<li class="active"><a>Users</a></li>
-		</ul>
-		<div class="page-header">
-			<div class="row">
-				<!-- Page header, center on small screens -->
-				<h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;Configuration</h1>
-				<div class="col-xs-12 col-sm-8">Add,Edit, Assign Roles and deactivate users</div>
-			</div>
-		</div> <!-- / .page-header -->
-		
-<main ng-controller="usersController">
+	<div class="breadcrumb-label text-light-gray">You are here:</div>
+	<li><a>Home</a></li>
+	<li><a>Administration</a></li>
+	<li class="active"><a>Users</a></li>
+</ul>
+<div class="page-header">
+	<div class="row">
+		<!-- Page header, center on small screens -->
+		<h1 class="col-xs-12 col-sm-4 text-center text-left-sm">
+			<i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;Configuration
+		</h1>
+		<div class="col-xs-12 col-sm-8">Add,Edit, Assign Roles and
+			deactivate users</div>
+	</div>
+</div>
+<!-- / .page-header -->
 
-<script>
-var url="/resource/users";
+<main ng-controller="usersController"> <script>
+	var url = "/resource/users";
 </script>
-<div id="userslist">
-<div class="alert alert-danger alert-dismissible" role="alert" ng-show="showerror">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    {{error}}
-</div>
-<div class="alert alert-success alert-dismissible" role="alert" ng-show="showsucess">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-    {{success}}
-</div>
-<div class="col-md-3">
-	<div class="panel panel-info panel-dark">
-		<div class="panel-body">
-   		 <button class="btn btn-primary" ng-click="clearData()" data-toggle="modal" data-target="#newUserModal"><span class=" fa fa-plus">&nbsp</span>Add New User</button>
-     	</div>
+<div>
+	<div class="topButtons">
+		<div class="btn-group">
+			<button type="button" class="btn btn-default" ng-click="clearData()"
+				data-toggle="modal" data-target="#newUserModal">Add User</button>
+			<button type="button" class="btn btn-default" data-toggle="modal"
+				data-target="#searchUser">Search</button>
+			<button type="button" class="btn btn-info" ng-click="reset()">Clear
+				Search</button>
+			<button type="button" class="btn btn-default" ng-click="getHelp()"
+				data-toggle="modal" data-target="#userHelp">Help</button>
+			<!-- <button type="button" class="btn">Right</button>
+		<div class="btn-group">
+			<button type="button" class="btn dropdown-toggle" data-toggle="dropdown">Dropdown&nbsp;<i class="fa fa-caret-down"></i></button>
+			<ul class="dropdown-menu">
+				<li><a href="ui-buttons.html#">Dropdown link</a></li>
+				<li><a href="ui-buttons.html#">Dropdown link</a></li>
+			</ul>
+		</div> -->
+		</div>
 	</div>
-	<div class="panel panel-info panel-dark">
-		<div class="panel-body">
-   		<form class="form-horizontal">
-			<div class="form-group">
-				<label  class="control-label">User Name</label>
-				<div>
-					<input type="text" class="form-control" id="userName" placeholder="User Name" ng-model="filterData.userId">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label">First Name</label>
-				<div>
-					<input type="text" class="form-control" id="firstname" placeholder="First Name" ng-model="filterData.firstName">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label">Last Name</label>
-				<div>
-					<input type="text" class="form-control" id="lastname" placeholder="Last Name" ng-model="filterData.lastName">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label">Email</label>
-				<div>
-					<input type="text" class="form-control" id="Email" placeholder="Email" ng-model="filterData.email">
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label">Status</label>
-				<div>
-				<select class="form-control" ng-options="status for status in userStatusList" ng-model="filterData.status"></select>
-				</div>
-			</div>
-			 <button class="btn btn-success" ng-click="filter()"><span class=" fa fa-search">&nbsp</span>Filter</button>
-   		</form>
-  		</div>
+
+	<div class="alert alert-danger alert-dismissible" role="alert"
+		ng-show="showerror">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{{error}}
 	</div>
-	
-</div>
-<div class="col-md-9">
-<div class="panel panel-success panel-dark">
-		<div class="panel-body">
+	<div class="alert alert-success alert-dismissible" role="alert"
+		ng-show="showsucess">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{{success}}
+	</div>
+
+	<div class="col-md-12">
+		<div class="panel panel-success panel-dark">
+			<div class="panel-heading">
+				<h3 class="panel-title">List of Users</h3>
+			</div>
+			<div class="panel-body">
 				<table class="table">
 					<thead>
 						<tr>
 							<th>
-                                <button type="button" class="btn  btn-primary" ng-click="refresh()">
-                                    <span class="fa fa-refresh"></span>&nbsp;
-                                </button>
-                            </th>
+								<button type="button" class="btn  btn-success"
+									ng-click="refresh()">
+									<span class="fa fa-refresh"></span>&nbsp;
+								</button>
+							</th>
 							<th>User Id</th>
 							<th>First name</th>
 							<th>Last name</th>
@@ -93,7 +84,7 @@ var url="/resource/users";
 						</tr>
 					</thead>
 					<tbody>
-					<tr ng-repeat="user in userList">
+						<tr ng-repeat="user in userList">
 							<td>{{$index+1}}</td>
 							<td>{{user.userId}}</td>
 							<td>{{user.firstName}}</td>
@@ -103,231 +94,355 @@ var url="/resource/users";
 							<td>{{user.modifiedDate}}</td>
 							<td>{{user.state}}</td>
 							<td>
-							<button type="button" class="btn  btn-info btn-sm " ng-click="edit(user)" data-toggle="modal" data-target="#editUserModal">
-							<span class=" fa fa-pencil">&nbsp</span>
-								Edit
-                             </button><br/>
-                              <button type="button" class="btn  btn-info btn-sm" ng-click="resetPwd(user)">
-							  <span class=" fa fa-refresh">&nbsp</span>
-								Reset Password
-                             </button><br/>
-                              <button type="button" class="btn  btn-info btn-sm" ng-click="editPwd(user)" data-toggle="modal" data-target="#pwdUserModal" >
-							  <span class=" fa fa-exchange">&nbsp</span>
-								Change Password
-                             </button><br/>
-                             <button type="button" class="btn  btn-info btn-sm" ng-click="configureRole(user)" data-toggle="modal" data-target="#roleConfigurationModal" >
-							  <span class=" fa fa-cog">&nbsp</span>
-								Configure Role
-                             </button>
-                             
-                            </td>
+
+								<div class="btn-group">
+									<div class="btn-group">
+										<button type="button"
+											class="btn btn-sm btn-info dropdown-toggle"
+											data-toggle="dropdown">
+											Operations&nbsp;<i class="fa fa-caret-down"></i>
+										</button>
+										<ul class="dropdown-menu">
+											<li><a href ng-click="edit(user)" data-toggle="modal"
+												data-target="#editUserModal">Edit</a></li>
+											<li><a href ng-click="resetPwd(user)">Reset Password</a></li>
+											<li><a href ng-click="editPwd(user)" data-toggle="modal"
+												data-target="#pwdUserModal">Change Password</a></li>
+											<li><a href ng-click="configureRole(user)"
+												data-toggle="modal" data-target="#roleConfigurationModal">Configure
+													Role</a></li>
+										</ul>
+									</div>
+								</div>
+							</td>
 						</tr>
 					</tbody>
 				</table>
-				
+
 				<div>
-		            <ul class="pagination">
-		              <li ng-class="prevPageDisabled()">
-		                <a href ng-click="prevPage()">« Prev</a>
-		              </li>
-		              <li ng-repeat="n in range()" ng-class="{active: n == currentPage}" ng-click="setPage(n)">
-		                <a class="pointer">{{n+1}}</a>
-		              </li>
-		              <li ng-class="nextPageDisabled()">
-		                <a href ng-click="nextPage()">Next »</a>
-		              </li>
-		            </ul>
-		          </div>
-				
+					<ul class="pagination pagination-sm">
+						<li ng-class="prevPageDisabled()"><a href
+							ng-click="prevPage()">« Prev</a></li>
+						<li ng-repeat="n in range()" ng-class="{active: n == currentPage}"
+							ng-click="setPage(n)"><a class="pointer">{{n+1}}</a></li>
+						<li ng-class="nextPageDisabled()"><a href
+							ng-click="nextPage()">Next »</a></li>
+					</ul>
+				</div>
+
 			</div>
+		</div>
 	</div>
-</div>
 
 </div>
 
 <!-- Modal -->
-	<div class="modal fade bs-example-modal-lg" id="newUserModal" tabindex="-1" role="dialog" aria-labelledby="newUserModalLabel">
-	  <div class="modal-dialog modal-lg modal-xl" role="document">
+<div class="modal fade bs-example-modal-lg" id="newUserModal"
+	tabindex="-1" role="dialog" aria-labelledby="newUserModalLabel">
+	<div class="modal-dialog modal-lg " role="document">
 		<div class="modal-content">
-		  <div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<h4 class="modal-title" id="myModalLabel">User </h4>
-		  </div>
-		  <div class="modal-body">
-			 <div style="padding:15px;">
-		  <form class="form-horizontal">
-			<div class="form-group">
-				<label  class="control-label">User Name</label>
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title" id="myModalLabel">New User</h3>
+			</div>
+			<div class="modal-body">
 				<div>
-					<input type="text" class="form-control" id="userName" placeholder="User Name" ng-model="formData.userId">
-					<span class="help-block">choose the user Id : [a-zA-Z0-9] </span>
+					<div class="form-group">
+						<label class="control-label">User Name</label>
+						<div>
+							<input type="text" class="form-control" id="userName"
+								placeholder="User Name" ng-model="formData.userId"> <span
+								class="help-block">choose the user Id : [a-zA-Z0-9] </span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">First Name</label>
+						<div>
+							<input type="text" class="form-control" id="firstname"
+								placeholder="First Name" ng-model="formData.firstName">
+							<span class="help-block">First Name : [a-zA-Z0-9] </span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Last Name</label>
+						<div>
+							<input type="text" class="form-control" id="lastname"
+								placeholder="Last Name" ng-model="formData.secondName">
+							<span class="help-block">Last Name : [a-zA-Z0-9] </span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Email</label>
+						<div>
+							<input type="text" class="form-control" id="Email"
+								placeholder="Email" ng-model="formData.email"> <span
+								class="help-block">Email Id : [a-zA-Z0-9] </span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Status</label>
+						<div>
+							<select class="form-control"
+								ng-options="status for status in userStatusList"
+								ng-model="formData.state"></select> <span class="help-block">Status:
+								[a-zA-Z0-9] </span>
+						</div>
+					</div>
+
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="control-label">First Name</label>
-				<div>
-					<input type="text" class="form-control" id="firstname" placeholder="First Name" ng-model="formData.firstName">
-					<span class="help-block">First Name : [a-zA-Z0-9] </span>
-				</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline btn-sm"
+					data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary btn-sm"
+					ng-click="save()" data-dismiss="modal">Save</button>
 			</div>
-			<div class="form-group">
-				<label class="control-label">Last Name</label>
-				<div>
-					<input type="text" class="form-control" id="lastname" placeholder="Last Name" ng-model="formData.secondName">
-					<span class="help-block">Last Name : [a-zA-Z0-9] </span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label">Email</label>
-				<div>
-					<input type="text" class="form-control" id="Email" placeholder="Email" ng-model="formData.email">
-					<span class="help-block">Email Id : [a-zA-Z0-9] </span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label">Status</label>
-				<div>
-				<select class="form-control" ng-options="status for status in userStatusList" ng-model="formData.state"></select>
-				<span class="help-block">Status: [a-zA-Z0-9] </span>
-				</div>
-			</div>
-   		</form>
-			  </div>
-		  </div>
-		  <div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary" ng-click="save()" data-dismiss="modal">Save</button>
-		  </div>
 		</div>
-	  </div>
 	</div>
-	
-	<div class="modal fade bs-example-modal-lg" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="#editUserModalLabel">
-	  <div class="modal-dialog modal-lg modal-xl" role="document">
+</div>
+
+<div class="modal fade bs-example-modal-lg" id="editUserModal"
+	tabindex="-1" role="dialog" aria-labelledby="#editUserModalLabel">
+	<div class="modal-dialog modal-lg " role="document">
 		<div class="modal-content">
-		  <div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<h4 class="modal-title" id="myModalLabel">User </h4>
-		  </div>
-		  <div class="modal-body">
-			 <div style="padding:15px;">
-		  <form class="form-horizontal">
-			<div class="form-group">
-				<label  class="control-label">User Name</label>
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title" id="myModalLabel">User</h3>
+			</div>
+			<div class="modal-body">
 				<div>
-					<input disabled type="text" class="form-control" id="userName" placeholder="User Name" ng-model="updateData.userId">
-					<span class="help-block">choose the user Id : [a-zA-Z0-9] </span>
+
+					<div class="form-group">
+						<label class="control-label">User Name</label>
+						<div>
+							<input disabled type="text" class="form-control" id="userName"
+								placeholder="User Name" ng-model="updateData.userId"> <span
+								class="help-block">choose the user Id : [a-zA-Z0-9] </span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">First Name</label>
+						<div>
+							<input type="text" class="form-control" id="firstname"
+								placeholder="First Name" ng-model="updateData.firstName">
+							<span class="help-block">First Name : [a-zA-Z0-9] </span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Last Name</label>
+						<div>
+							<input type="text" class="form-control" id="lastname"
+								placeholder="Last Name" ng-model="updateData.secondName">
+							<span class="help-block">Last Name : [a-zA-Z0-9] </span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Email</label>
+						<div>
+							<input type="text" class="form-control" id="Email"
+								placeholder="Email" ng-model="updateData.email"> <span
+								class="help-block">Email Id : [a-zA-Z0-9] </span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Status</label>
+						<div>
+							<select class="form-control"
+								ng-options="status for status in userStatusList"
+								ng-model="updateData.state"></select> <span class="help-block">Status:
+								[a-zA-Z0-9] </span>
+						</div>
+					</div>
+
 				</div>
 			</div>
-			<div class="form-group">
-				<label class="control-label">First Name</label>
-				<div>
-					<input type="text" class="form-control" id="firstname" placeholder="First Name" ng-model="updateData.firstName">
-					<span class="help-block">First Name : [a-zA-Z0-9] </span>
-				</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline btn-sm"
+					data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-sm btn-primary"
+					ng-click="update()" data-dismiss="modal">Save</button>
 			</div>
-			<div class="form-group">
-				<label class="control-label">Last Name</label>
-				<div>
-					<input type="text" class="form-control" id="lastname" placeholder="Last Name" ng-model="updateData.secondName">
-					<span class="help-block">Last Name : [a-zA-Z0-9] </span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label">Email</label>
-				<div>
-					<input type="text" class="form-control" id="Email" placeholder="Email" ng-model="updateData.email">
-					<span class="help-block">Email Id : [a-zA-Z0-9] </span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label">Status</label>
-				<div>
-				<select class="form-control" ng-options="status for status in userStatusList" ng-model="updateData.state"></select>
-				<span class="help-block">Status: [a-zA-Z0-9] </span>
-				</div>
-			</div>
-   		</form>
-			  </div>
-		  </div>
-		  <div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary" ng-click="update()" data-dismiss="modal">Save</button>
-		  </div>
 		</div>
-	  </div>
 	</div>
-	
-	
-	<!-- Password Change -->
-<!-- Modal -->
-	<div class="modal fade bs-example-modal-lg" id="pwdUserModal" tabindex="-1" role="dialog" aria-labelledby="pwdUserModalLabel">
-	  <div class="modal-dialog modal-lg modal-xl" role="document">
+</div>
+
+
+<!-- Password Change --> <!-- Modal -->
+<div class="modal fade bs-example-modal-lg" id="pwdUserModal"
+	tabindex="-1" role="dialog" aria-labelledby="pwdUserModalLabel">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
-		  <div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<h4 class="modal-title" id="myModalLabel">User </h4>
-		  </div>
-		  <div class="modal-body">
-			 <div style="padding:15px;">
-		  <form class="form-horizontal">
-			<div class="form-group">
-				<label  class="control-label">User Name</label>
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title" id="myModalLabel">User</h3>
+			</div>
+			<div class="modal-body">
 				<div>
-					<input type="text" class="form-control" id="userName" placeholder="User Name" ng-model="userPwd.userId">
-					<span class="help-block">choose the user Id : [a-zA-Z0-9] </span>
+
+					<div class="form-group">
+						<label class="control-label">User Name</label>
+						<div>
+							<input type="text" class="form-control" id="userName"
+								placeholder="User Name" ng-model="userPwd.userId" disabled>
+							<span class="help-block">choose the user Id : [a-zA-Z0-9]
+							</span>
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="control-label">Password</label>
+						<div>
+							<input type="password" class="form-control" id="lastname"
+								placeholder="Last Name" ng-model="userPwd.password"> <span
+								class="help-block">Last Name : [a-zA-Z0-9] </span>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">ReEntry Password</label>
+						<div>
+							<input type="password" class="form-control" id="lastname"
+								placeholder="Last Name" ng-model="userPwd.reentryPassword">
+							<span class="help-block">Last Name : [a-zA-Z0-9] </span>
+						</div>
+					</div>
 				</div>
 			</div>
-			
-			<div class="form-group">
-				<label class="control-label">Password</label>
-				<div>
-					<input type="password" class="form-control" id="lastname" placeholder="Last Name" ng-model="userPwd.password">
-					<span class="help-block">Last Name : [a-zA-Z0-9] </span>
-				</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline btn-sm"
+					data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary btn-sm"
+					ng-click="updatePwd(userPwd)" data-dismiss="modal">Save</button>
 			</div>
-			<div class="form-group">
-				<label class="control-label">ReEntry Password</label>
-				<div>
-					<input type="password" class="form-control" id="lastname" placeholder="Last Name" ng-model="userPwd.reentryPassword">
-					<span class="help-block">Last Name : [a-zA-Z0-9] </span>
-				</div>
-			</div>
-			
-   		</form>
-			  </div>
-		  </div>
-		  <div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary" ng-click="updatePwd(userPwd)" data-dismiss="modal">Save</button>
-		  </div>
 		</div>
-	  </div>
 	</div>
-	
-	<!-- Password Change -->
-<!-- Modal -->
-	<div class="modal fade bs-example-modal-lg" id="roleConfigurationModal" tabindex="-1" role="dialog" aria-labelledby="roleConfigurationModalLabel">
-	  <div class="modal-dialog modal-lg modal-xl" role="document">
+</div>
+
+<!-- Password Change --> <!-- Modal -->
+<div class="modal fade bs-example-modal-lg" id="roleConfigurationModal"
+	tabindex="-1" role="dialog"
+	aria-labelledby="roleConfigurationModalLabel">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
-		  <div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<h4 class="modal-title" id="myModalLabel">Configure the Roles for the user : {{selectedUser.userId}}</h4>
-		  </div>
-		  <div class="modal-body">
-			 <ul class="list-group">
-		 		<li class="list-group-item" ng-repeat="role in roleList" >
-		 		 <input id="{{role.roleCode}}" type="checkbox" value="{{role.roleCode}}" ng-checked="selection.indexOf(role.roleCode) > -1" ng-click="toggleSelection(role.roleCode)" />
-		    		<label>	{{role.roleDescription}}
-		   		</label>
-		 		</li>
-			 </ul>
-		  </div>
-		  <div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary" ng-click="updatePwd(userPwd)" data-dismiss="modal">Save</button>
-		  </div>
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title" id="myModalLabel">Configure the Roles
+					for the user : {{selectedUser.userId}}</h3>
+			</div>
+			<div class="modal-body">
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="role in roleList"><input
+						id="{{role.roleCode}}" type="checkbox" value="{{role.roleCode}}"
+						ng-checked="selection.indexOf(role.roleCode) > -1"
+						ng-click="toggleSelection(role.roleCode)" /> <label>
+							{{role.roleDescription}} </label></li>
+				</ul>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline btn-sm"
+					data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary btn-sm"
+					ng-click="updatePwd(userPwd)" data-dismiss="modal">Save</button>
+			</div>
 		</div>
-	  </div>
 	</div>
+</div>
+
+<div class="modal fade bs-example-modal-lg" id="searchUser"
+	tabindex="-1" role="dialog">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title" id="myModalLabel">Search User</h3>
+			</div>
+			<div class="modal-body">
+				<div>
+					<div class="form-group">
+						<label class="control-label">User Name</label>
+						<div>
+							<input type="text" class="form-control" id="userName"
+								placeholder="User Name" ng-model="filterData.userId">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">First Name</label>
+						<div>
+							<input type="text" class="form-control" id="firstname"
+								placeholder="First Name" ng-model="filterData.firstName">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Last Name</label>
+						<div>
+							<input type="text" class="form-control" id="lastname"
+								placeholder="Last Name" ng-model="filterData.lastName">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Email</label>
+						<div>
+							<input type="text" class="form-control" id="Email"
+								placeholder="Email" ng-model="filterData.email">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="control-label">Status</label>
+						<div>
+							<select class="form-control"
+								ng-options="status for status in userStatusList"
+								ng-model="filterData.status"></select>
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline btn-sm"
+					data-dismiss="modal">Close</button>
+				<button class="btn btn-primary btn-sm" ng-click="filter()"
+					data-dismiss="modal">
+					<span class=" fa fa-search">&nbsp</span>Search
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade bs-example-modal-lg" id="userHelp" tabindex="-1"
+	role="dialog"">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header bg-warning">
+				<button type="button" class="close" data-dismiss="modal"
+					aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				<h3 class="modal-title" id="myModalLabel">User Screen Help</h3>
+			</div>
+			<div class="modal-body">
+				<div id="user_help"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline btn-sm"
+					data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 </main>

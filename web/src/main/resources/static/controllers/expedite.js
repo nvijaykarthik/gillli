@@ -1,18 +1,24 @@
 app.controller('ConfigController', function($scope,$http,$log,$httpParamSerializerJQLike) {
 	$scope.formData = {};
 	$scope.search={};
+	$scope.formEditData={};
     $scope.resetPage=function(){
             $scope.showsucess=false;
             $scope.showerror=false;
             $scope.success="";
             $scope.error="";
-            
+            $scope.showSearchText=false;
         }
     $scope.reset=function(){
     	$scope.search={};
     	$scope.refresh();
     	$scope.showSearchText=false;
     }
+    
+    $scope.editConfig=function(config){
+    	$scope.formEditData=config;
+    }
+    
     $scope.currentPage = 0;
     $scope.add = function() {
     	$scope.resetPage();
@@ -61,6 +67,7 @@ app.controller('ConfigController', function($scope,$http,$log,$httpParamSerializ
     $scope.modify=function (config)
     {
         $scope.resetPage();
+        
         $log.log(config);
         $http({
          method  : 'PATCH',
