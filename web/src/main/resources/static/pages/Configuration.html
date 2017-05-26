@@ -9,7 +9,7 @@
 	<div class="row">
 		<!-- Page header, center on small screens -->
 		<h1 class="col-xs-12 col-sm-4 text-center text-left-sm">
-			<i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;Configuration
+			<i class="fa fa-cogs page-header-icon"></i>&nbsp;&nbsp;Configuration
 		</h1>
 		<div class="col-xs-12 col-sm-8">Property once added cannot be
 			deleted , it can only be modify</div>
@@ -24,13 +24,13 @@
 
 	<div class="topButtons">
 		<div class="btn-group">
-			<button type="button" class="btn btn-default" data-toggle="modal"
+			<button type="button" class="btn btn-warning" data-toggle="modal"
 				data-target="#newConfig">Add Configuration</button>
-			<button type="button" class="btn btn-default" data-toggle="modal"
+			<button type="button" class="btn btn-warning" data-toggle="modal"
 				data-target="#cfgSearch">Search</button>
-			<button type="button" class="btn btn-info" ng-click="reset()">Clear
-				Search</button>
-			<button type="button" class="btn btn-default" ng-click="getHelp()"
+			<button type="button" class="btn btn-warning" ng-click="reset()"><span style="color:blue">Clear
+				Search</span></button>
+			<button type="button" class="btn btn-warning" ng-click="getHelp()"
 				data-toggle="modal" data-target="#cfgHelp">Help</button>
 			<!-- <button type="button" class="btn">Right</button>
 		<div class="btn-group">
@@ -60,192 +60,186 @@
 		{{success}}
 	</div>
 	<div class="col-md-12">
-		<div class="panel panel-success panel-dark">
-			<div class="panel-heading">
-				<h3 class="panel-title">View Available Configuration</h3>
+		<fieldset class="form-group">
+			<legend>View Available Configuration</legend>
+			<div class="alert alert-warning" role="alert"
+				ng-show="showSearchText">Data displaying is filtered , clear
+				filter using clear search button</div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>
+							<button type="button" class="btn btn-sm btn-success"
+								ng-click="refresh()">
+								<span class="fa fa-refresh"></span>&nbsp;
+							</button>
+						</th>
+						<th>Key</th>
+						<th>Value</th>
+						<th>Save</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr
+						ng-repeat="config in configurationList | filter: searchKeyword ">
+						<td>{{$index+1}}</td>
+						<td>{{config.key}}</td>
+						<td><input type="text" class="form-control"
+							placeholder="Value" ng-model="config.value" disabled></td>
+						<td>
+							<button type="button" class="btn btn-sm btn-info"
+								ng-click="editConfig(config)" data-toggle="modal"
+								data-target="#editConfig">
+								<span class="fa fa-pencil">&nbsp;</span> Edit
+							</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<div>
+				<ul class="pagination pagination-sm">
+					<li ng-class="prevPageDisabled()"><a href
+						ng-click="prevPage()">« Prev</a></li>
+					<li ng-repeat="n in range()" ng-class="{active: n == currentPage}"
+						ng-click="setPage(n)"><a class="pointer">{{n+1}}</a></li>
+					<li ng-class="nextPageDisabled()"><a href
+						ng-click="nextPage()">Next »</a></li>
+				</ul>
 			</div>
-			<div class="panel-body">
-				<div class="alert alert-warning" role="alert"
-					ng-show="showSearchText">Data displaying is filtered , clear
-					filter using clear search button</div>
-				<table class="table">
-					<thead>
-						<tr>
-							<th>
-								<button type="button" class="btn btn-sm btn-success"
-									ng-click="refresh()">
-									<span class="fa fa-refresh"></span>&nbsp;
-								</button>
-							</th>
-							<th>Key</th>
-							<th>Value</th>
-							<th>Save</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr
-							ng-repeat="config in configurationList | filter: searchKeyword ">
-							<td>{{$index+1}}</td>
-							<td>{{config.key}}</td>
-							<td><input type="text" class="form-control"
-								placeholder="Value" ng-model="config.value" disabled></td>
-							<td>
-								<button type="button" class="btn btn-sm btn-info"
-									ng-click="editConfig(config)" data-toggle="modal"
-									data-target="#editConfig">
-									<span class="fa fa-pencil">&nbsp;</span> Edit
-								</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<div>
-					<ul class="pagination pagination-sm">
-						<li ng-class="prevPageDisabled()"><a href
-							ng-click="prevPage()">« Prev</a></li>
-						<li ng-repeat="n in range()" ng-class="{active: n == currentPage}"
-							ng-click="setPage(n)"><a class="pointer">{{n+1}}</a></li>
-						<li ng-class="nextPageDisabled()"><a href
-							ng-click="nextPage()">Next »</a></li>
-					</ul>
+		</fieldset>
+
+	</div>
+
+
+	<div id="editConfig" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header  bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h3 class="modal-title">Edit Configuration</h3>
+				</div>
+				<div class="modal-body">
+					<div id="form">
+						<div class="form-group">
+							<label for="disabledinput" class="control-label">key</label>
+							<div>
+								<input type="text" class="form-control" id="key"
+									placeholder="Key" ng-model="formEditData.key" disabled>
+							</div>
+						</div>
+						<div class="form-group">
+							<label for="inputPassword" class="control-label">value</label>
+							<div>
+								<textArea class="form-control" id="value"
+									ng-model="formEditData.value" rows="5"></textArea>
+								<span class="help-block">Any values Allowed</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn  btn-outline"
+						data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
+					<button class="btn btn-primary "
+						ng-click="modify(formEditData)" data-dismiss="modal">
+						<span class=" fa fa-floppy-o">&nbsp</span>Save
+					</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
-</div>
 
-
-<div id="editConfig" class="modal fade" role="dialog">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header  bg-warning">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h3 class="modal-title">Edit Configuration</h3>
-			</div>
-			<div class="modal-body">
-				<div id="form">
-					<div class="form-group">
-						<label for="disabledinput" class="control-label">key</label>
-						<div>
-							<input type="text" class="form-control" id="key"
-								placeholder="Key" ng-model="formEditData.key" disabled>
+	<div id="newConfig" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header  bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h3 class="modal-title">New Configuration</h3>
+				</div>
+				<div class="modal-body">
+					<div id="form">
+						<div class="form-group">
+							<label for="disabledinput" class="control-label">key</label>
+							<div>
+								<input type="text" class="form-control" id="key"
+									placeholder="Key" ng-model="formData.key"> <span
+									class="help-block">Allowed String (a-z , A-Z, 0-9 ,_) </span>
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputPassword" class="control-label">value</label>
-						<div>
-							<textArea class="form-control" id="value"
-								ng-model="formEditData.value" rows="5"></textArea>
-							<span class="help-block">Any values Allowed</span>
+						<div class="form-group">
+							<label for="inputPassword" class="control-label">value</label>
+							<div>
+								<textArea class="form-control" id="value"
+									ng-model="formData.value" rows="5"></textArea>
+								<span class="help-block">Any values Allowed</span>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-sm btn-outline"
-					data-dismiss="modal">Close</button>
-				<button class="btn btn-primary btn-sm"
-					ng-click="modify(formEditData)" data-dismiss="modal">
-					<span class=" fa fa-floppy-o">&nbsp</span>Save
-				</button>
+				<div class="modal-footer">
+					<button type="button" class="btn  btn-outline"
+						data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
+					<button class="btn btn-primary " ng-click="add()"
+						data-dismiss="modal">
+						<span class=" fa fa-floppy-o">&nbsp</span>Save
+					</button>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
 
-
-<div id="newConfig" class="modal fade" role="dialog">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header  bg-warning">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h3 class="modal-title">New Configuration</h3>
-			</div>
-			<div class="modal-body">
-				<div id="form">
-					<div class="form-group">
-						<label for="disabledinput" class="control-label">key</label>
-						<div>
-							<input type="text" class="form-control" id="key"
-								placeholder="Key" ng-model="formData.key"> <span
-								class="help-block">Allowed String (a-z , A-Z, 0-9 ,_) </span>
+	<div id="cfgSearch" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header  bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h3 class="modal-title">Filter Configuration</h3>
+				</div>
+				<div class="modal-body">
+					<div id="form">
+						<div class="form-group">
+							<label for="disabledinput" class="control-label">key</label>
+							<div>
+								<input type="text" class="form-control input-sm" id="key"
+									placeholder="Key" ng-model="search.key">
+							</div>
 						</div>
-					</div>
-					<div class="form-group">
-						<label for="inputPassword" class="control-label">value</label>
-						<div>
-							<textArea class="form-control" id="value"
-								ng-model="formData.value" rows="5"></textArea>
-							<span class="help-block">Any values Allowed</span>
+						<div class="form-group">
+							<label for="disabledinput" class="control-label">value</label>
+							<div>
+								<input type="text" class="form-control input-sm" id="value"
+									placeholder="value" ng-model="search.value">
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-sm btn-outline"
-					data-dismiss="modal">Close</button>
-				<button class="btn btn-primary btn-sm" ng-click="add()"
-					data-dismiss="modal">
-					<span class=" fa fa-floppy-o">&nbsp</span>Save
-				</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-<div id="cfgSearch" class="modal fade" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header  bg-warning">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h3 class="modal-title">Filter Configuration</h3>
-			</div>
-			<div class="modal-body">
-				<div id="form">
-					<div class="form-group">
-						<label for="disabledinput" class="control-label">key</label>
-						<div>
-							<input type="text" class="form-control input-sm" id="key"
-								placeholder="Key" ng-model="search.key">
-						</div>
-					</div>
-					<div class="form-group">
-						<label for="disabledinput" class="control-label">value</label>
-						<div>
-							<input type="text" class="form-control input-sm" id="value"
-								placeholder="value" ng-model="search.value">
-						</div>
-					</div>
+				<div class="modal-footer">
+					<button type="button" class="btn   btn-outline"
+						data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
+					<button type="button" class="btn  btn-primary"
+						ng-click="refresh()" data-dismiss="modal">
+						<span class=" fa fa-search">&nbsp</span> Search
+					</button>
 				</div>
 			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-sm  btn-outline"
-					data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-sm btn-primary"
-					ng-click="refresh()" data-dismiss="modal">
-					<span class=" fa fa-search">&nbsp</span> Search
-				</button>
+		</div>
+	</div>
+
+	<div id="cfgHelp" class="modal fade" role="dialog">
+		<div class="modal-dialog modal-lg">
+			<div class="modal-content">
+				<div class="modal-header  bg-warning">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h3 class="modal-title">Configuration Screen Help</h3>
+				</div>
+				<div class="modal-body">
+					<div id="config_help"></div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn  btn-outline" data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-
-<div id="cfgHelp" class="modal fade" role="dialog">
-	<div class="modal-dialog modal-lg">
-		<div class="modal-content">
-			<div class="modal-header  bg-warning">
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-				<h3 class="modal-title">Configuration Screen Help</h3>
-			</div>
-			<div class="modal-body">
-				<div id="config_help"></div>
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn  btn-outline" data-dismiss="modal">Close</button>
-			</div>
-		</div>
-	</div>
-</div>
-
 </main>

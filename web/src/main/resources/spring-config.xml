@@ -5,11 +5,13 @@
     xmlns:mvc="http://www.springframework.org/schema/mvc"
     xsi:schemaLocation="
     http://www.springframework.org/schema/beans
-    http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+    http://www.springframework.org/schema/beans/spring-beans.xsd
     http://www.springframework.org/schema/lang
-    http://www.springframework.org/schema/lang/spring-lang-2.0.xsd
+    http://www.springframework.org/schema/lang/spring-lang.xsd
     http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+<beans profile="default">
 
 	<bean id="org.h2.tools.Server" class="org.h2.tools.Server"
     	factory-method="createTcpServer" init-method="start" destroy-method="stop">
@@ -20,7 +22,7 @@
     	factory-method="createWebServer" init-method="start">
     	<constructor-arg value="-webAllowOthers" />
     </bean>
-
+</beans>
 
 	
 </beans>

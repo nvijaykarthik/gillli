@@ -7,7 +7,7 @@
 		<div class="page-header">
 			<div class="row">
 				<!-- Page header, center on small screens -->
-				<h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;Departments/Groups</h1>
+				<h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-building page-header-icon"></i>&nbsp;&nbsp;Departments/Groups</h1>
 				<div class="col-xs-12 col-sm-8"></div>
 			</div>
 		</div> <!-- / .page-header -->
@@ -18,6 +18,24 @@
 var url="/resource/departments";
 </script>
 <div>
+
+<div class="topButtons">
+		<div class="btn-group">
+			<button type="button" class="btn btn-warning"  ng-click="clearData()" 
+				data-toggle="modal" data-target="#newDeptModal">Add Department</button>
+			<button type="button" class="btn btn-warning" ng-click="getHelp()"
+				data-toggle="modal" data-target="#departmentHelp">Help</button>
+			<!-- <button type="button" class="btn">Right</button>
+		<div class="btn-group">
+			<button type="button" class="btn dropdown-toggle" data-toggle="dropdown">Dropdown&nbsp;<i class="fa fa-caret-down"></i></button>
+			<ul class="dropdown-menu">
+				<li><a href="ui-buttons.html#">Dropdown link</a></li>
+				<li><a href="ui-buttons.html#">Dropdown link</a></li>
+			</ul>
+		</div> -->
+		</div>
+	</div>
+	
 <div class="alert alert-danger alert-dismissible" role="alert" ng-show="showerror">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     {{error}}
@@ -26,22 +44,15 @@ var url="/resource/departments";
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     {{success}}
 </div>
-<div class="col-md-3">
-	<div class="panel panel-info panel-dark">
-		<div class="panel-body">
-   		 <button class="btn btn-primary" ng-click="clearData()" data-toggle="modal" data-target="#newDeptModal">
-   		 <span class=" fa fa-plus">&nbsp</span>Add New Department</button>
-     	</div>
-	</div>
-</div>
-<div class="col-md-9">
-<div class="panel panel-success panel-dark">
-		<div class="panel-body">
+
+<div class="col-md-12">
+		<fieldset class="form-group">
+			<legend>View Available Departments</legend>
 				<table class="table">
 					<thead>
 						<tr>
 							<th>
-                                <button type="button" class="btn  btn-primary" ng-click="refresh()">
+                                <button type="button" class="btn  btn-success btn-sm" ng-click="refresh()">
                                     <span class="fa fa-refresh"></span>&nbsp;
                                 </button>
                             </th>
@@ -52,7 +63,7 @@ var url="/resource/departments";
 						</tr>
 					</thead>
 					<tbody>
-					<input type="text" ng-model="searchKeyword" class="form-control ng-valid ng-dirty" id="searchTable" placeholder="Search table"/>
+					<input type="text" ng-model="searchKeyword" class="form-control ng-valid ng-dirty input-sm" id="searchTable" placeholder="Search table"/>
 					<tr ng-repeat="content in contentList | filter: searchKeyword ">
 							<td>{{$index+1}}</td>
 							<td>{{content.departmentName}}</td>
@@ -71,20 +82,17 @@ var url="/resource/departments";
 						</tr>
 					</tbody>
 				</table>
-			
-			</div>
-	</div>
-</div>
+	</fieldset>
 
 </div>
 
 <!-- Modal -->
-	<div class="modal fade bs-example-modal-lg" id="newDeptModal" tabindex="-1" role="dialog" aria-labelledby="newDeptModalLabel">
-	  <div class="modal-dialog modal-lg modal-xl" role="document">
+	<div class="modal fade " id="newDeptModal" role="dialog" aria-labelledby="newDeptModalLabel">
+	  <div class="modal-dialog" role="document">
 		<div class="modal-content">
-		  <div class="modal-header">
+		  <div class="modal-header bg-warning">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<h4 class="modal-title" id="myModalLabel">Add New Department </h4>
+			<h3 class="modal-title" id="myModalLabel">Add New Department </h3>
 		  </div>
 		  <div class="modal-body">
 			 <div style="padding:15px;">
@@ -118,8 +126,8 @@ var url="/resource/departments";
 			  </div>
 		  </div>
 		  <div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary" ng-click="save()" data-dismiss="modal">Save</button>
+			<button type="button" class="btn btn-outline" data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
+			<button type="button" class="btn btn-primary" ng-click="save()" data-dismiss="modal"><span class=" fa fa-floppy-o">&nbsp</span>Save</button>
 		  </div>
 		</div>
 	  </div>
@@ -128,12 +136,12 @@ var url="/resource/departments";
 
 
 <!-- Modal -->
-	<div class="modal fade bs-example-modal-lg" id="editDeptModal" tabindex="-1" role="dialog" aria-labelledby="editDeptModalLabel">
-	  <div class="modal-dialog modal-lg modal-xl" role="document">
+	<div class="modal fade bs-example-modal-lg" id="editDeptModal"role="dialog" aria-labelledby="editDeptModalLabel">
+	  <div class="modal-dialog " role="document">
 		<div class="modal-content">
-		  <div class="modal-header">
+		  <div class="modal-header bg-warning">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<h4 class="modal-title" id="myModalLabel">Edit Department </h4>
+			<h3 class="modal-title" id="myModalLabel">Edit Department </h3>
 		  </div>
 		  <div class="modal-body">
 			 <div style="padding:15px;">
@@ -167,8 +175,8 @@ var url="/resource/departments";
 			  </div>
 		  </div>
 		  <div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-			<button type="button" class="btn btn-primary" ng-click="save()" data-dismiss="modal">Save</button>
+			<button type="button" class="btn btn-outline" data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
+			<button type="button" class="btn btn-primary" ng-click="save()" data-dismiss="modal"><span class=" fa fa-floppy-o">&nbsp</span>Save</button>
 		  </div>
 		</div>
 	  </div>
@@ -181,7 +189,7 @@ var url="/resource/departments";
 		<div class="modal-content">
 		  <div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<h4 class="modal-title" id="myModalLabel">Manager  Details</h4>
+			<h3 class="modal-title" id="myModalLabel">Manager  Details</h3>
 		  </div>
 		  <div class="modal-body">
 			 <div style="padding:15px;">
@@ -214,7 +222,7 @@ var url="/resource/departments";
 			  </div>
 		  </div>
 		  <div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-outline" data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
 		  </div>
 		</div>
 	  </div>
@@ -226,7 +234,7 @@ var url="/resource/departments";
 		<div class="modal-content">
 		  <div class="modal-header">
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-			<h4 class="modal-title" id="myModalLabel">Parent Department</h4>
+			<h3 class="modal-title" id="myModalLabel">Parent Department</h3>
 		  </div>
 		  <div class="modal-body">
 			 <div style="padding:15px;">
@@ -241,10 +249,28 @@ var url="/resource/departments";
 			  </div>
 		  </div>
 		  <div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			<button type="button" class="btn btn-outline" data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
 		  </div>
 		</div>
 	  </div>
 	</div>
 	
+	<div id="departmentHelp" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header  bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h3 class="modal-title">Department Screen Help</h3>
+			</div>
+			<div class="modal-body">
+				<div id="department_help"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn  btn-outline"
+					data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
 </main>

@@ -43,7 +43,7 @@
 
 .searchResult {
 	background: #fff;
-	border: #333333 solid 1px;
+	border: #eee solid 1px;
 
 }
 
@@ -120,7 +120,6 @@
 	margin:5px;
 	padding: 5px;
 	background:white;
-	border:solid 1px #e6e6e6;
 }
 
 td,th{

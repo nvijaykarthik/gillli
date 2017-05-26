@@ -453,6 +453,7 @@ app.controller('usersController', function($scope,$http,$log) {
     $scope.formData={};
     $scope.userPwd={};
     $scope.updateData={};
+    
     $scope.refresh = function(){
     	
     	f_url=url+"?p="+$scope.currentPage+"&"+$.param($scope.filterData);
@@ -566,6 +567,13 @@ app.controller('usersController', function($scope,$http,$log) {
     	$scope.currentPage = 0;
     	$scope.refresh();
     }
+    
+    $scope.reset = function(){
+    	$scope.currentPage = 0;
+    	$scope.filterData={};
+    	$scope.refresh();
+    }
+    
     $scope.range = function() {
  	   
 	    var rangeSize = 5;
