@@ -1,5 +1,7 @@
 package in.expedite.core.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
@@ -10,4 +12,6 @@ public interface DepartmentsRepository extends PagingAndSortingRepository<Depart
 	public Iterable<Department> findByDepartmentNameContainingIgnoreCase(String departmentName);
 	
 	public Department findById(Long id);
+	
+	public List<Department> findByManagerId(String managerId);
 }

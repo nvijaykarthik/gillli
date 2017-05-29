@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,6 +34,9 @@ public class UserController {
 	public MyUser getAuthUser(@RequestAttribute("myUser") MyUser myUser) {
 		return myUser;
 	}
+	
+	
+	
 	
 	
 	@RequestMapping(method=RequestMethod.GET,produces="application/json",path="/searchByName")

@@ -1,6 +1,7 @@
 package in.expedite.core.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -50,6 +51,10 @@ public class DepartmentsService {
 
 	public Department getDeptById(Long deptId) {
 		return departmentRepo.findById(deptId);
+	}
+
+	public List<Department> getDeptByManager(String username) {
+		 return departmentRepo.findByManagerId(username);
 	}
 	
 	

@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import in.expedite.core.repository.DepartmentsRepository;
+import in.expedite.core.repository.TeamRepository;
+
 @Service
 public class CommonService {
 
@@ -22,6 +25,11 @@ public class CommonService {
 	
 	@Value("${expedite.file.repo.path}")
 	private String repoHome;
+	
+	
+	private DepartmentsRepository departmentsRepository;
+	
+	private TeamRepository teamRepository;
 	
 	public String getParsedText(String content){
 		
@@ -71,4 +79,5 @@ public class CommonService {
 		}
 		return repoHome;
 	}
+
 }

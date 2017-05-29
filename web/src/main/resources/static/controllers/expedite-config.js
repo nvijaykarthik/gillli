@@ -67,13 +67,12 @@ app.directive('capitalize', function() {
   });
 
 app.directive('toHtml', function() {
-	  return {
+	return {
 		  link: function(scope, element, attr) {
 			element.html(attr.raw);  
 		  }
-		   
-		  };
-		});
+	  };
+   });
 
 app.directive('loading',   ['$http' ,function ($http){
     return {
@@ -97,6 +96,36 @@ app.directive('loading',   ['$http' ,function ($http){
 
 	}]);
 
+
+app.factory('authService',function($http) {
+	var deps = {};
+	return{
+		getPrincipal:function (){
+			return $http({
+		        method : "GET",
+		        url : namespace+"/resource/users/principal",
+		    });
+		},
+		getDeptListForUser:function(){
+			return $http({
+		        method : "GET",
+		        url : namespace+"/resource/departments/deptByManager",
+		    });
+		},
+		getTeamListForUser:function(){
+			return $http({
+		        method : "GET",
+		        url : namespace+"/resource/departments/deptByManager",
+		    });
+		},
+		getTeamListForDepartment:function(depatId){
+			return $http({
+		        method : "GET",
+		        url : namespace+"/resource/departments/deptByManager",
+		    });
+		}
+	}	
+});
 
 
 app.controller('markdownController', function($scope,$http,$log,$element) {

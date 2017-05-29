@@ -719,20 +719,27 @@ app.controller('usersController', function($scope,$http,$log) {
 });
 
 
-app.controller('authController', function($scope,$http,$log) {
-	
-	$http({
-        method : "GET",
-        url : "/resource/users/principal",
-    }).then(function success(response) {
-    	$log.log(response.data)
-        $scope.user = response.data;
-    }, function failure(response) {
-        $log.error(response.status)
-       
+app.controller('authController',['$scope','$http','$log','authService', function($scope,$http,$log,authService) {
+    authService.getPrincipal().success(function(data, status) {
+        $scope.user = data;
+        console.log($scope.user);
     });
-	
-});
+    
+    authService.getDeptListForUser().success(function(data,status){
+    	if(data){
+    		  $scope.myDepartments=data;
+    	}else{
+    		 authService.getTeamListForUser().success(function(data,status){
+    			 
+    		 })
+    	}
+    });
+    
+}]);
+
+
+
+
 app.controller('navSearchController', function($scope,$http,$log) {
 	$scope.showSearch=false;
 	$scope.search=function(query){

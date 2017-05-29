@@ -1,17 +1,13 @@
 package in.expedite.core.web.resources;
 
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +20,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import in.expedite.core.service.CommonService;
-import in.expedite.core.utils.ExJsonResponse;
 import in.expedite.core.utils.FileUploadResponse;
 
 @RestController
@@ -73,4 +68,5 @@ public class CommonController {
 	    }
 
 	}
+
 }

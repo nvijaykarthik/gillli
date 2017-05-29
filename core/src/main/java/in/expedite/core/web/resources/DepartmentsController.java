@@ -1,9 +1,10 @@
 package in.expedite.core.web.resources;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -52,4 +53,10 @@ public class DepartmentsController {
 	public Department getDeptById(@RequestParam Long deptId){
     	return departmentService.getDeptById(deptId);
 	}
+	
+	@RequestMapping(path="/deptByManager",method=RequestMethod.GET,produces="application/json")
+	public List<Department> getDeptByManager(@RequestAttribute(required=false,name="username") String username){
+    	return departmentService.getDeptByManager(username);
+	}
+	
 }
