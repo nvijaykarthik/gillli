@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import in.expedite.core.service.ProjectService;
+import in.expedite.core.service.TeamServices;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -15,9 +16,12 @@ public class CommonServiceTest {
 	@Autowired
 	private ProjectService projService;
 	
+	@Autowired
+	TeamServices teamService;
+	
 	@Test
-	public void testSearchProject() {
-		System.out.println(projService.searchProject("1000"));
+	public void test() {
+		teamService.getTeamsForMembers("vkarthik");
 	}
 
 }

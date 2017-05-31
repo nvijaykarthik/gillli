@@ -54,9 +54,6 @@ public class DepartmentsController {
     	return departmentService.getDeptById(deptId);
 	}
 	
-	@RequestMapping(path="/deptByManager",method=RequestMethod.GET,produces="application/json")
-	public List<Department> getDeptByManager(@RequestAttribute(required=false,name="username") String username){
-    	return departmentService.getDeptByManager(username);
-	}
+	
 	
 }

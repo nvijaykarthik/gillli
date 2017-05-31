@@ -1,11 +1,14 @@
 package in.expedite.core.service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import in.expedite.core.entity.Department;
 import in.expedite.core.entity.Team;
 import in.expedite.core.entity.TeamMember;
 import in.expedite.core.repository.TeamMemberRepository;
@@ -17,6 +20,8 @@ public class TeamServices {
 	@Autowired
 	private TeamRepository teamRepository;
 	
+	@Autowired
+	private DepartmentsService departmentService;
 	
 	@Autowired
 	private TeamMemberRepository teamMemberRepository;
@@ -50,5 +55,24 @@ public class TeamServices {
 
 	public void deleteMembersFromTeam(String userId,Long teamId) {
 		teamMemberRepository.deleteByUserIdAndTeamId(userId,teamId);
+	}
+	
+	public List<Team> getTeamsForMembers(String userId){
+		List<Team> teams=Collections.emptyList();
+		List<Department> deptLst= departmentService.getDeptByManager(userId);
+		teams=teamRepository.findByMember(userId);
+		if(deptLst.isEmpty()){
+			teams=teamRepository.findByMember(userId);
+		
+		}else{
+		
+			List<Long> deptIdLst=new ArrayList<>();	
+			deptLst.forEach( dept->{
+				deptIdLst.add(dept.getId());
+			});
+			teams=teamRepository.findByDepartmentIdIn(deptIdLst);
+		}
+		
+		return teams;
 	}
 }
