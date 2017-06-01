@@ -18,8 +18,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class UserRole {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="userRoleSeq")
-	@SequenceGenerator(name="userRoleSeq",allocationSize=1,initialValue=100)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
 	@Column

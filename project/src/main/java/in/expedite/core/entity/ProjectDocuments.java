@@ -17,8 +17,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class ProjectDocuments {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="projDocSeq")
-	@SequenceGenerator(name="projDocSeq",allocationSize=1,initialValue=100)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
 	@Column

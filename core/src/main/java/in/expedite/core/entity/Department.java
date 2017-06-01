@@ -17,8 +17,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Department {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="deptSeq")
-	@SequenceGenerator(name="deptSeq",allocationSize=1,initialValue=100)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
 	@Column(nullable=false,unique=true)

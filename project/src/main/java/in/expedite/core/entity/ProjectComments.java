@@ -19,8 +19,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class ProjectComments {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="projCmtSeq")
-	@SequenceGenerator(name="projCmtSeq",allocationSize=1,initialValue=100)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
 	@Column

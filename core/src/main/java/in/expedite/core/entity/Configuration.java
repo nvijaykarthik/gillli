@@ -26,7 +26,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
  * DB entity class for configuration key value pair
  */
 @Entity
-@Table(name="CONFIGURATION")
+@Table(name="APP_CONFIGURATION")
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="id")
 public class Configuration {
 	
@@ -63,8 +63,7 @@ public class Configuration {
 	 * @return
 	 */
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="configSeq")
-	@SequenceGenerator(name="configSeq",allocationSize=1,initialValue=100)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="ID")
 	public Integer getId() {
 		return id;
@@ -81,7 +80,7 @@ public class Configuration {
 	 * get key
 	 * @return
 	 */
-	@Column(name="KEY",unique=true,nullable=false)
+	@Column(name="CONFIG_KEY",unique=true,nullable=false)
 	public String getKey() {
 		return key;
 	}

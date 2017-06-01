@@ -17,8 +17,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Team {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="teamSeq")
-	@SequenceGenerator(name="teamSeq",allocationSize=1,initialValue=100)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
 	@Column

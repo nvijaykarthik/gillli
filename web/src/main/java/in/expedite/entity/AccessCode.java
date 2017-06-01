@@ -15,8 +15,7 @@ import org.hibernate.validator.constraints.NotBlank;
 public class AccessCode {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE,generator="accessSeq")
-	@SequenceGenerator(name="accessSeq",allocationSize=1,initialValue=100)
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
 	

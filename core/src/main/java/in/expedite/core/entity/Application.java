@@ -1,4 +1,4 @@
-package in.expedite.entity;
+package in.expedite.core.entity;
 
 import java.util.Date;
 
@@ -10,32 +10,34 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-import javax.validation.constraints.Pattern;
-
-import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-public class Role {
+public class Application {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
 	@Column(nullable=false)
-	@NotBlank(message="Role Code should not be Empty")
-	@Pattern(regexp="^[A-Z0-9_]*$",message="In Valid Role Code")
-	private String roleCode;
-
-	@Column(nullable=false)
-	@NotBlank(message="Role Description should not be Empty")
-	private String roleDescription;
+	private String appName;
 	
 	@Column(nullable=false)
-	private String status=State.ACTIVE.toString();
-
+	private String appReleaseTag;
+	
+	@Column(nullable=false)
+	private String appDescription;
+	
+	@Column(nullable=true)
+	private String appInstallInstruction;
+	
+	@Column(nullable=false)
+	private Long teamId;
+	
+	@Column(nullable=true)
+	private String applicationScore;
+	
 	@Column
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")  
@@ -51,9 +53,6 @@ public class Role {
 	
 	@Column
 	private String modifiedBy;
-	
-	@Transient
-	private boolean active;
 
 	public Long getId() {
 		return id;
@@ -63,42 +62,52 @@ public class Role {
 		this.id = id;
 	}
 
-	public String getRoleCode() {
-		return roleCode;
+	public String getAppName() {
+		return appName;
 	}
 
-	public void setRoleCode(String roleCode) {
-		this.roleCode = roleCode;
+	public void setAppName(String appName) {
+		this.appName = appName;
 	}
 
-	public String getRoleDescription() {
-		return roleDescription;
+	public String getAppReleaseTag() {
+		return appReleaseTag;
 	}
 
-	public void setRoleDescription(String roleDescription) {
-		this.roleDescription = roleDescription;
+	public void setAppReleaseTag(String appReleaseTag) {
+		this.appReleaseTag = appReleaseTag;
 	}
 
-	public String getStatus() {
-		return status;
+	public String getAppDescription() {
+		return appDescription;
 	}
 
-	public void setStatus(String status) {
-		this.status = status;
+	public void setAppDescription(String appDescription) {
+		this.appDescription = appDescription;
 	}
 
-	@Override
-	public String toString() {
-		return "Role [id=" + id + ", roleCode=" + roleCode + ", roleDescription=" + roleDescription + ", status="
-				+ status + "]";
+	public String getAppInstallInstruction() {
+		return appInstallInstruction;
 	}
 
-	public boolean isActive() {
-		return active;
+	public void setAppInstallInstruction(String appInstallInstruction) {
+		this.appInstallInstruction = appInstallInstruction;
 	}
 
-	public void setActive(boolean active) {
-		this.active = active;
+	public Long getTeamId() {
+		return teamId;
+	}
+
+	public void setTeamId(Long teamId) {
+		this.teamId = teamId;
+	}
+
+	public String getApplicationScore() {
+		return applicationScore;
+	}
+
+	public void setApplicationScore(String applicationScore) {
+		this.applicationScore = applicationScore;
 	}
 
 	public Date getCreatedDate() {
@@ -132,6 +141,12 @@ public class Role {
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Application [id=" + id + ", appName=" + appName + ", appReleaseTag=" + appReleaseTag + ", teamId="
+				+ teamId + ", applicationScore=" + applicationScore + ", createdDate=" + createdDate + ", modifiedDate="
+				+ modifiedDate + ", createdBy=" + createdBy + ", modifiedBy=" + modifiedBy + "]";
+	}
 	
 }
