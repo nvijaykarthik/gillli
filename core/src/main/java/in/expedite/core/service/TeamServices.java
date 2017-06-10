@@ -60,12 +60,10 @@ public class TeamServices {
 	public List<Team> getTeamsForMembers(String userId){
 		List<Team> teams=Collections.emptyList();
 		List<Department> deptLst= departmentService.getDeptByManager(userId);
-		teams=teamRepository.findByMember(userId);
+		
 		if(deptLst.isEmpty()){
 			teams=teamRepository.findByMember(userId);
-		
 		}else{
-		
 			List<Long> deptIdLst=new ArrayList<>();	
 			deptLst.forEach( dept->{
 				deptIdLst.add(dept.getId());

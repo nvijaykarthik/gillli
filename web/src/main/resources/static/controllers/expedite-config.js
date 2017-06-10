@@ -43,6 +43,9 @@ app.config(function($routeProvider) {
    .when('/resourcePlanning', {
     templateUrl : 'pages/ResourcePlanningView.html',
   })
+  .when('/application/:teamId', {
+    templateUrl : 'pages/Application.html',
+  })
   .otherwise({redirectTo: '/'});
 });
 
@@ -106,24 +109,13 @@ app.factory('authService',function($http) {
 		        url : namespace+"/resource/users/principal",
 		    });
 		},
-		getDeptListForUser:function(){
-			return $http({
-		        method : "GET",
-		        url : namespace+"/resource/departments/deptByManager",
-		    });
-		},
 		getTeamListForUser:function(){
 			return $http({
 		        method : "GET",
-		        url : namespace+"/resource/departments/deptByManager",
-		    });
-		},
-		getTeamListForDepartment:function(depatId){
-			return $http({
-		        method : "GET",
-		        url : namespace+"/resource/departments/deptByManager",
+		        url : namespace + "/resource/team/myTeams",
 		    });
 		}
+		
 	}	
 });
 

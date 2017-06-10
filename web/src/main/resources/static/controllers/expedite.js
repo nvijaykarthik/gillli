@@ -725,16 +725,7 @@ app.controller('authController',['$scope','$http','$log','authService', function
         console.log($scope.user);
     });
     
-    authService.getDeptListForUser().success(function(data,status){
-    	if(data){
-    		  $scope.myDepartments=data;
-    	}else{
-    		 authService.getTeamListForUser().success(function(data,status){
-    			 
-    		 })
-    	}
-    });
-    
+ 
 }]);
 
 

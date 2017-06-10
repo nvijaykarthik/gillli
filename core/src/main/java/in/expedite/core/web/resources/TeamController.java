@@ -50,4 +50,10 @@ public class TeamController {
 		return new ExJsonResponse(0, "Succesfully Deleted");
 	}
 	
+	@RequestMapping(path="/myTeams",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<Team> myTeams(@RequestAttribute(required=false) String username){
+		return teamServices.getTeamsForMembers(username);
+	}
+	
+	
 }
