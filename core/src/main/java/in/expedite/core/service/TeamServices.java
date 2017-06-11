@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -69,6 +71,7 @@ public class TeamServices {
 				deptIdLst.add(dept.getId());
 			});
 			teams=teamRepository.findByDepartmentIdIn(deptIdLst);
+			teams=Stream.concat(teams.stream(),teamRepository.findByMember(userId).stream()).collect(Collectors.toList());
 		}
 		
 		return teams;

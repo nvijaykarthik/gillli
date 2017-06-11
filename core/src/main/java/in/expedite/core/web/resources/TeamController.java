@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import in.expedite.core.entity.Team;
 import in.expedite.core.entity.TeamMember;
-import in.expedite.core.service.DepartmentsService;
 import in.expedite.core.service.TeamServices;
 import in.expedite.core.utils.ExJsonResponse;
 

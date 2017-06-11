@@ -223,7 +223,7 @@ app
 						$scope.selectedTeamId = teamId;
 						$http({
 							method : 'GET',
-							url : "resource/users/members?teamId=" + teamId
+							url : namespace+"resource/users/members?teamId=" + teamId
 						}).then(function success(resp) {
 							$log.info(resp.data)
 							$scope.memberList = resp.data;
@@ -297,7 +297,7 @@ app
 						$http(
 								{
 									method : "GET",
-									url : "/resource/users/manager?managerId="
+									url : namespace+"/resource/users/manager?managerId="
 											+ managerId
 								})
 								.then(
@@ -318,19 +318,75 @@ app
 
 app.controller('applicationController', function($scope, $http, $log,
 		$httpParamSerializerJQLike, $routeParams,authService) {
-	
+
+	$scope.formData = {};
 	$scope.getApplications = function() {
-		console.log("Application Inside")
+		$http(
+				{
+					method : "GET",
+					url : namespace+"/resource/application?teamId="
+							+ $routeParams.teamId
+				})
+				.then(
+						function success(response) {
+							$scope.applicationList = response.data;
+						},
+						function failure(response) {
+							$log.error(response.status)
+							$scope.showerror = true;
+							$scope.error = response.data.message;
+						});
+	}
+	
+	$scope.edit=function(app){
+		$scope.formData=app;
+	}
+	
+	$scope.reset=function(app){
+		$scope.formData={};
+	}
+	
+	$scope.save = function() {
+		
+		$scope.formData['teamId'] = $routeParams.teamId;
+		
+		$http({
+			method : 'POST',
+			url : namespace+"/resource/application",
+			data : $scope.formData,
+			headers : {
+				'Content-Type' : 'application/json'
+			}
+		}).then(function success(resp) {
+			$log.info(resp.data)
+			$scope.getApplications();
+
+		}, function failure(resp) {
+			$log.error(resp.status)
+			$scope.showerror = true;
+			$scope.error = resp.data.message;
+		});
 	}
 	
 	$scope.getMyTeam = function() {
 		authService.getTeamListForUser().success(function(data, status) {
 			$scope.myteam = data;
+			if ($routeParams.teamId && $routeParams.teamId!=0) {
+				$scope.myteam.forEach(team=>{
+					if(team.id==$routeParams.teamId)
+						{
+							$scope.selectedTeam=team;
+						}
+					});
+			}
+			console.log("Selected Team"+$scope.selectedTeam);
 	    });
 	}
-
-	if ($routeParams.teamId) {
-		$scope.getApplications();
-	}
 	$scope.getMyTeam();
+	
+	if ($routeParams.teamId && $routeParams.teamId!=0) {
+		$scope.getApplications();
+		
+	}
+	
 });

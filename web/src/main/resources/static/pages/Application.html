@@ -10,7 +10,7 @@
 	<div class="row">
 		<!-- Page header, center on small screens -->
 		<h1 class="col-xs-12 col-sm-4 text-center text-left-sm">
-			<i class="fa fa-snowflake-o page-header-icon"></i>&nbsp;&nbsp;Applications for :{{myTeam}}
+			<i class="fa fa-snowflake-o page-header-icon"></i>&nbsp;&nbsp;Applications for :{{selectedTeam.teamName}}
 		</h1>
 		<div class="col-xs-12 col-sm-8"></div>
 	</div>
@@ -22,12 +22,12 @@
 	<div class="topButtons">
 		<div class="btn-group">
 			<button type="button" class="btn btn-warning" data-toggle="modal"
-				data-target="#newApp">Add Application</button>
+				data-target="#newApp" ng-click='reset()'>Add Application</button>
 			<button type="button" class="btn btn-warning" ng-click="getHelp()"
-				data-toggle="modal" data-target="#roleHelp">Help</button>
+				data-toggle="modal" data-target="#appHelp">Help</button>
 			<div class="btn-group pull-right">
 				<button type="button" class="btn dropdown-toggle" data-toggle="dropdown">My Team &nbsp;<i class="fa fa-caret-down"></i></button>
-				<ul class="dropdown-menu">
+				<ul class="dropdown-menu teamMenu">
 					<li ng-repeat="team in myteam"><a href="#/application/{{team.id}}">{{team.teamName}}</a></li>
 				</ul>
 		   </div> 
@@ -62,8 +62,11 @@
 									<span class="fa fa-refresh"></span>&nbsp;
 								</button>
 							</th>
-							<th>Role Code</th>
-							<th>Role Description</th>
+							<th>Application Id</th>
+							<th>Name</th>
+							<th>Release Tag</th>
+							<th>Creator </th>
+							<th>Date</th>
 							<th>Options</th>
 						</tr>
 					</thead>
@@ -71,39 +74,18 @@
 						<input type="text" ng-model="searchKeyword"
 							class="form-control ng-valid ng-dirty input-sm" id="searchTable"
 							placeholder="Search table">
-						<tr ng-repeat="role in roleList | filter: searchKeyword ">
+						<tr ng-repeat="app in applicationList | filter: searchKeyword ">
 							<td>{{$index+1}}</td>
-							<td>{{role.roleCode}}</td>
-							<td>{{role.roleDescription}}</td>
+							<td>{{app.id}}</td>
+							<td>{{app.appName}}</td>
+							<td>{{app.appReleaseTag}}</td>
+							<td>{{app.createdBy}}</td>
+							<td>{{app.createdDate}}</td>
 							<td>
-								<!-- <div class="btn-group">
-									<button type="button" class="btn  btn-info btn-sm"
-										ng-click="toggle(role)">
-										<span class=" fa fa-exchange"></span> {{role.status}}
-									</button>
-
-									<button type="button" class="btn  btn-info btn-sm"
-										ng-click="configAccess(role)" data-toggle="modal"
-										data-target="#roleAccesslist">
-										<span class=" fa fa-cog"></span> Config Access
-									</button>
-								</div> -->
-								
-								<div class="btn-group">
-										<button type="button"
-											class="btn btn-sm btn-info dropdown-toggle"
-											data-toggle="dropdown"><span class="fa fa-bars">&nbsp;</span>
-											Operations&nbsp;<i class="fa fa-caret-down"></i>
-										</button>
-										<ul class="dropdown-menu">
-											<li><a href ng-click="toggle(role)">
-											<span ng-show="role.status=='Active'">De-Activate</span>
-											<span ng-show="role.status!='Active'">Activate</span>
-											</a></li>
-											<li><a href ng-click="configAccess(role)" data-toggle="modal"
-										data-target="#roleAccesslist">Config Access</a></li>
-										</ul>
-									</div>
+								<button type="button" class="btn  btn-primary btn-sm"
+									ng-click="edit(app)" data-toggle="modal" data-target="#newApp">
+									<span class="fa fa-pencil"></span> Edit
+								</button>
 							</td>
 						</tr>
 					</tbody>
@@ -123,32 +105,41 @@
 			<div class="modal-body">
 				<div class="forms">
 					<div class="form-group">
-						<label for="disabledinput" class="control-label">Role</label>
+						<label for="disabledinput" class="control-label">Application Name </label>
 						<div>
-							<input type="text" class="form-control" id="roleCode"
-								placeholder="Role Code" ng-model="formData.roleCode" capitalize>
-							<span class="help-block">In Capital Letters Allowed String
-								(A-Z,0-9,_) </span>
+							<input type="text" class="form-control"
+								ng-model="formData.appName">
 						</div>
 					</div>
 					<div class="form-group">
-						<label for="inputPassword" class="control-label">Description</label>
+						<label for="disabledinput" class="control-label">Release Tag</label>
 						<div>
-							<input type="text" class="form-control" id="description"
-								placeholder="Role Description"
-								ng-model="formData.roleDescription"> <span
-								class="help-block">Some description on Role</span>
+							<input type="text" class="form-control" 
+								ng-model="formData.appReleaseTag">
 						</div>
 					</div>
-
+					<div class="form-group">
+						<label for="disabledinput" class="control-label">Description</label>
+						<div>
+							<input type="text" class="form-control" 
+								ng-model="formData.appDescription">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="disabledinput" class="control-label">Installation Instruction </label>
+						<div>
+							<textarea type="text" class="form-control" 
+								ng-model="formData.appInstallInstruction" rows="5"></textarea>
+						</div>
+					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn  btn-outline"
-					data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
-				<button class="btn  btn-primary" ng-click="add()"
+					data-dismiss="modal"><span class="fa fa-times">&nbsp;</span>Close</button>
+				<button class="btn  btn-primary" ng-click="save()"
 					data-dismiss="modal">
-					<span class=" fa fa-floppy-o">&nbsp</span>Save
+					<span class=" fa fa-floppy-o">&nbsp;</span>Save
 				</button>
 			</div>
 		</div>
@@ -156,7 +147,7 @@
 </div>
 
 
-<div id="roleHelp" class="modal fade " role="dialog">
+<div id="appHelp" class="modal fade " role="dialog">
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header  bg-warning">
@@ -164,7 +155,7 @@
 				<h3 class="modal-title">Role Screen Help</h3>
 			</div>
 			<div class="modal-body">
-				<div id="role_help"></div>
+				<div id="app_help"></div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn  btn-outline"
