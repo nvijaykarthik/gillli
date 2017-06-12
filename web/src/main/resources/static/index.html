@@ -118,7 +118,7 @@ Use search to find needed section.
 							<ul class="dropdown-menu">
 								<li><a href="#/departments">Departments</a></li>
 								<li><a href="#/team">Teams</a></li>
-								<li><a href="#/application/0">Applications</a></li>
+								<li><a href="#/application">Applications</a></li>
 							</ul>
 						</li>
 						<li class="dropdown">
@@ -161,6 +161,17 @@ Use search to find needed section.
 									<input type="text" class="form-control search" placeholder="Search" 
 									 ng-model="query" ng-change=search(query)>
 								</form>
+								<div class="searchResult" ng-show="showSearchFalse">
+									<div class="searchProject">
+											<p ng-show="showMoreThan25">Please refine your search... (more than 25 records found)</p>
+											<p ng-show="showSearchError">Error while retrieving records</p>
+											<ul>
+											  <li class="search-result" ng-repeat="project in searchProjectResult">
+											  	<a href="#/projectView/{{project.id}}" ng-click="closeSearch()">{{project.name}}</a>
+											  </li>
+											</ul>
+									</div>
+								</div>
 							</li>
 
 							<li class="dropdown" ng-controller="authController">
@@ -187,7 +198,7 @@ Use search to find needed section.
 						<p ng-show="showSearchError">Error while retrieving records</p>
 						<ul class="searchList">
 						  <li class="search-result" ng-repeat="project in searchProjectResult">
-						  	<a href="#/projectView/{{project.id}}">{{project.name}}</a>
+						  	<a href="#/projectView/{{project.id}}" ng-click="closeSearch()">{{project.name}}</a>
 						  </li>
 						</ul>
 				</div>

@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-public class Team {
+public class Team implements Comparable<Team>{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -111,6 +111,22 @@ public class Team {
 
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		Team team=(Team) obj;
+		return this.id.equals(team.id);
+	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	@Override
+	public int compareTo(Team o) {
+		return this.id.compareTo(o.id);
 	}
 
 }

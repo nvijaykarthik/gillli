@@ -43,7 +43,7 @@ app.config(function($routeProvider) {
    .when('/resourcePlanning', {
     templateUrl : 'pages/ResourcePlanningView.html',
   })
-  .when('/application/:teamId', {
+  .when('/application', {
     templateUrl : 'pages/Application.html',
   })
   .otherwise({redirectTo: '/'});

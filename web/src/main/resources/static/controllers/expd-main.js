@@ -318,14 +318,14 @@ app
 
 app.controller('applicationController', function($scope, $http, $log,
 		$httpParamSerializerJQLike, $routeParams,authService) {
-
+	
 	$scope.formData = {};
 	$scope.getApplications = function() {
 		$http(
 				{
 					method : "GET",
 					url : namespace+"/resource/application?teamId="
-							+ $routeParams.teamId
+							+ $scope.selectedTeam
 				})
 				.then(
 						function success(response) {
@@ -348,7 +348,7 @@ app.controller('applicationController', function($scope, $http, $log,
 	
 	$scope.save = function() {
 		
-		$scope.formData['teamId'] = $routeParams.teamId;
+		$scope.formData['teamId'] = $scope.selectedTeam;
 		
 		$http({
 			method : 'POST',
@@ -371,22 +371,13 @@ app.controller('applicationController', function($scope, $http, $log,
 	$scope.getMyTeam = function() {
 		authService.getTeamListForUser().success(function(data, status) {
 			$scope.myteam = data;
-			if ($routeParams.teamId && $routeParams.teamId!=0) {
-				$scope.myteam.forEach(team=>{
-					if(team.id==$routeParams.teamId)
-						{
-							$scope.selectedTeam=team;
-						}
-					});
-			}
-			console.log("Selected Team"+$scope.selectedTeam);
 	    });
 	}
 	$scope.getMyTeam();
 	
-	if ($routeParams.teamId && $routeParams.teamId!=0) {
+	$scope.loadTeam=function(){
+		console.log($scope.selectedTeam);
 		$scope.getApplications();
-		
 	}
 	
 });

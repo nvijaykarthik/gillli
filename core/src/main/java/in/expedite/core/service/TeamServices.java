@@ -71,7 +71,10 @@ public class TeamServices {
 				deptIdLst.add(dept.getId());
 			});
 			teams=teamRepository.findByDepartmentIdIn(deptIdLst);
-			teams=Stream.concat(teams.stream(),teamRepository.findByMember(userId).stream()).collect(Collectors.toList());
+			teams=Stream.concat(teams.stream(),teamRepository.findByMember(userId).stream())
+					.distinct()
+					.sorted()
+					.collect(Collectors.toList());
 		}
 		
 		return teams;

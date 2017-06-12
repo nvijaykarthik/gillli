@@ -10,7 +10,12 @@
 	<div class="row">
 		<!-- Page header, center on small screens -->
 		<h1 class="col-xs-12 col-sm-4 text-center text-left-sm">
-			<i class="fa fa-snowflake-o page-header-icon"></i>&nbsp;&nbsp;Applications for :{{selectedTeam.teamName}}
+			<i class="fa fa-snowflake-o page-header-icon"></i>&nbsp;&nbsp;Applications for :
+			<select class="form-control" ng-model="selectedTeam" ng-change="loadTeam()">
+				<option ng-repeat="team in myteam" value="{{team.id}}">
+					{{team.teamName}}
+				</option>
+			</select>
 		</h1>
 		<div class="col-xs-12 col-sm-8"></div>
 	</div>
@@ -25,13 +30,12 @@
 				data-target="#newApp" ng-click='reset()'>Add Application</button>
 			<button type="button" class="btn btn-warning" ng-click="getHelp()"
 				data-toggle="modal" data-target="#appHelp">Help</button>
-			<div class="btn-group pull-right">
+			<!-- <div class="btn-group pull-right">
 				<button type="button" class="btn dropdown-toggle" data-toggle="dropdown">My Team &nbsp;<i class="fa fa-caret-down"></i></button>
 				<ul class="dropdown-menu teamMenu">
 					<li ng-repeat="team in myteam"><a href="#/application/{{team.id}}">{{team.teamName}}</a></li>
 				</ul>
-		   </div> 
-		   <div class="clear-fix"></div>
+		   </div>  -->
 		</div>
 	</div>
 	<div class="alert alert-danger alert-dismissible" role="alert"
