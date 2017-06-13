@@ -207,10 +207,10 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 		
 	}
 	$scope.uploadDoc={};
+	
 	$scope.upload=function(){
-		
+		if(projectfiles){
 		var frmdata = new FormData();
-		console.log(projectfiles)
 		if(projectfiles.length>0){
 			
 			$.each(projectfiles, function(key, value){
@@ -239,7 +239,8 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 			    }
 			});
 			
-		}else if(projectfiles.length===0){
+		  }
+		}else{
 			$scope.uploadDoc['title']=$("#uploadFormData_title").val();
 			$scope.uploadDoc['url']=$("#uploadFormData_url").val();
 			$scope.uploadDoc['projectId']=$("#uploadFormData_projectId").val();
