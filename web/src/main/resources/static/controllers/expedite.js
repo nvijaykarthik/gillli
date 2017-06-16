@@ -735,7 +735,7 @@ app.controller('navSearchController', function($scope,$http,$log) {
 	$scope.showSearch=false;
 	$scope.search=function(query){
 		$scope.showMoreThan25=false;
-		if(query.length>=4){
+		if(query.length>0){
 			$scope.showSearch=true;
 			
 			$http({

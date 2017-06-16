@@ -118,4 +118,15 @@ public class ProjectService {
 		return projectRepository.searchProject(query.toLowerCase());
 	}
 	
+	public List<Project> searchPrograms(String query) {
+		return projectRepository.searchPrograms(query.toLowerCase());
+	}
+	
+	public List<Project> getPrograms() {
+		return projectRepository.findByType("Program");
+	}
+	
+	public List<Project> getProjectByProgram(Long programId){
+		return projectRepository.findByProgramId(programId);
+	}
 }

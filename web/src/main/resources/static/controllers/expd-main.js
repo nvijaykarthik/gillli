@@ -19,12 +19,10 @@ app
 
 					$scope.save = function() {
 						$scope.resetPage();
-						if (typeof $scope.departObj !== 'undefined') {
-							$scope.formData['parentDepartmentId'] = $scope.departObj.originalObject.id;
-						}
-						if (typeof $scope.managerObj !== 'undefined') {
-							$scope.formData['managerId'] = $scope.managerObj.originalObject.userId;
-						}
+						
+						$scope.formData['parentDepartmentId'] = $scope.selectedDept.id;
+						$scope.formData['managerId'] = $scope.selectedManager.userId;
+
 						$http({
 							method : 'POST',
 							url : url,
@@ -170,6 +168,47 @@ app
 							$scope.error = response.data.message;
 						});
 					}
+					
+					$scope.toggleSearchSelect=function(){
+						if($scope.showSearchSelect===false){
+							$scope.showSearchSelect=true;
+						}else{
+							$scope.showSearchSelect=false;
+						}
+							
+					}
+					
+					$scope.selectThisDepartment=function(dept){
+						$scope.selectedDept=dept;
+						$scope.showSearchSelect=false;
+					}
+					
+					
+					$scope.toggleMngrSearchSelect=function(){
+						if($scope.showSearchMngrSelect===false){
+							$scope.showSearchMngrSelect=true;
+						}else{
+							$scope.showSearchMngrSelect=false;
+						}
+							
+					}
+					
+					$scope.selectThisManager=function(mngr){
+						$scope.selectedManager=mngr;
+						$scope.showSearchMngrSelect=false;
+					}
+					
+					$scope.getAllUsers=function(){
+						$http({
+							method : "GET",
+							url : namespace+"/resource/users/all"
+						}).then(function success(response) {
+							$scope.Users = response.data;
+						}, function failure(response) {
+							$log.error(response.status)
+						});
+					}
+					$scope.getAllUsers();
 				});
 
 app
@@ -223,7 +262,7 @@ app
 						$scope.selectedTeamId = teamId;
 						$http({
 							method : 'GET',
-							url : namespace+"resource/users/members?teamId=" + teamId
+							url : namespace+"/resource/users/members?teamId=" + teamId
 						}).then(function success(resp) {
 							$log.info(resp.data)
 							$scope.memberList = resp.data;

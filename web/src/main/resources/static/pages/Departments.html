@@ -74,7 +74,7 @@ var url="/resource/departments";
 							<td><a href data-toggle="modal" data-target="#managerModal" ng-click="viewManager(content.managerId)" ng-show="content.managerId">
 							View Details</a></td>
 							<td>
-							<button type="button" class="btn  btn-info btn-sm " ng-click="edit(content)" data-toggle="modal" data-target="#editDeptModal">
+							<button type="button" class="btn  btn-info btn-sm " ng-click="edit(content)" data-toggle="modal" data-target="#newDeptModal">
 							 <span class=" fa fa-pencil">&nbsp</span>
 								Edit
                              </button>
@@ -106,20 +106,30 @@ var url="/resource/departments";
 			</div>
 			<div class="form-group">
 				<label class="control-label">Parent Department </label>
-				<div>
-					<angucomplete id="Parent_Department" placeholder="Select Department" pause="400"  selectedobject="departObj"
-		              url="/resource/departments/search?s="
-		              titlefield="departmentName"
-		              inputclass="form-control" minlength="3"/>
+				<div ng-init="showSearchSelect=false">
+					<div class="selectedProgram" ng-click="toggleSearchSelect()">{{selectedDept.departmentName}}</div>
+					<div class="searchSelect" ng-show="showSearchSelect">
+					<input type="text" class="form-control searchSelectText" placeholder="Filter" ng-model="SelectSearchTxt"/>
+					<div class="searchSelectResult">
+					<ul>
+						<li ng-click="selectThisDepartment(dept)" ng-repeat="dept in contentList | filter: SelectSearchTxt ">{{dept.departmentName}}</li>
+					</ul>
+					</div>
+					</div>
 				</div>
 			</div>
 			<div class="form-group">
 				<label class="control-label">Manager</label>
-				<div>
-					<angucomplete id="manager" placeholder="Select Manager" pause="400"  selectedobject="managerObj"
-		              url="/resource/users/searchByName?s="
-		              titlefield="firstName,secondName"
-		              inputclass="form-control" minlength="3"/>
+				<div ng-init="showSearchMngrSelect=false">
+					<div class="selectedProgram" ng-click="toggleMngrSearchSelect()">{{selectedManager.firstName}} {{selectedManager.secondName}}</div>
+					<div class="searchSelect" ng-show="showSearchMngrSelect">
+					<input type="text" class="form-control searchSelectText" placeholder="Filter" ng-model="SelectSearchMngrTxt"/>
+					<div class="searchSelectResult">
+					<ul>
+						<li ng-click="selectThisManager(user)" ng-repeat="user in Users | filter: SelectSearchMngrTxt ">{{user.firstName}} {{user.secondName}}</li>
+					</ul>
+					</div>
+					</div>
 				</div>
 			</div>
 		</form>

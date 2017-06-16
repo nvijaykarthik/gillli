@@ -24,7 +24,6 @@ public class Project {
 	private String name;
 	
 	
-	
 	@Column
 	private String summary;
 	
@@ -65,6 +64,9 @@ public class Project {
 	
 	@Column
 	private String modifiedBy;
+		
+	@Column
+	private Long programId;
 	
 	public Long getId() {
 		return id;
@@ -178,6 +180,14 @@ public class Project {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public Long getProgramId() {
+		return programId;
+	}
+
+	public void setProgramId(Long programId) {
+		this.programId = programId;
 	}
 
 

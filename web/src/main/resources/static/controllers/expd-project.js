@@ -24,8 +24,20 @@ app.controller('projectController', function($scope,$http,$log,$httpParamSeriali
 app.controller('projectViewController', function($scope,$http,$log,$httpParamSerializerJQLike,$routeParams,$location) {
 
 	$scope.projectNotFound=false;
-	
+	$scope.showProjectlist=false;
 	$scope.projectInfoData={};
+	
+	$scope.getProgram=function(programId){
+		if(programId){
+		$http({
+	        method : "GET",
+	        url : namespace+'/resource/project?id='+programId
+	    }).then(function success(response) {
+	    	$scope.selectedProgram=response.data;
+	    });
+		}
+	}
+	
 	$scope.loadProj=function(projectId){
 	$http({
         method : "GET",
@@ -34,6 +46,7 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
     	
          $scope.project = response.data;
          $scope.projectNotFound=false;
+         $scope.getProgram($scope.project.programId);
          if($scope.project.description){
          $http({
  	        method : "POST",
@@ -51,6 +64,19 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
  	    });
         }
          
+         //get program list
+         if($scope.project.type=='Program'){
+        	 $scope.showProjectlist=true;
+        	 $http({
+        	     method : "GET",
+        	     url : namespace+'/resource/project/projectsForProgram/?programId='+$scope.project.id
+        	  }).then(function success(response) {
+        	     $scope.projectsForProgramList=response.data;
+        	 });
+         }else{
+        	 $scope.showProjectlist=false;
+         }
+         
     }, function failure(response) {
         $log.error(response.status);
          $log.error(response.data);
@@ -60,6 +86,7 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 	
 	$scope.loadProj($routeParams.projectId);
 
+	
 	
 	$scope.getHelp=function(){
 	$http({
@@ -97,11 +124,23 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
     });
 	
 	
+	$http({
+        method : "GET",
+        url : namespace+'/resource/project/programs'
+    }).then(function success(response) {
+         $scope.programList = response.data;
+    }, function failure(response) {
+        $log.error(response.status)
+         $scope.showerror=true;
+         $scope.error=response.data.message;
+    });
+	
 	$scope.populateInfo=function(projectInfo){
 		$scope.projectInfoData=projectInfo;
 	}
 	
 	$scope.saveProjectInfo=function(project){
+		project['programId']=$scope.selectedProgram.id;
 		$http({
             method  : 'POST',
             url     : namespace+'/resource/project/updateProject',
@@ -283,4 +322,17 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 	
 	$scope.getDocForProj($routeParams.projectId);
 	
+	$scope.selectThisProgram=function(selProgram){
+		$scope.selectedProgram=selProgram;
+		$scope.showSearchSelect=false;
+	}
+	
+	$scope.toggleSearchSelect=function(){
+		if($scope.showSearchSelect===false){
+			$scope.showSearchSelect=true;
+		}else{
+			$scope.showSearchSelect=false;
+		}
+			
+	}
 });

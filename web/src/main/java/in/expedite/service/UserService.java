@@ -201,4 +201,8 @@ public class UserService {
 		return userRepository.getMembersForTeam(teamId);
 	}
 
+	public Iterable<User> getAllUsers() {
+		return userRepository.findAll();
+	}
+
 }

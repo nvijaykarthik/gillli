@@ -36,7 +36,10 @@ public class UserController {
 	}
 	
 	
-	
+	@RequestMapping(method=RequestMethod.GET,produces="application/json",path="/all")
+	public Iterable<User> getUsers(){
+		return userService.getAllUsers();
+	}
 	
 	
 	@RequestMapping(method=RequestMethod.GET,produces="application/json",path="/searchByName")

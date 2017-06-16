@@ -84,4 +84,15 @@ public class ProjectController {
 	public List<Project> searchProject(@RequestParam String query){
 		return projectService.searchProject(query);
 	}
+	
+	@RequestMapping(path="/programs",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<Project> getPrograms(){
+		return projectService.getPrograms();
+	}
+	
+	@RequestMapping(path="/projectsForProgram",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<Project> getProjectsForProgram(@RequestParam Long programId){
+		return projectService.getProjectByProgram(programId);
+	}
+
 }

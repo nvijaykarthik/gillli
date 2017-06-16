@@ -38,7 +38,7 @@
 	<div class="col-md-4">
 		
 		<fieldset class="form-group"><legend>Attachments 
-		<button class="btn btn-sm btn-success pull-right"  data-toggle="modal"
+		<button class="btn btn-sm btn-primary pull-right"  data-toggle="modal"
 								data-target="#projFileUpload" >
 					<span class="glyphicon glyphicon-paperclip"></span>
 				</button>
@@ -48,8 +48,8 @@
 			<div style="padding: 4px; border: 0px; height: 250px; overflow-y: auto">
 				<p ng-show=noDocs>No Document to List</p>
 				<ol>
-				 <li ng-repeat="docs in documentsList"> <a href="{{docs.url}}" >
-				    <strong class="list-group-item-heading">{{docs.title}}</strong>
+				 <li ng-repeat="docs in documentsList"> <a class="fileList" href="{{docs.url}}" >
+				    {{docs.title}}
 				    <p class="list-group-item-text" style="font-size:11px;">
 				    By : {{docs.createdBy}} , On {{docs.createdDate}} 
 				    </p>
@@ -60,9 +60,9 @@
 			</div>
 		</fieldset>	
 
-	<fieldset class="form-group"><legend>References (Epics/program/Related Projects ) 
-		<button class="btn btn-sm btn-success pull-right"  data-toggle="modal"
-								data-target="#projFileUpload" >
+	<fieldset class="form-group"><legend>References 
+				<button class="btn btn-sm btn-primary pull-right"  data-toggle="modal"
+								data-target="#projReferenceConfig" >
 					<span class="fa fa-free-code-camp"></span>
 				</button>
 				<div class="clearfix"></div>
@@ -70,11 +70,11 @@
 		
 			<div style="padding: 4px; border: 0px; height: 250px; overflow-y: auto">
 				<ol>
-				 <li ng-repeat="docs in documentsList"> 
-				  <a href="{{docs.url}}" >
-				    <strong class="list-group-item-heading">{{docs.title}}</strong>
+				 <li ng-repeat="docs in relatedProjects"> 
+				  <a href="{{docs.url}}"  class="fileList" >
+				    {{docs.title}}
 				    <p class="list-group-item-text" style="font-size:11px;">
-				    By : {{docs.createdBy}} , On {{docs.createdDate}} 
+				    	By : {{docs.createdBy}} , On {{docs.createdDate}} 
 				    </p>
 				  </a>
 				</li>
@@ -87,7 +87,7 @@
 	<div class="col-md-8">
 
 				<fieldset class="form-group">
-					<legend>Project Information</legend>
+					<legend>Project Information : {{project.name}}</legend>
 					<button class="pull-right btn btn-sm btn-info formEdit"
 						data-toggle="modal" data-target="#projectInfo"
 						ng-click="populateInfo(project)">
@@ -95,24 +95,26 @@
 					</button>
 					<table class="project-display-table">
 						<tr>
-							<th>Id:</th>
+							<th>Id : </th>
 							<td>{{project.id}}</td>
-							<th>Type:</th>
+							<th>Type : </th>
 							<td>{{project.type}}</td>
 						</tr>
 						<tr>
-							<th>Status:</th>
+							<th>Status : </th>
 							<td>{{project.status}}</td>
-							<th>Created Date:</th>
+							<th>Created Date : </th>
 							<td>{{project.createdDate}}</td>
 						</tr>
 						<tr>
-							<th>Target Live Date:</th>
+							<th>Target Live Date : </th>
 							<td>{{project.targetDate}}</td>
-
+							<th>Program(epic) : </th>
+							<td><span class="label label-success">{{selectedProgram.name}}</span></td>
 						</tr>
+						
 						<tr>
-							<th colspan="4">Summary:</th>
+							<th colspan="4">Summary : </th>
 						</tr>
 						<tr>
 							<td colspan="4">{{project.summary}}</td>
@@ -120,6 +122,20 @@
 					</table>
 				</fieldset>
 
+				<fieldset class="form-group" ng-show="showProjectlist">
+				<legend>Projects Under this Program</legend>
+			  	<table class="table table-condensed">
+			  	<tr ng-repeat="project in projectsForProgramList">
+			  	  <td>{{project.id}}</td>
+			  	  <td><div style="width:700px;overflow:hidden;white-space: nowrap;">
+			  	  	<a href="#/projectView/{{project.id}}">{{project.summary}}
+			  	  	</a>
+			  	  	</div></td>
+			  	  <td><span class="label label-info">{{project.status}}</span></td>
+			  	</tr>
+			  	</table>
+				</fieldset>
+					
 				<fieldset class="form-group">
 					<legend>Description</legend>
 
@@ -197,6 +213,22 @@
 							</select>
 						</div>
 					</div>
+					
+					<div class="form-group">
+						<label for="disabledinput" class="control-label">Program(epic)</label>
+						<div ng-init="showSearchSelect=false">
+							<div class="selectedProgram" ng-click="toggleSearchSelect()">{{selectedProgram.name}}</div>
+							<div class="searchSelect" ng-show="showSearchSelect">
+							<input type="text" class="form-control searchSelectText" placeholder="Filter" ng-model="programSrchTxt"/>
+							<div class="searchSelectResult">
+							<ul>
+								<li ng-click="selectThisProgram(program)" ng-repeat="program in programList | filter: programSrchTxt ">{{program.name}}</li>
+							</ul>
+							</div>
+							</div>
+						</div>
+					</div>
+					
 					<div class="form-group">
 						<label for="disabledinput" class="control-label">Status</label>
 						<div>

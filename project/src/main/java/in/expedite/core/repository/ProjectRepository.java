@@ -13,4 +13,11 @@ public interface ProjectRepository extends PagingAndSortingRepository<Project,Lo
 
 	@Query("select p from Project p where lower(p.name) like %:query% or p.id like %:query%")
 	public List<Project> searchProject(@Param(value = "query") String query);
+
+	@Query("select p from Project p where p.type='Program' and (lower(p.name) like %:query% or p.id like %:query% )")
+	public List<Project> searchPrograms(@Param(value = "query") String query);
+	
+	List<Project> findByProgramId(Long programId);
+	
+	List<Project> findByType(String type);
 }
