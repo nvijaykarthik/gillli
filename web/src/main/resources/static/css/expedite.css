@@ -154,8 +154,8 @@ td,th{
     overflow: hidden;
     -webkit-overflow-scrolling: touch;
     outline: 0;
-    opacity: 0.6;
-    background:#fff;
+    opacity: 1;
+
 }
 .loading-spiner img{
 	margin:auto;

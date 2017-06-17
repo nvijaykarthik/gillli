@@ -97,20 +97,31 @@ var url="/resource/team";
 			</div>
 			<div class="form-group">
 				<label class="control-label">Department Name</label>
-				<div>
-					<angucomplete id="Parent_Department" placeholder="Select Department" pause="400"  selectedobject="departObj"
-		              url="/resource/departments/search?s="
-		              titlefield="departmentName"
-		              inputclass="form-control" minlength="3"/>
+				<div ng-init="showSearchSelect=false">
+					<div class="selectedProgram" ng-click="toggleSearchSelect()">{{selectedDept.departmentName}}</div>
+					<div class="searchSelect" ng-show="showSearchSelect">
+					<input type="text" class="form-control searchSelectText" placeholder="Filter" ng-model="SelectSearchTxt"/>
+					<div class="searchSelectResult">
+					<ul>
+						<li ng-click="selectThisDepartment(dept)" ng-repeat="dept in contentList | filter: SelectSearchTxt ">{{dept.departmentName}}</li>
+					</ul>
+					</div>
+					</div>
 				</div>
+				
 			</div>
 			<div class="form-group">
 				<label class="control-label">Manager</label>
-				<div>
-					<angucomplete id="manager" placeholder="Select Manager" pause="400"  selectedobject="managerObj"
-		              url="/resource/users/searchByName?s="
-		              titlefield="firstName,secondName"
-		              inputclass="form-control" minlength="3"/>
+				<div ng-init="showSearchMngrSelect=false">
+					<div class="selectedProgram" ng-click="toggleMngrSearchSelect()">{{selectedManager.firstName}} {{selectedManager.secondName}}</div>
+					<div class="searchSelect" ng-show="showSearchMngrSelect">
+					<input type="text" class="form-control searchSelectText" placeholder="Filter" ng-model="SelectSearchMngrTxt"/>
+					<div class="searchSelectResult">
+					<ul>
+						<li ng-click="selectThisManager(user)" ng-repeat="user in Users | filter: SelectSearchMngrTxt ">{{user.firstName}} {{user.secondName}}</li>
+					</ul>
+					</div>
+					</div>
 				</div>
 			</div>
 		</form>
@@ -181,17 +192,24 @@ var url="/resource/team";
 		<div class="modal-body">
 			
 			  <div class="form-group">
-			    <label class="sr-only" for="exampleInputAmount">New Member</label>
-			    <div class="input-group">
-			      <div class="input-group-addon">New Member</div>
-			      <angucomplete id="member" placeholder="Select Member" pause="400"  selectedobject="memberObj"
-		              url="/resource/users/searchByName?s="
-		              titlefield="firstName,secondName"
-		              inputclass="form-control addMemberSrch" minlength="3"/>
-		              <span class="input-group-btn">
-		               <button type="button" class="btn btn-primary" ng-click="saveTeamMember()">Add Member</button>
-		               </span>
-			      </div>
+			      <table style="width:100%;border-collapse:collapse;border:solid 1px #bbb"><tr>
+			      <th style="background:#ccc">New Member</th>
+			      <td style="width:50%">
+			       <div ng-init="showSearchMbrSelect=false">
+					<div class="selectedProgram" ng-click="toggleMbrSearchSelect()">{{selectedMember.firstName}} {{selectedMember.secondName}}</div>
+					<div class="searchSelect" ng-show="showSearchMbrSelect">
+					<input type="text" class="form-control searchSelectText" placeholder="Filter" ng-model="SelectSearchMbrTxt"/>
+					<div class="searchSelectResult">
+					<ul>
+						<li ng-click="selectThisMember(user)" ng-repeat="user in Users | filter: SelectSearchMbrTxt ">{{user.firstName}} {{user.secondName}}</li>
+					</ul>
+					</div>
+					</div>
+				</div>
+				 </td>
+			       <td><button type="button" class="btn btn-primary" ng-click="saveTeamMember()">Add Member</button></td>
+			      </tr>
+			      </table>
 			  </div> 
 			  
 			<hr/>

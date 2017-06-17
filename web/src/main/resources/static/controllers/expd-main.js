@@ -238,8 +238,8 @@ app
 					$scope.saveTeamMember = function() {
 
 						$scope.memberData['teamId'] = $scope.selectedTeamId;
-						$scope.memberData['userId'] = $scope.memberObj.originalObject.userId;
-
+						$scope.memberData['userId'] = $scope.selectedMember.userId;
+						
 						$http({
 							method : 'POST',
 							url : url + "/addMember",
@@ -276,12 +276,9 @@ app
 					$scope.save = function() {
 						$scope.resetPage();
 
-						if (typeof $scope.departObj !== 'undefined') {
-							$scope.formData['departmentId'] = $scope.departObj.originalObject.id;
-						}
-						if (typeof $scope.managerObj !== 'undefined') {
-							$scope.formData['managerId'] = $scope.managerObj.originalObject.userId;
-						}
+						$scope.formData['parentDepartmentId'] = $scope.selectedDept.id;
+						$scope.formData['managerId'] = $scope.selectedManager.userId;
+						
 						$http({
 							method : 'POST',
 							url : url,
@@ -353,6 +350,76 @@ app
 											$scope.error = response.data.message;
 										});
 					}
+					
+					$http({
+						method : "GET",
+						url : namespace+"/resource/departments"
+					}).then(function success(response) {
+						$log.log(response.data.content)
+						$scope.contentList = response.data;
+					}, function failure(response) {
+						$log.error(response.status)
+						$scope.showerror = true;
+						$scope.error = response.data.message;
+					});
+					
+					$scope.toggleSearchSelect=function(){
+						if($scope.showSearchSelect===false){
+							$scope.showSearchSelect=true;
+						}else{
+							$scope.showSearchSelect=false;
+						}
+							
+					}
+					
+					$scope.selectThisDepartment=function(dept){
+						$scope.selectedDept=dept;
+						$scope.showSearchSelect=false;
+					}
+					
+					
+					$scope.toggleMngrSearchSelect=function(){
+						if($scope.showSearchMngrSelect===false){
+							$scope.showSearchMngrSelect=true;
+						}else{
+							$scope.showSearchMngrSelect=false;
+						}
+							
+					}
+					
+					$scope.selectThisManager=function(mngr){
+						$scope.selectedManager=mngr;
+						$scope.showSearchMngrSelect=false;
+					}
+					
+					$scope.getAllUsers=function(){
+						$http({
+							method : "GET",
+							url : namespace+"/resource/users/all"
+						}).then(function success(response) {
+							$scope.Users = response.data;
+						}, function failure(response) {
+							$log.error(response.status)
+						});
+					}
+					$scope.getAllUsers();
+					
+					
+					$scope.toggleMbrSearchSelect=function(){
+						if($scope.showSearchMbrSelect===false){
+							$scope.showSearchMbrSelect=true;
+						}else{
+							$scope.showSearchMbrSelect=false;
+						}
+							
+					}
+					
+					$scope.selectThisMember=function(mbr){
+						$scope.selectedMember=mbr;
+						$scope.showSearchMbrSelect=false;
+					}
+					
+					
 				});
 
 app.controller('applicationController', function($scope, $http, $log,
