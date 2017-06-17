@@ -19,5 +19,5 @@ public interface ProjectRepository extends PagingAndSortingRepository<Project,Lo
 	
 	List<Project> findByProgramId(Long programId);
 	
-	List<Project> findByType(String type);
+	List<Project> findByTypeIgnoreCase(String type);
 }

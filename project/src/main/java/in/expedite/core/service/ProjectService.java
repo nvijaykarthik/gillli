@@ -123,7 +123,7 @@ public class ProjectService {
 	}
 	
 	public List<Project> getPrograms() {
-		return projectRepository.findByType("Program");
+		return projectRepository.findByTypeIgnoreCase("Program");
 	}
 	
 	public List<Project> getProjectByProgram(Long programId){

@@ -140,7 +140,11 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 	}
 	
 	$scope.saveProjectInfo=function(project){
-		project['programId']=$scope.selectedProgram.id;
+
+		if($scope.selectedProgram){
+		  project['programId']=$scope.selectedProgram.id;
+		}
+		
 		$http({
             method  : 'POST',
             url     : namespace+'/resource/project/updateProject',
@@ -148,7 +152,8 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
             headers : {'Content-Type': 'application/json'}
            }).then(
            function success(resp){
-               $log.info(resp.data);
+               console.log(resp.data);
+       			
                $scope.project=project;
                $scope.loadProj(project.id)
             },

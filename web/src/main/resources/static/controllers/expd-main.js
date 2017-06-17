@@ -19,8 +19,9 @@ app
 
 					$scope.save = function() {
 						$scope.resetPage();
-						
+						if($scope.selectedDept)
 						$scope.formData['parentDepartmentId'] = $scope.selectedDept.id;
+						if($scope.selectedManager)
 						$scope.formData['managerId'] = $scope.selectedManager.userId;
 
 						$http({
@@ -238,7 +239,8 @@ app
 					$scope.saveTeamMember = function() {
 
 						$scope.memberData['teamId'] = $scope.selectedTeamId;
-						$scope.memberData['userId'] = $scope.selectedMember.userId;
+						if($scope.selectedMember)
+						 $scope.memberData['userId'] = $scope.selectedMember.userId;
 						
 						$http({
 							method : 'POST',
@@ -275,8 +277,9 @@ app
 
 					$scope.save = function() {
 						$scope.resetPage();
-
+						if($scope.selectedDept)
 						$scope.formData['parentDepartmentId'] = $scope.selectedDept.id;
+						if($scope.selectedManager)
 						$scope.formData['managerId'] = $scope.selectedManager.userId;
 						
 						$http({
