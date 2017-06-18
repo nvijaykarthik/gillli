@@ -48,6 +48,7 @@ dependencies {
 	compile('io.jsonwebtoken:jjwt:0.7.0')
 	compile project(':core')
 	compile project(':project')
+	compile project(':wiki')
 	
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 	 
