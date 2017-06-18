@@ -26,7 +26,7 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 	$scope.projectNotFound=false;
 	$scope.showProjectlist=false;
 	$scope.projectInfoData={};
-	
+	$scope.projref={};
 	$scope.getProgram=function(programId){
 		if(programId){
 		$http({
@@ -340,4 +340,95 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 		}
 			
 	}
+	
+	$scope.getDepsMode=function(){
+		$http({
+	        method : "GET",
+	        url : namespace+'/resource/project/dependencyModes'
+	    }).then(function success(response) {
+	         $scope.depModes = response.data;
+	    }, function failure(response) {
+	        $log.error(response.status)
+	    });
+		
+	}
+	$scope.getDepsMode();
+	
+	$scope.selectThisRefProj=function(input){
+		$scope.selectedRefProject=input;
+		$scope.showSearchRefSelect=false;
+	}
+	
+	$scope.toggleSearchRefSelect=function(){
+		if($scope.showSearchRefSelect===false){
+			$scope.showSearchRefSelect=true;
+		}else{
+			$scope.showSearchRefSelect=false;
+		}
+			
+	}
+	$scope.getAvailProj=function(){
+		$http({
+	        method : "GET",
+	        url : namespace+'/resource/project/availProject'
+	    }).then(function success(response) {
+	         $scope.availProjectList = response.data;
+	    }, function failure(response) {
+	        $log.error(response.status)
+	    });
+		
+	}
+	$scope.getAvailProj();
+	
+	$scope.saveReference=function(){
+	if($scope.selectedRefProject){
+		$scope.projref['referenceId']=	$scope.selectedRefProject.id
+	}else{
+		console.log("Error selecting the reference project")
+		return;
+	}
+	 $scope.projref['projectId']=$routeParams.projectId;
+	 
+	 $http({
+         method  : 'POST',
+         url     : namespace+'/resource/projReference',
+         data    : $scope.projref,
+         headers : {'Content-Type': 'application/json'}
+        }).then(
+        function success(resp){
+            $log.info(resp.data);
+            $scope.getRefProj($routeParams.projectId);
+         },
+        function failure(resp){
+         alert("Error Saving references");
+         $log.error(resp.data);
+        });
+	}
+	
+	$scope.deleteRef=function(id){
+		$http({
+	        method : "DELETE",
+	        url : namespace+'/resource/projReference?id='+id
+	    }).then(function success(response) {
+	        alert("successfully Deleted");
+	        $scope.getRefProj($routeParams.projectId);
+	    }, function failure(response) {
+	        $log.error(response.status)
+	    });
+		
+	}
+	
+	$scope.getRefProj=function(projectId){
+		$http({
+	        method : "GET",
+	        url : namespace+'/resource/project/referenceProjects?projectId='+projectId
+	    }).then(function success(response) {
+	         $scope.referenceProjectList = response.data;
+	    }, function failure(response) {
+	        $log.error(response.status)
+	    });
+		
+	}
+	$scope.getRefProj($routeParams.projectId);
+	
 });

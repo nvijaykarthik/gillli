@@ -20,4 +20,8 @@ public interface ProjectRepository extends PagingAndSortingRepository<Project,Lo
 	List<Project> findByProgramId(Long programId);
 	
 	List<Project> findByTypeIgnoreCase(String type);
+	
+	
+
+	public List<Project> findByStatusNotInIgnoreCase(List<String> statusList);
 }

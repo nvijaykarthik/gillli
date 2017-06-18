@@ -1,3 +1,4 @@
+<main ng-controller="departmentsController">
 <ul class="breadcrumb breadcrumb-page">
 			<div class="breadcrumb-label text-light-gray">You are here: </div>
 			<li><a>Home</a></li>
@@ -7,34 +8,36 @@
 		<div class="page-header">
 			<div class="row">
 				<!-- Page header, center on small screens -->
-				<h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-building page-header-icon"></i>&nbsp;&nbsp;Departments/Groups</h1>
-				<div class="col-xs-12 col-sm-8"></div>
+				<h1 class="col-xs-12 col-sm-2 text-center text-left-sm"><i class="fa fa-building page-header-icon"></i>&nbsp;&nbsp;Departments/Groups</h1>
+				<div class="col-xs-12 col-sm-10">
+				  	
+					<div class="btn-group">
+						<button type="button" class="btn btn-warning"  ng-click="clearData()" 
+							data-toggle="modal" data-target="#newDeptModal">Add Department</button>
+						<button type="button" class="btn btn-warning" ng-click="getHelp()"
+							data-toggle="modal" data-target="#departmentHelp">Help</button>
+						<!-- <button type="button" class="btn">Right</button>
+					<div class="btn-group">
+						<button type="button" class="btn dropdown-toggle" data-toggle="dropdown">Dropdown&nbsp;<i class="fa fa-caret-down"></i></button>
+						<ul class="dropdown-menu">
+							<li><a href="ui-buttons.html#">Dropdown link</a></li>
+							<li><a href="ui-buttons.html#">Dropdown link</a></li>
+						</ul>
+					</div> -->
+					</div>
+					
+				</div>
 			</div>
 		</div> <!-- / .page-header -->
 		
-<main ng-controller="departmentsController">
+
 
 <script>
 var url="/resource/departments";
 </script>
 <div>
 
-<div class="topButtons">
-		<div class="btn-group">
-			<button type="button" class="btn btn-warning"  ng-click="clearData()" 
-				data-toggle="modal" data-target="#newDeptModal">Add Department</button>
-			<button type="button" class="btn btn-warning" ng-click="getHelp()"
-				data-toggle="modal" data-target="#departmentHelp">Help</button>
-			<!-- <button type="button" class="btn">Right</button>
-		<div class="btn-group">
-			<button type="button" class="btn dropdown-toggle" data-toggle="dropdown">Dropdown&nbsp;<i class="fa fa-caret-down"></i></button>
-			<ul class="dropdown-menu">
-				<li><a href="ui-buttons.html#">Dropdown link</a></li>
-				<li><a href="ui-buttons.html#">Dropdown link</a></li>
-			</ul>
-		</div> -->
-		</div>
-	</div>
+
 	
 <div class="alert alert-danger alert-dismissible" role="alert" ng-show="showerror">
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>

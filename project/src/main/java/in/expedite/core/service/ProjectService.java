@@ -1,5 +1,6 @@
 package in.expedite.core.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -9,19 +10,26 @@ import org.commonmark.renderer.html.HtmlRenderer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.w3c.dom.stylesheets.LinkStyle;
 
+import in.expedite.core.entity.DependencyMode;
 import in.expedite.core.entity.Project;
 import in.expedite.core.entity.ProjectComments;
 import in.expedite.core.entity.ProjectDocType;
 import in.expedite.core.entity.ProjectDocuments;
 import in.expedite.core.entity.ProjectStatus;
 import in.expedite.core.entity.ProjectType;
+import in.expedite.core.entity.ReferenceProjects;
+import in.expedite.core.repository.DependencyModeRepo;
 import in.expedite.core.repository.ProjectCommentsRepository;
 import in.expedite.core.repository.ProjectDocTypeRepository;
 import in.expedite.core.repository.ProjectDocumentsRepository;
+import in.expedite.core.repository.ProjectReferenceDao;
 import in.expedite.core.repository.ProjectRepository;
 import in.expedite.core.repository.ProjectStatusRepository;
 import in.expedite.core.repository.ProjectTypeRepository;
+import in.expedite.core.repository.ReferenceProjectRepo;
+import in.expedite.core.utils.ProjectReferenceXref;
 
 @Service
 public class ProjectService {
@@ -43,6 +51,13 @@ public class ProjectService {
 	
 	@Autowired
 	private ProjectCommentsRepository projectCommentsRepo;
+	
+	@Autowired
+	private DependencyModeRepo dependencyModeRepo;
+	
+	
+	@Autowired
+	private ProjectReferenceDao projrefdao;
 	
 	@Value("${expedite.page.size}")
 	private Integer pageSize;
@@ -128,5 +143,22 @@ public class ProjectService {
 	
 	public List<Project> getProjectByProgram(Long programId){
 		return projectRepository.findByProgramId(programId);
+	}
+	
+	public List<DependencyMode> getDependencymodes(){
+		return dependencyModeRepo.findAll();
+	}
+	
+	public List<ProjectReferenceXref> getReferenceProjects(Long projectId){
+		return projrefdao.getProjectReferences(projectId);
+	}
+
+	public List<Project> getAvailProject() {
+		List<String> status=new ArrayList<String>();
+		status.add("Went Live");
+		status.add("Cancelled");
+		status.add("Rejected");
+		status.add("Completed");
+		return  projectRepository.findByStatusNotInIgnoreCase(status);
 	}
 }

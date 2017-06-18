@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.expedite.core.entity.DependencyMode;
 import in.expedite.core.entity.Project;
 import in.expedite.core.entity.ProjectComments;
 import in.expedite.core.entity.ProjectDocType;
@@ -18,6 +19,7 @@ import in.expedite.core.entity.ProjectDocuments;
 import in.expedite.core.entity.ProjectStatus;
 import in.expedite.core.entity.ProjectType;
 import in.expedite.core.service.ProjectService;
+import in.expedite.core.utils.ProjectReferenceXref;
 
 
 @RestController
@@ -94,5 +96,20 @@ public class ProjectController {
 	public List<Project> getProjectsForProgram(@RequestParam Long programId){
 		return projectService.getProjectByProgram(programId);
 	}
-
+	
+	@RequestMapping(path="/dependencyModes",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<DependencyMode> getDependencyMode(){
+		return projectService.getDependencymodes();
+	}
+	
+	@RequestMapping(path="/referenceProjects",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<ProjectReferenceXref> getReferenceProjects(@RequestParam Long projectId){
+		return projectService.getReferenceProjects(projectId);
+	}
+	
+	@RequestMapping(path="/availProject",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<Project> getAvailProject(){
+		return projectService.getAvailProject();
+	}
+	
 }

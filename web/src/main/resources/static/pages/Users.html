@@ -1,3 +1,5 @@
+<main ng-controller="usersController">
+
 <ul class="breadcrumb breadcrumb-page">
 	<div class="breadcrumb-label text-light-gray">You are here:</div>
 	<li><a>Home</a></li>
@@ -7,21 +9,11 @@
 <div class="page-header">
 	<div class="row">
 		<!-- Page header, center on small screens -->
-		<h1 class="col-xs-12 col-sm-4 text-center text-left-sm">
+		<h1 class="col-xs-12 col-sm-2 text-center text-left-sm">
 			<i class="fa fa-users page-header-icon"></i>&nbsp;&nbsp;Users
 		</h1>
-		<div class="col-xs-12 col-sm-8">Add,Edit, Assign Roles and
-			deactivate users</div>
-	</div>
-</div>
-<!-- / .page-header -->
-
-<main ng-controller="usersController"> <script>
-	var url = "/resource/users";
-</script>
-<div>
-	<div class="topButtons">
-		<div class="btn-group">
+		<div class="col-xs-12 col-sm-10">
+			<div class="btn-group">
 			<button type="button" class="btn btn-warning" ng-click="clearData()"
 				data-toggle="modal" data-target="#newUserModal">Add User</button>
 			<button type="button" class="btn btn-warning" data-toggle="modal"
@@ -39,7 +31,14 @@
 			</ul>
 		</div> -->
 		</div>
+		</div>
 	</div>
+</div>
+<!-- / .page-header -->
+
+ <script>
+	var url = "/resource/users";
+</script>
 
 	<div class="alert alert-danger alert-dismissible" role="alert"
 		ng-show="showerror">
