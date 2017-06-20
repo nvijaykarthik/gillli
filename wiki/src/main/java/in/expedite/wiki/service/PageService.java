@@ -1,5 +1,7 @@
 package in.expedite.wiki.service;
 
+import java.util.Date;
+
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
@@ -23,9 +25,13 @@ public class PageService {
 		return html;
 	}
    
-   public Page addPage(Page page){
+   public Page savePage(Page page,String username){
 	   
 	   page.setUrlFriendlyTitle(page.getTitle().replaceAll(" ", "_").toLowerCase());
+	   page.setCreatedBy(username);
+	   page.setModifiedBy(username);
+	   page.setCreatedDate(new Date());
+	   page.setModifiedDate(new Date());
 	   return pageRepo.save(page);
    }
    
@@ -36,4 +42,5 @@ public class PageService {
    public Page getPage(String title){
 	   return pageRepo.findByUrlFriendlyTitle(title.replaceAll(" ", "_").toLowerCase());
    }
+
 }

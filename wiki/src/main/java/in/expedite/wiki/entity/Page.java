@@ -24,7 +24,7 @@ public class Page {
 	@Column
 	private String title;
 	
-	@Column
+	@Column(unique=true)
 	private String urlFriendlyTitle;
 	
 	@Lob

@@ -11,6 +11,7 @@
 
 	<!-- Expedite's stylesheets -->
 	<link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+	
 	<style>
 		.thisHeader{
 			background:#3471d0;
@@ -43,6 +44,7 @@
 			background:white;
 		}
 	</style>
+	
 </head>
 <body>
 	<#if contextPath??>
@@ -50,19 +52,18 @@
       	 <#else>
       	   <form action="/wiki/search" method="GET">
       	 </#if>
-	 <div class="header clearfix thisHeader">
+<div class="header clearfix thisHeader">
       <!-- <nav>
           <ul class="nav nav-pills pull-right">
             <li role="presentation" class="active"><a href="/wiki/edit?title=${page.title}">Edit</a></li>
           </ul>
         </nav> -->
         <span>Wiki</span>
-        
-        	<input type="submit" class="searchBtn btn btn-default btn-sm" value="search"/>
-        	<input type="text" name="searchtext" class="searchBx"/>
-
+        <input type="submit" class="searchBtn btn btn-default btn-sm" value="search"/>
+        <input type="text" class="searchBx"/>
+       
       </div>
-    </form>
+      </form>
 <div class="container">
   
       <div class="row">
@@ -70,22 +71,41 @@
       <h3><u>Menu</u></h3>
       ${sidebar}
       </div>
-      <div class="col-md-10">
+      <div class="col-md-10" >
       
-       <h1>${page.title}</h1>
-       <#if contextPath??>
-      	    <a href="/${contextPath}/wiki/edit?title=${page.title}">Edit</a>
+      
+      	<#if contextPath??>
+      	    <form action="/${contextPath}/wiki/editPage" method="post">
       	 <#else>
-      	   <a href="/wiki/edit?title=${page.title}">Edit</a>
+      	   <form action="/wiki/editPage" method="post">
       	 </#if>
-       
-       <hr/>
-       <div class="wiki">${page.htmlContent}</div>
-    
+    	<div>
+    	<input type="hidden"  name="${_csrf.parameterName}"   value="${_csrf.token}"/>
+    	<input type="hidden" value="${page.id}" name="id"/>
+    	</div>
+    	
+    	<div class="form-group">
+  		  <label for="title">Title</label>
+    	  <input type="text" class="form-control" id="title" placeholder="title" value="${page.title}" name="title" readonly>
+  		</div>
+
+    	<div class="form-group">
+  		  <label for="content">Content</label>
+    	<#if page.content??>
+    		<textarea name="content" class="form-control" id="content" placeholder="content" rows="10">${page.content}</textarea>
+    	<#else>
+    		<textarea name="content" class="form-control" id="content" placeholder="content" rows="10"></textarea>
+    	</#if>
+    	</div>
+
+    	<div>
+    		<input type="submit" class="btn btn-primary" value="save"/>
+    	</div>
+    </form>
+      
       </div>
       </div>
-      <hr/>
-  	<span class="label label-default pull-right">This page is lasted Modified on ${page.modifiedDate}</span>
-  </div>
+
+    </div>
 </body>
 </html>
