@@ -11,7 +11,13 @@
 	<div class="row">
 		<!-- Page header, center on small screens -->
 		<h1 class="col-xs-12 col-sm-4 text-center text-left-sm">Project : {{project.name}}</h1>
-		<div class="col-xs-12 col-sm-8"></div>
+		<div class="col-xs-12 col-sm-8">
+		<div class="btn-group">
+		  <button type="button" class="btn btn-warning"  ng-click="openWiki(project.name)">Wiki</button>
+          <button type="button" class="btn btn-warning" ng-click="getHelp()"
+				data-toggle="modal" data-target="#departmentHelp">Help</button>
+		</div>
+		</div>
 	</div>
 </div>
 <!-- / .page-header --> <script>

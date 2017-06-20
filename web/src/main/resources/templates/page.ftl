@@ -45,7 +45,7 @@
 	</style>
 </head>
 <body>
-	<#if contextPath??>
+	<#if contextPath!="">
       	    <form action="/${contextPath}/wiki/search" method="post">
       	 <#else>
       	   <form action="/wiki/search" method="GET">
@@ -71,9 +71,9 @@
       ${sidebar}
       </div>
       <div class="col-md-10">
-      
+      <#if page??>
        <h1>${page.title}</h1>
-       <#if contextPath??>
+       <#if contextPath!="">
       	    <a href="/${contextPath}/wiki/edit?title=${page.title}">Edit</a>
       	 <#else>
       	   <a href="/wiki/edit?title=${page.title}">Edit</a>
@@ -81,11 +81,11 @@
        
        <hr/>
        <div class="wiki">${page.htmlContent}</div>
-    
+    </#if>
       </div>
       </div>
       <hr/>
-  	<span class="label label-default pull-right">This page is lasted Modified on ${page.modifiedDate}</span>
+  	<span class="label label-default pull-right">This page is lasted Modified on ${page.modifiedDate?datetime}</span>
   </div>
 </body>
 </html>

@@ -47,27 +47,22 @@
 	
 </head>
 <body>
-	<#if contextPath??>
+	<#if contextPath!="">
       	    <form action="/${contextPath}/wiki/search" method="post">
       	 <#else>
       	   <form action="/wiki/search" method="GET">
       	 </#if>
 	<div class="header clearfix thisHeader">
-      <!-- <nav>
-          <ul class="nav nav-pills pull-right">
-            <li role="presentation" class="active"><a href="/wiki/edit?title=${page.title}">Edit</a></li>
-          </ul>
-        </nav> -->
         <span>Wiki</span>
         <input type="submit" class="searchBtn btn btn-default btn-sm" value="search"/>
-        <input type="text" class="searchBx"/>
+        	<input type="text" name="searchtext" class="searchBx"/>
        
       </div>
       </form>
 <div class="container">
   
       <div class="row">
-      <div class="col-md-1" style="min-height:500px;border-right:solid 1px #e5e5e5;">
+      <div class="col-md-2" style="min-height:500px;border-right:solid 1px #e5e5e5;">
       <h3><u>Menu</u></h3>
       ${sidebar}
       </div>
@@ -77,7 +72,7 @@
 		   <li>${title}</li>
 		   </ul>
 		  	Please 
-		  	 <#if contextPath??>
+		  	 <#if contextPath!="">
 		  	<a href="/${contextPath}/wiki/addPage?title=${title}" class="btn btn-success">click here</a> 
 		  	<#else>
       	  	 <a href="/wiki/addPage?title=${title}" class="btn btn-success">click here</a> 
@@ -86,7 +81,7 @@
 	  </div>
       </div>
       <hr/>
-      <span class="label label-default pull-right">This page is lasted Modified on ${page.modifiedDate}</span>
+   
       </div>
       
   

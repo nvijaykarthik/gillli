@@ -47,20 +47,15 @@
 	
 </head>
 <body>
-	<#if contextPath??>
+	<#if contextPath!="">
       	    <form action="/${contextPath}/wiki/search" method="post">
       	 <#else>
       	   <form action="/wiki/search" method="GET">
       	 </#if>
 <div class="header clearfix thisHeader">
-      <!-- <nav>
-          <ul class="nav nav-pills pull-right">
-            <li role="presentation" class="active"><a href="/wiki/edit?title=${page.title}">Edit</a></li>
-          </ul>
-        </nav> -->
         <span>Wiki</span>
         <input type="submit" class="searchBtn btn btn-default btn-sm" value="search"/>
-        <input type="text" class="searchBx"/>
+        	<input type="text" name="searchtext" class="searchBx"/>
        
       </div>
       </form>
@@ -74,7 +69,7 @@
       <div class="col-md-10" >
       
       
-      	<#if contextPath??>
+      	<#if contextPath!="">
       	    <form action="/${contextPath}/wiki/editPage" method="post">
       	 <#else>
       	   <form action="/wiki/editPage" method="post">

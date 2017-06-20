@@ -45,45 +45,45 @@
 	</style>
 </head>
 <body>
-<div class="header clearfix thisHeader">
-      <!-- <nav>
-          <ul class="nav nav-pills pull-right">
-            <li role="presentation" class="active"><a href="/wiki/edit?title=${page.title}">Edit</a></li>
-          </ul>
-        </nav> -->
-        <span>Wiki</span>
-        <#if contextPath??>
+<#if contextPath!="">
       	    <form action="/${contextPath}/wiki/search" method="post">
       	 <#else>
       	   <form action="/wiki/search" method="GET">
       	 </#if>
-        	<input type="submit" class="searchBtn btn btn-default btn-sm" value="search"/>
-        	<input type="text" name="searchtext" class="searchBx"/>
-       </form>
+	 <div class="header clearfix thisHeader">
+        <span>Wiki</span>
+       	<input type="submit" class="searchBtn btn btn-default btn-sm" value="search"/>
+       	<input type="text" name="searchtext" class="searchBx"/>
+
       </div>
+    </form>
 <div class="container">
   
       <div class="row">
-      <div class="col-md-2" style="min-height:500px;border-right:solid 1px #e5e5e5;background:#f2f2f2;">
+      <div class="col-md-2" style="min-height:500px;border-right:solid 1px #e5e5e5">
       <h3><u>Menu</u></h3>
       ${sidebar}
       </div>
       <div class="col-md-10">
+      <#if page??>
       
-       <h1>${page.title}</h1>
-       <#if contextPath??>
-      	    <a href="/${contextPath}/wiki/edit?title=${page.title}">Edit</a>
+		<h1>Available Pages</h1>
+		<ol>  
+       <#list page as pg>
+       	<li>
+       	 <#if contextPath!="">
+      	    <a href="/${contextPath}/wiki/view/${pg.urlFriendlyTitle}">${pg.title}</a>
       	 <#else>
-      	   <a href="/wiki/edit?title=${page.title}">Edit</a>
-      	 </#if>
+      	   <a href="/wiki/view/${pg.urlFriendlyTitle}">${pg.title}</a>
+      	 </#if>       	
+       	</li>
+       	</#list>
+       </ol>
        
-       <hr/>
-       <div class="wiki">${page.htmlContent}</div>
-    
+    </#if>
       </div>
       </div>
       <hr/>
-  	<span class="label label-default pull-right">This page is lasted Modified on ${page.modifiedDate}</span>
   </div>
 </body>
 </html>

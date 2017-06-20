@@ -431,4 +431,24 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 	}
 	$scope.getRefProj($routeParams.projectId);
 	
+	$scope.openWiki=function(name){
+		$http({
+	        method : "GET",
+	        url : namespace+'/resource/config/perConfig?key=WIKI_DOMAIN'
+	    }).then(function success(response) {
+	         $scope.wiki = response.data.value;
+	         if($scope.wiki){
+	        	 
+	         }else{
+	        	 $scope.wiki="http://localhost:8080/wiki/view/"
+	         }
+	         
+	         $scope.wiki=$scope.wiki+name;
+	         
+	         window.open($scope.wiki);
+	         
+	    }, function failure(response) {
+	        $log.error(response.status)
+	    });
+	}
 });

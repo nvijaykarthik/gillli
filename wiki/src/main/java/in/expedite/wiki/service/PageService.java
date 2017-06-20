@@ -1,6 +1,7 @@
 package in.expedite.wiki.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
@@ -43,4 +44,7 @@ public class PageService {
 	   return pageRepo.findByUrlFriendlyTitle(title.replaceAll(" ", "_").toLowerCase());
    }
 
+   public List<Page> searchPage(String title){
+	   return pageRepo.findByTitleLikeIgnoreCase(title);
+   }
 }
