@@ -22,9 +22,10 @@ app.controller('resourcePlanningController', function($scope,$http,$log,$httpPar
 		
 	$scope.range = [];
 
+	$scope.getData=function(teamId,pgNo){
 	$http({
         method : "GET",
-        url : namespace+'/resource-plan.json'
+        url : namespace+'/resource/resourcePlan?teamId='+teamId+'&pgNo='+pgNo
     }).then(function success(response) {
         $scope.data=response.data;
  
@@ -42,6 +43,9 @@ app.controller('resourcePlanningController', function($scope,$http,$log,$httpPar
     }, function failure(response) {
         $log.error(response.status) 
     });
+	}
+	
+	$scope.getData(1,0);
 	
 	$scope.rowClass=function(rd,index,color){	
 		var start=Math.round((new Date(rd.startDate)- new Date($scope.data.currentDate))/(1000*60*60*24));
@@ -70,7 +74,7 @@ app.controller('resourcePlanningController', function($scope,$http,$log,$httpPar
     
 	$scope.resMouseEnter=function(displayData,e){
 		
-	    $("body").append("<p id='screenshot'><b>Resource: </b>"+displayData.resourceName+"<br/><b>Project: </b>"+displayData.projectName+"<br/><b>Phase: </b>"+displayData.phase+"<br/><b>StartDate: </b>"+displayData.startDate+"<br/><b>EndDate: </b>"+displayData.endDate+"<br/><b>Effort Total: </b>"+displayData.totalEffort+"<br/><b>Eff Per Day: </b>"+displayData.efforPerDay+"</p>");                                 
+	    $("body").append("<p id='screenshot'><b>Resource: </b>"+displayData.resourceName+"<br/><b>Project: </b>"+displayData.projectName+"<br/><b>Phase: </b>"+displayData.phase+"<br/><b>StartDate: </b>"+displayData.startDate+"<br/><b>EndDate: </b>"+displayData.endDate+"<br/><b>Effort Total: </b>"+displayData.totalEffort+"<br/><b>Eff Per Day: </b>"+displayData.efforPerDay+"<br/><b>Comments: </b>"+displayData.comments+"</p>");                                 
 	    
 	    $("#screenshot")
 	           .css("top",(e.pageY - $scope.xOffset) + "px")
