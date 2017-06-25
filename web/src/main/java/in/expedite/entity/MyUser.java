@@ -1,11 +1,13 @@
 package in.expedite.entity;
 
+import java.io.Serializable;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 
-public class MyUser extends User {
+public class MyUser extends User implements Serializable{
+
 
 		private static final long serialVersionUID = -3531439484732724601L;
 
