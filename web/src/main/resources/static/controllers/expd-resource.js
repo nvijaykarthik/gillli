@@ -1,4 +1,4 @@
-app.controller('resourcePlanningController', function($scope,$http,$log,$httpParamSerializerJQLike,$routeParams,$location) {
+app.controller('resourcePlanningController', function($scope,$http,$log,$httpParamSerializerJQLike,$routeParams,$location,authService) {
 
 	$scope.monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
 		  "Jly", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -45,7 +45,6 @@ app.controller('resourcePlanningController', function($scope,$http,$log,$httpPar
     });
 	}
 	
-	$scope.getData(1,0);
 	
 	$scope.rowClass=function(rd,index,color){	
 		var start=Math.round((new Date(rd.startDate)- new Date($scope.data.currentDate))/(1000*60*60*24));
@@ -74,7 +73,11 @@ app.controller('resourcePlanningController', function($scope,$http,$log,$httpPar
     
 	$scope.resMouseEnter=function(displayData,e){
 		
-	    $("body").append("<p id='screenshot'><b>Resource: </b>"+displayData.resourceName+"<br/><b>Project: </b>"+displayData.projectName+"<br/><b>Phase: </b>"+displayData.phase+"<br/><b>StartDate: </b>"+displayData.startDate+"<br/><b>EndDate: </b>"+displayData.endDate+"<br/><b>Effort Total: </b>"+displayData.totalEffort+"<br/><b>Eff Per Day: </b>"+displayData.efforPerDay+"<br/><b>Comments: </b>"+displayData.comments+"</p>");                                 
+	    $("body").append("<p id='screenshot'><b>Resource: </b>"+displayData.resourceName+"<br/><b>Project: </b>"+
+	    		displayData.projectName+"<br/><b>Phase: </b>"+displayData.phase+"<br/><b>StartDate: </b>"+
+	    		displayData.startDate+"<br/><b>EndDate: </b>"+displayData.endDate+"<br/><b>Effort Total: </b>"+
+	    		displayData.totalEffort+"<br/><b>Eff Per Day: </b>"+displayData.effortPerDay+"<br/><b>Comments: </b>"+
+	    		displayData.comments+"</p>");                                 
 	    
 	    $("#screenshot")
 	           .css("top",(e.pageY - $scope.xOffset) + "px")
@@ -106,5 +109,18 @@ app.controller('resourcePlanningController', function($scope,$http,$log,$httpPar
            .css("z-index","1050");
    }    
 	
+   
+   $scope.getMyTeam = function() {
+		authService.getTeamListForUser().success(function(data, status) {
+			$scope.myteam = data;
+	    });
+	}
+	$scope.getMyTeam();
+	
+	$scope.loadTeam=function(){
+		console.log();
+		$scope.getData($scope.selectedTeam,0);
+	}
+   
 });
 
