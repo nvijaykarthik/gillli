@@ -1,5 +1,7 @@
 package in.expedite.project.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,5 +20,17 @@ public class EstimationService {
 	
 	public void deleteEstimates(Long id){
 		estimatesRepository.delete(id);		
+	}
+	
+	public List<Estimates> getEstimatesProjTeam(Long projId,Long teamId){
+		return estimatesRepository.findByProjectIdAndTeamId(projId,teamId);
+	}
+
+	public List<Estimates> getEstimatesProj(Long projId) {
+		return estimatesRepository.findByProjectId(projId);
+	}
+
+	public List<Estimates> getEstimatesTeam(Long teamId) {
+		return estimatesRepository.findByTeamId(teamId);
 	}
 }

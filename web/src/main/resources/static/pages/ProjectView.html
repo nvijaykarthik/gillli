@@ -51,7 +51,7 @@
 				<div class="clearfix"></div>
 		</legend>
 		
-			<div style="padding: 4px; border: 0px; height: 250px; overflow-y: auto">
+			<div style="padding: 4px; border: 0px; height: 200px; overflow-y: auto">
 				<p ng-show=noDocs>No Document to List</p>
 				<ol>
 				 <li ng-repeat="docs in documentsList"> <a class="fileList" href="{{docs.url}}" >
@@ -74,7 +74,7 @@
 				<div class="clearfix"></div>
 		</legend>
 		
-			<div style="padding: 4px; border: 0px; height: 250px; overflow-y: auto">
+			<div style="padding: 4px; border: 0px; height: 200px; overflow-y: auto">
 			<table class="table table-condensed">
 			<tr ng-repeat="refProj in referenceProjectList" >
 				<td>{{refProj.depMode}}</td>
@@ -87,6 +87,26 @@
 			</div>
 		</fieldset>	
 		
+	<fieldset class="form-group"><legend>Estimates 
+				<button class="btn btn-sm btn-primary pull-right"  data-toggle="modal"
+								data-target="#estimationModal" >
+					<span class="fa fa-usd"></span>
+				</button>
+				<div class="clearfix"></div>
+		</legend>
+		
+			<div style="padding: 4px; border: 0px; height: 200px; overflow-y: auto">
+			<table class="table table-condensed">
+			<tr ng-repeat="refProj in referenceProjectList" >
+				<td>{{refProj.depMode}}</td>
+				<td>{{refProj.projectName}}</td>
+				<td><span class="label label-success">{{refProj.status}}</span></td>
+				<td><button class="btn btn-sm" ng-click="deleteRef(refProj.id)"><span class="fa fa-trash"></span></button></td>
+			</tr>
+			</table>
+			
+			</div>
+		</fieldset>		
 		
 	</div>
 	<div class="col-md-8">
