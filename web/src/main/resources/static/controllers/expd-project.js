@@ -451,4 +451,18 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 	        $log.error(response.status)
 	    });
 	}
+	
+	$scope.getEstimates=function(projId){
+		$http({
+	        method : "GET",
+	        url : namespace+"/resource/estimates/project/consolidated?projId="+projId
+	    }).then(function success(response) {
+	    	$scope.estimationList = response.data;
+	    }, function failure(response) {
+	        $log.error(response.status)
+	    });
+	}
+	
+	$scope.getEstimates($routeParams.projectId);
+	
 });

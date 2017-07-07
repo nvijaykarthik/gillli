@@ -1,6 +1,7 @@
 package in.expedite.project.resources;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -36,5 +37,9 @@ public class EstimationController {
 		return estimationService.getEstimatesTeam(teamId);
 	}
 	
+	@RequestMapping(path="/project/consolidated", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public Map<Long, Integer> getEstimatesConsProj(@RequestParam Long projId){
+		return estimationService.getConsEstimatesProj(projId);
+	}
 	
 }

@@ -1,6 +1,8 @@
 package in.expedite.project.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,26 @@ public class EstimationService {
 		return estimatesRepository.findByProjectId(projId);
 	}
 
+	
+	public Map<Long, Integer> getConsEstimatesProj(Long projId) {
+		List<Estimates> esti=estimatesRepository.findByProjectId(projId);
+		Map<Long,Integer> consolidated=new HashMap<>();
+			esti.forEach(estimate->{
+				Long team_id= estimate.getTeamId();
+				Integer estimatedValue=estimate.getEstimate();
+				Integer availEstimate=consolidated.get(team_id);
+				if(null!=availEstimate){
+					availEstimate=availEstimate+estimatedValue;
+					consolidated.put(team_id, availEstimate);
+				}else{
+					consolidated.put(team_id, estimatedValue);
+				}
+				
+			});
+
+		return consolidated;
+	}
+	
 	public List<Estimates> getEstimatesTeam(Long teamId) {
 		return estimatesRepository.findByTeamId(teamId);
 	}
