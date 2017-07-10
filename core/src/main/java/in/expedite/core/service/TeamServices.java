@@ -46,6 +46,9 @@ public class TeamServices {
 		return teamRepository.findAll();
 	}
 	
+	public List<Team> getTeamForId(List<Long> ids){
+		return teamRepository.findAll(ids);
+	}
 	
 	public void addTeamMember(TeamMember teamMember,String username) {
 		teamMember.setCreatedBy(username);
@@ -76,6 +79,10 @@ public class TeamServices {
 					.sorted()
 					.collect(Collectors.toList());
 		}
+		teams=Stream.concat(teams.stream(), teamRepository.findByManagerId(userId).stream())
+				.distinct()
+				.sorted()
+				.collect(Collectors.toList());
 		
 		return teams;
 	}

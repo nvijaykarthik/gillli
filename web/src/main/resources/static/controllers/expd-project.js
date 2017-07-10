@@ -452,12 +452,58 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 	    });
 	}
 	
+	function getTeamForId(id){
+		var tm;
+		angular.forEach($scope.availTeams , function(team) {
+			if(team.id===id){
+				tm=team;
+			}
+		});
+		return tm;
+	}
 	$scope.getEstimates=function(projId){
 		$http({
 	        method : "GET",
 	        url : namespace+"/resource/estimates/project/consolidated?projId="+projId
 	    }).then(function success(response) {
 	    	$scope.estimationList = response.data;
+	    	var teams=[];
+	    	angular.forEach($scope.estimationList , function(estimate) {
+	    			teams.push(estimate.teamId);
+	    		});
+ 		   
+		 		  $http({
+		 	         method  : 'POST',
+		 	         url     : namespace+'/resource/team/forIds',
+		 	         data    : teams,
+		 	         headers : {'Content-Type': 'application/json'}
+		 	        }).then(
+		 	        function success(resp){
+		 	           $scope.availTeams=resp.data;
+		 	           angular.forEach($scope.estimationList , function(estimate) {
+			    			estimate.teamName=getTeamForId(estimate.teamId).teamName;
+			    		});
+		 	          console.log("Estimation "+ $scope.estimationList);
+		 	         },
+		 	        function failure(resp){
+		 	         alert("Error Saving references");
+		 	         console.log(resp.data);
+		 	        });
+	    }, function failure(response) {
+	        $log.error(response.status)
+	    });
+	}
+	
+	
+	
+	
+	$scope.getEstimateDetails=function(projId,teamId){
+		$http({
+	        method : "GET",
+	        url : namespace+"/resource/estimates/?projId="+projId+"teamId="+teamId
+	    }).then(function success(response) {
+	    	$scope.estimations = response.data;
+	    	
 	    }, function failure(response) {
 	        $log.error(response.status)
 	    });

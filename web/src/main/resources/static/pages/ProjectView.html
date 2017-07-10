@@ -97,11 +97,16 @@
 		
 			<div style="padding: 4px; border: 0px; height: 200px; overflow-y: auto">
 			<table class="table table-condensed">
-			<tr ng-repeat="refProj in referenceProjectList" >
-				<td>{{refProj.depMode}}</td>
-				<td>{{refProj.projectName}}</td>
-				<td><span class="label label-success">{{refProj.status}}</span></td>
-				<td><button class="btn btn-sm" ng-click="deleteRef(refProj.id)"><span class="fa fa-trash"></span></button></td>
+			<tr>
+			<th>Team</th>
+			<th>Estimate</th>
+			<th>Option</th>
+			</tr>
+			<tr ng-repeat="esti in estimationList" >
+				<td>{{esti.teamName}}</td>
+				<td>{{esti.estimate}}</td>
+				<td><button class="btn btn-success btn-sm" ng-click="editEstimate(esti.teamId)">
+				<span class="fa fa-pencil"></span></button></td>
 			</tr>
 			</table>
 			

@@ -36,6 +36,11 @@ public class TeamController {
 		return teamServices.getAllTeam();
 	}
 	
+
+	@RequestMapping(path="/forIds", method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<Team> getTeam(@RequestBody List<Long> ids){
+		return teamServices.getTeamForId(ids);
+	}
 	
 	@RequestMapping(path="/addMember",method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
 	public ExJsonResponse addTeamMember(@RequestBody TeamMember teamMember,@RequestAttribute(required=false) String username){

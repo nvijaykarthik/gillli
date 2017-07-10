@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import in.expedite.project.entity.Estimates;
 import in.expedite.project.entity.ProjectType;
 import in.expedite.project.service.EstimationService;
+import in.expedite.project.utils.ConsolidatedEstimate;
 
 @RestController
 @RequestMapping("/resource/estimates")
@@ -38,7 +39,7 @@ public class EstimationController {
 	}
 	
 	@RequestMapping(path="/project/consolidated", method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
-	public Map<Long, Integer> getEstimatesConsProj(@RequestParam Long projId){
+	public List<ConsolidatedEstimate>  getEstimatesConsProj(@RequestParam Long projId){
 		return estimationService.getConsEstimatesProj(projId);
 	}
 	

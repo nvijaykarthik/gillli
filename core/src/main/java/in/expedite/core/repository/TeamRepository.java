@@ -15,4 +15,5 @@ public interface TeamRepository extends JpaRepository<Team,Long> {
 	@Query("select t from Team t where t.id in(select tm.teamId from TeamMember tm where tm.userId=:userId)")
 	public List<Team> findByMember(@Param(value="userId") String userId);
 	
+	public List<Team> findByManagerId(@Param(value="managerId") String managerId);
 }
