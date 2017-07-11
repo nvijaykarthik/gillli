@@ -501,6 +501,7 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 	    }).then(function success(response) {
 	    	$scope.estimations = response.data;
 	    }, function failure(response) {
+	    	 alert("Error Retrieving Estimate details");
 	        $log.error(response.status)
 	    });
 	}
@@ -546,7 +547,7 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
   	           $scope.getEstimates($routeParams.projectId);
             },
            function failure(resp){
-            alert("Error Creating Project :"+resp.data.message);
+            alert("Error Creating Estimate :"+resp.data.message);
             console.error(resp.data)
            });
 	}
@@ -563,6 +564,7 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 		}).then(function success(response) {
 			$scope.teams = response.data;
 		}, function failure(response) {
+			 alert("Error Retrieving teams");
 			$log.error(response.status)
 		});
 	}
