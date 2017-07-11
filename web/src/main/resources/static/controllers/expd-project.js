@@ -569,8 +569,7 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 		});
 	}
 	$scope.getTeams();
-	
-	
+
 	$scope.toggleSearchSelect=function(){
 		if($scope.showSearchSelect===false){
 			$scope.showSearchSelect=true;
