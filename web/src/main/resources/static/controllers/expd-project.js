@@ -486,7 +486,7 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 		 	          console.log("Estimation "+ $scope.estimationList);
 		 	         },
 		 	        function failure(resp){
-		 	         alert("Error Saving references");
+		 	         alert("Error Retrieving Estimates");
 		 	         console.log(resp.data);
 		 	        });
 	    }, function failure(response) {
@@ -494,21 +494,95 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 	    });
 	}
 	
-	
-	
-	
 	$scope.getEstimateDetails=function(projId,teamId){
 		$http({
 	        method : "GET",
-	        url : namespace+"/resource/estimates/?projId="+projId+"teamId="+teamId
+	        url : namespace+"/resource/estimates/?projId="+projId+"&teamId="+teamId
 	    }).then(function success(response) {
 	    	$scope.estimations = response.data;
-	    	
 	    }, function failure(response) {
 	        $log.error(response.status)
 	    });
 	}
 	
 	$scope.getEstimates($routeParams.projectId);
+	
+	$scope.editEstimate=function(teamId,teamName){
+		$scope.getEstimateDetails($routeParams.projectId,teamId);
+		$scope.estiSelectedTeamId=teamId;
+		$scope.estiSelectedTeamName=teamName;
+	}
+	
+	$scope.deleteEstimate=function(estiId,teamId){
+		$http({
+			 method : "DELETE",
+		     url : namespace+'/resource/estimates?estiId='+estiId
+		}).then(
+			function success(resp){
+ 	          console.log(resp.data.message);
+ 	          $scope.getEstimateDetails($routeParams.projectId,teamId);
+ 	          $scope.getEstimates($routeParams.projectId);
+ 	         },
+ 	        function failure(resp){
+ 	          alert("Error Deleting estimate");
+ 	          console.log(resp.data);
+ 	        });
+	}
+	$scope.estiForm={};
+	
+	$scope.addEstimate=function(){
+		$scope.estiForm['teamId']=$scope.estiSelectedTeamId;
+		$scope.estiForm['projectId']=$routeParams.projectId;
+		console.log($scope.estiForm);
+		$http({
+            method  : 'POST',
+            url     : namespace+'/resource/estimates',
+            data    : $scope.estiForm,
+            headers : {'Content-Type': 'application/json'}
+           }).then(
+           function success(resp){
+               console.log(resp.data)
+               $scope.getEstimateDetails($routeParams.projectId,$scope.estiSelectedTeamId);
+  	           $scope.getEstimates($routeParams.projectId);
+            },
+           function failure(resp){
+            alert("Error Creating Project :"+resp.data.message);
+            console.error(resp.data)
+           });
+	}
+	
+	$scope.newEsti=function(){
+		$scope.selectedTeam={};
+		$scope.estimations={};
+		$scope.estiForm={};
+	}
+	$scope.getTeams=function(){
+		$http({
+			method : "GET",
+			url : namespace+"/resource/team"
+		}).then(function success(response) {
+			$scope.teams = response.data;
+		}, function failure(response) {
+			$log.error(response.status)
+		});
+	}
+	$scope.getTeams();
+	
+	
+	$scope.toggleSearchSelect=function(){
+		if($scope.showSearchSelect===false){
+			$scope.showSearchSelect=true;
+		}else{
+			$scope.showSearchSelect=false;
+		}
+			
+	}
+	
+	$scope.selectThis=function(team){
+		$scope.selectedTeam=team;
+		$scope.showSearchSelect=false;
+		$scope.estiSelectedTeamId=team.id;
+		$scope.estiSelectedTeamName=team.teamName;
+	}
 	
 });

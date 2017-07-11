@@ -60,4 +60,13 @@ public class EstimationService {
 	public List<Estimates> getEstimatesTeam(Long teamId) {
 		return estimatesRepository.findByTeamId(teamId);
 	}
+
+	public void deleteEstimate(Long estiId) {
+		estimatesRepository.delete(estiId);	
+	}
+
+	public Estimates addEstimate(Estimates esti) {
+		esti.setEstimationUnit("Man-Days");
+		return estimatesRepository.save(esti);
+	}
 }
