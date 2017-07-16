@@ -11,9 +11,9 @@
 			<div class="row">
 				<!-- Page header, center on small screens -->
 				<h1 class="col-xs-12 col-sm-2 text-center text-left-sm">
-					<i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;Resource Planning</h1>
+					<i class="fa fa-gg-circle page-header-icon"></i>&nbsp;&nbsp;Resource Planning</h1>
 				<div class="col-xs-12 col-sm-4">
-				<select class="form-control" ng-model="selectedTeam" ng-change="loadTeam()">
+				<select class="form-control" ng-model="selectedTeam" ng-change="getUsersForSelectedTeam();loadTeam()">
 					<option ng-repeat="team in myteam" value="{{team.id}}">
 						{{team.teamName}}
 					</option>
@@ -44,41 +44,65 @@
 			</div>
 				<div class="clearfix"></div>
   </legend>
-<form class="form-inline">
-  <div class="form-group">
-    <input type="text" class="form-control" placeholder="Project" style="width:250px;">
-  </div>
-  <div class="form-group">
- 
-    <input type="text" class="form-control" placeholder="Resource" style="width:250px;">
-  </div>
-  <div class="form-group">
-    <input type="text" class="form-control" placeholder="Phase" style="width:75px;">
-  </div>
-  <div class="form-group">
-    
-    <input type="text" class="form-control" placeholder="StartDate" style="width:100px;">
-  </div>
-  <div class="form-group">
+  <table>
+  	<tr>
+  		<th>Project</th>
+  		<th>Resource</th>
+  		<th>Phase</th>
+  		<th>Start Date to End Date</th>
+  		<th>Effort %</th>
+  		<th>Comment</th>
+  		<th>Save</th>
+  	</tr>
+  	<tr>
+		<td>
 
-    <input type="text" class="form-control"  placeholder="EndDate" style="width:100px;">
-  </div>
-  <div class="form-group">
-    <input type="text" class="form-control"  placeholder="Eff %" style="width:50px;">
-  </div>
-  
-  <div class="form-group">
-    
-    <input type="text" class="form-control"  placeholder="Comment" style="width:300px;">
-  </div>
-  
-  <button type="submit" class="btn btn-primary">Save</button>
-</form>
+			<div ng-init="showSearchSelect=false">
+				<input class="input-sm form-control" ng-click="toggleSearchSelect()" style="width:250px;" ng-model="selectedProject.name"></input>
+				<div class="searchSelect" ng-show="showSearchSelect">
+					<input type="text" class="form-control searchSelectText" placeholder="Filter" ng-model="SrchTxt"/>
+					<div class="searchSelectResult">
+						<ul>
+							<li ng-click="selectThisProject(project)" ng-repeat="project in projectList | filter: SrchTxt ">{{project.name}}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+  		
+  		</td>
+  		<td>
+  		<Select class=" input-sm form-control" style="width:250px" ng-model="resourceForm.resourceId">
+  			<option/>
+  			<option ng-repeat="member in teamMembers" value="{{member.userId}}">
+						{{member.firstName}} {{member.secondName}}
+					</option>
+  		</Select>
+  		</td>
+  		<td><input type="text" class="input-sm  form-control" ng-model="resourceForm.phase" style="width:75px;"></td>
+  		<td>
+  		
+  		<div id="input-daterange" class="input-daterange input-group">
+			<input type="text" class="input-sm form-control" name="start"
+				id="stDateRange" ng-model="resourceForm.startDate"
+				placeholder="start Date" />
+		    <span class="input-group-addon">to</span>
+			<input type="text" class="input-sm form-control" name="end"
+				id="edDateRange" ng-model="resourceForm.endDate"
+				placeholder="end Date" />
+		</div>
+  		</td>
+  		<td><input type="text" class="input-sm form-control" ng-model="resourceForm.effortPercent" maxlength="3" style="width:50px;"></td>
+  		<td><input type="text" class="input-sm form-control" ng-model="resourceForm.comments" style="width:300px;"></td>
+  		<td> <button type="submit" class="btn btn-primary" ng-click="saveResourceData()">
+  		<i class="fa fa-floppy"></i>Allocate</button></td>
+  	</tr>
+  </table>
 </fieldset>
 <hr/>
 <div id="planningView" style="overflow:auto;">
 	<table class="resourceView">
 	<thead>
+	    <th>&nbsp;&nbsp;Operations&nbsp;&nbsp;</th>
 		<th>Resource Name</th>
 		<th>Project Name</th>
 		<th>Phase</th>
@@ -90,6 +114,15 @@
 	</thead>
 		<tr ng-repeat="rd in data.data" ng-init="color=getRandomColor();" ng-mouseenter="resMouseEnter(rd,$event)" ng-mouseleave="resMouseleave()" ng-mousemove="resMousemove($event)">
 
+		  <td>
+		  <button class="btn btn-nano btn-success pull-left" ng-click="editAlloc(rd)">
+		  <i class="fa fa-pencil"></i>
+		  </button>
+		  		
+		  <button class="btn btn-nano btn-danger  pull-left" ng-click="deleteAlloc(rd.id)">
+		  <i class="fa fa-trash"></i>
+		  		</button>
+		  	</td>
 		  <td><div class="tblTxt">{{rd.resourceName}}</div></td>
 		  <td><div class="tblTxt">{{rd.projectName}}</div></td>
 		  <td><div class="tblTxt">{{rd.phase}}</div></td>
@@ -102,6 +135,7 @@
 		 
 		</tr>
 	<tfoot>
+		<th>&nbsp;&nbsp;Operations&nbsp;&nbsp; </th>
 		<th>Resource Name</th>
 		<th>Project Name</th>
 		<th>Phase</th>
@@ -115,3 +149,6 @@
 	</table>
 </div>
 </main>
+<script>
+ $('#input-daterange').datepicker({});
+</script>

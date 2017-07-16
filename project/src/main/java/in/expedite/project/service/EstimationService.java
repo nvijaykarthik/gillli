@@ -65,8 +65,10 @@ public class EstimationService {
 		estimatesRepository.delete(estiId);	
 	}
 
-	public Estimates addEstimate(Estimates esti) {
+	public Estimates addEstimate(Estimates esti, String username) {
 		esti.setEstimationUnit("Man-Days");
+		esti.setCreatedBy(username);
+		esti.setModifiedBy(username);
 		return estimatesRepository.save(esti);
 	}
 }

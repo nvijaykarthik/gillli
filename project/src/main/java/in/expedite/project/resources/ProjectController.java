@@ -112,4 +112,11 @@ public class ProjectController {
 		return projectService.getAvailProject();
 	}
 	
+	@RequestMapping(path="/myProject",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<Project> getMyProject(@RequestParam Long teamId,@RequestParam(required=false) String status){
+		return projectService.getMyProject(teamId,status);
+	}
+	
+	
+	
 }

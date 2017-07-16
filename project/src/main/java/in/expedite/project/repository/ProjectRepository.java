@@ -1,6 +1,7 @@
 package in.expedite.project.repository;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -20,8 +21,8 @@ public interface ProjectRepository extends PagingAndSortingRepository<Project,Lo
 	List<Project> findByProgramId(Long programId);
 	
 	List<Project> findByTypeIgnoreCase(String type);
-	
-	
 
 	public List<Project> findByStatusNotInIgnoreCase(List<String> statusList);
+	
+	public List<Project> findByIdInAndStatusIgnoreCase(Set<Long> id,String status);
 }

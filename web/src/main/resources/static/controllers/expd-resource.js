@@ -1,5 +1,6 @@
 app.controller('resourcePlanningController', function($scope,$http,$log,$httpParamSerializerJQLike,$routeParams,$location,authService) {
 
+	$scope.resourceForm={};
 	$scope.monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
 		  "Jly", "Aug", "Sep", "Oct", "Nov", "Dec"];
 	
@@ -23,9 +24,12 @@ app.controller('resourcePlanningController', function($scope,$http,$log,$httpPar
 	$scope.range = [];
 
 	$scope.getData=function(teamId,pgNo){
+		$scope.data={};
+		$scope.range=[];
 	$http({
         method : "GET",
         url : namespace+'/resource/resourcePlan?teamId='+teamId+'&pgNo='+pgNo
+        //url:'/resource-plan.json'
     }).then(function success(response) {
         $scope.data=response.data;
  
@@ -120,6 +124,95 @@ app.controller('resourcePlanningController', function($scope,$http,$log,$httpPar
 	$scope.loadTeam=function(){
 		console.log();
 		$scope.getData($scope.selectedTeam,0);
+	}
+	
+	$scope.selectThisProject=function(selProj){
+		$scope.selectedProject=selProj;
+		$scope.showSearchSelect=false;
+	}
+	
+	$scope.toggleSearchSelect=function(){
+		if($scope.showSearchSelect===false){
+			$scope.showSearchSelect=true;
+		}else{
+			$scope.showSearchSelect=false;
+		}
+			
+	}
+   $scope.getProjects=function(){
+	   
+	   
+	   $http({
+	        method : "GET",
+	        url : namespace+'/resource/project/availProject'
+	    }).then(function success(response) {
+	    	$scope.projectList=response.data;	    	
+	    }, function failure(response) {
+	        $log.error(response.status) 
+	    });
+   }
+   $scope.getProjects();
+   
+   $scope.getUsersForSelectedTeam=function(){
+	   $http({
+	        method : "GET",
+	        url : namespace+'/resource/users/members?teamId='+$scope.selectedTeam
+	    }).then(function success(response) {
+	    	$scope.teamMembers=response.data;	    	
+	    }, function failure(response) {
+	        $log.error(response.status) 
+	    });
+   }
+   
+   $scope.saveResourceData=function(){
+	   $scope.resourceForm['projectId']=$scope.selectedProject.id;
+	   $scope.resourceForm['teamId']=$scope.selectedTeam;
+
+	   $scope.resourceForm['startDate'] =  $scope.convertDate($scope.resourceForm.startDate);
+	   $scope.resourceForm['endDate'] =  $scope.convertDate($scope.resourceForm.endDate);
+	   
+	   $http({
+           method  : 'POST',
+           url     : namespace+'/resource/resourcePlan',
+           data    : $scope.resourceForm,
+           headers : {'Content-Type': 'application/json'}
+          }).then(
+	          function success(resp){
+	              $scope.loadTeam();
+	           },
+	          function failure(resp){
+	           alert("Error Creating Project :"+resp.data.message);
+	           $log.error(resp.data)
+	          });
+      }
+   
+   $scope.convertDate=function(inputFormat) {
+	   function pad(s) { return (s < 10) ? '0' + s : s; }
+	   var d = new Date(inputFormat);
+	   return [d.getFullYear(), pad(d.getMonth()+1),pad(d.getDate()) ].join('-');
+	 }
+   
+   
+   $scope.deleteAlloc=function(id){   
+	   if (confirm("Do you want to delete ?") == true) {
+		   $http({
+		        method : "DELETE",
+		        url : namespace+'/resource/resourcePlan?planId='+id
+		    }).then(function success(response) {
+		    	$scope.loadTeam();
+		    }, function failure(response) {
+		        $log.error(response.status)
+		    });
+	    } else {
+	        
+	    }	
+	}
+   
+   $scope.editAlloc=function(rd){   
+	   $scope.resourceForm=rd;
+	   $scope.selectedProject={};
+	   $scope.selectedProject.id=rd.projectId;
+	   $scope.selectedProject.name=rd.projectName;
 	}
    
 });

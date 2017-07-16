@@ -38,6 +38,7 @@ public class ResourcePlan implements Serializable{
 	
 	@Column
 	private String phase;
+	
 	@Column
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(pattern="yyyy-MM-dd") 
@@ -49,12 +50,23 @@ public class ResourcePlan implements Serializable{
 	private Date endDate;
 	
 	@Column
-	private Integer totalEffort;
+	private Double totalEffort;
 	
 	@Column
-	private Integer effortPerDay;
+	private Double effortPerDay;
 	
+	@Column
+	private Integer effortPercent;
 	
+	public Integer getEffortPercent() {
+		return effortPercent;
+	}
+
+
+	public void setEffortPercent(Integer effortPercent) {
+		this.effortPercent = effortPercent;
+	}
+
 	@Column
 	@Temporal(TemporalType.TIMESTAMP)
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")  
@@ -148,22 +160,25 @@ public class ResourcePlan implements Serializable{
 	}
 
 
-	public Integer getTotalEffort() {
+
+
+
+	public Double getTotalEffort() {
 		return totalEffort;
 	}
 
 
-	public void setTotalEffort(Integer totalEffort) {
+	public void setTotalEffort(Double totalEffort) {
 		this.totalEffort = totalEffort;
 	}
 
 
-	public Integer getEffortPerDay() {
+	public Double getEffortPerDay() {
 		return effortPerDay;
 	}
 
 
-	public void setEffortPerDay(Integer effortPerDay) {
+	public void setEffortPerDay(Double effortPerDay) {
 		this.effortPerDay = effortPerDay;
 	}
 
@@ -257,8 +272,9 @@ public class ResourcePlan implements Serializable{
 	public String toString() {
 		return "ResourcePlan [id=" + id + ", resourceId=" + resourceId + ", projectId=" + projectId + ", teamId="
 				+ teamId + ", phase=" + phase + ", startDate=" + startDate + ", endDate=" + endDate + ", totalEffort="
-				+ totalEffort + ", effortPerDay=" + effortPerDay + ", createdDate=" + createdDate + ", modifiedDate="
-				+ modifiedDate + ", createdBy=" + createdBy + ", modifiedBy=" + modifiedBy + ", comments=" + comments
-				+ ", projectName=" + projectName + ", resourceName=" + resourceName + "]";
+				+ totalEffort + ", effortPerDay=" + effortPerDay + ", effortPercent=" + effortPercent + ", createdDate="
+				+ createdDate + ", modifiedDate=" + modifiedDate + ", createdBy=" + createdBy + ", modifiedBy="
+				+ modifiedBy + ", comments=" + comments + ", projectName=" + projectName + ", resourceName="
+				+ resourceName + "]";
 	}
 }

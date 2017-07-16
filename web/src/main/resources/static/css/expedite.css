@@ -205,3 +205,14 @@ td,th{
 	padding:5px;
 	border-bottom:solid 1px #5bc0de;	
 }
+
+.form-control-nowidth{
+	
+}
+
+.btn-nano{
+	font-size: 10px;
+    line-height: 11px;
+    padding: 3px 7px;
+}
+

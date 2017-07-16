@@ -70,6 +70,9 @@ app.config(function($routeProvider) {
   .when('/application', {
     templateUrl : 'pages/Application.html',
   })
+   .when('/myProject', {
+    templateUrl : 'pages/MyProjects.html',
+  })
   .otherwise({redirectTo: '/'});
 });
 

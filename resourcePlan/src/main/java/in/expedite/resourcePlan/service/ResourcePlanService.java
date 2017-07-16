@@ -1,12 +1,17 @@
 package in.expedite.resourcePlan.service;
 
+import java.text.DecimalFormat;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -19,6 +24,8 @@ import in.expedite.resourcePlan.utills.ResourcePlanData;
 @Service
 public class ResourcePlanService {
 
+	private final Logger log=LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private ResourcePlanRepo resourcePlanRepo;
 	
@@ -27,6 +34,9 @@ public class ResourcePlanService {
 	
 	@Value("${gilli.cell.count}")
 	private Integer cellSize;
+	
+	@Value("${gilli.working.hours}")
+	private Integer workingHours;
 	
 	public ResourcePlanData getPlannedResource(Long teamId,Integer pgNo){
 		ResourcePlanData rpd = new ResourcePlanData();
@@ -61,6 +71,20 @@ public class ResourcePlanService {
 	public ResourcePlan savePlan(ResourcePlan rp,String username){
 		rp.setModifiedBy(username);
 		rp.setModifiedDate(new Date());
+		rp.setCreatedBy(username);
+		
+		Double effPerDay=(double) (workingHours.doubleValue()*(rp.getEffortPercent().doubleValue()/100));
+		rp.setEffortPerDay(Math.round(effPerDay*100.0)/100.0 );
+
+		Long noOfDays = ChronoUnit.DAYS.between(
+				rp.getStartDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate(),
+				rp.getEndDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+		
+		Double totalEffort=noOfDays.doubleValue()*effPerDay.doubleValue();
+		
+		rp.setTotalEffort(Math.round(totalEffort*100.0)/100.0);
+		
+		log.info("Resource plan Details "+rp);
 		return resourcePlanRepo.save(rp);
 	}
 	

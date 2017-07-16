@@ -34,7 +34,7 @@ public class ResourcePlanDao {
 		List<Object[]> objects =em.createNativeQuery(""
 				+ "SELECT rp.id,rp.resource_Id,rp.project_id,rp.team_id,rp.phase,"
 				+ "rp.start_Date,rp.end_Date,rp.total_Effort,rp.effort_Per_Day,rp.comments,"
-				+ "t.team_name,u.first_name,u.second_name,p.name "
+				+ "t.team_name,u.first_name,u.second_name,p.name,rp.effort_percent "
 				+ "FROM Resource_Plan rp,Team t, User u,Project p where "
 				+ "t.id=rp.team_Id "
 				+ "and u.user_Id=rp.resource_Id "
@@ -56,11 +56,12 @@ public class ResourcePlanDao {
 			rp.setPhase((String)obj[4]);
 			rp.setStartDate((Date) obj[5]);
 			rp.setEndDate((Date) obj[6]);
-			rp.setTotalEffort((Integer) obj[7]);
-			rp.setEffortPerDay((Integer) obj[8]);
+			rp.setTotalEffort((Double) obj[7]);
+			rp.setEffortPerDay((Double) obj[8]);
 			rp.setComments((String) obj[9]);
 			rp.setResourceName((String) obj[11] +" "+(String) obj[12]);
 			rp.setProjectName((String) obj[13]);
+			rp.setEffortPercent((Integer)obj[14]);
 			rpd.getData().add(rp);
 			log.debug("Adding Data "+rp);
 		});

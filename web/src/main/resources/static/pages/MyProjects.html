@@ -1,0 +1,105 @@
+<main ng-controller="myProjectController"> 
+
+<ul class="breadcrumb breadcrumb-page">
+	<div class="breadcrumb-label text-light-gray">You are here:</div>
+	<li><a>Home</a></li>
+	<li><a>Core</a></li>
+	<li class="active"><a>My Projects</a></li>
+</ul>
+<div class="page-header">
+	<div class="row">
+		<!-- Page header, center on small screens -->
+		<h1 class="col-xs-12 col-sm-2 text-center text-left-sm">
+			<i class="fa fa-snowflake-o page-header-icon"></i>&nbsp;&nbsp;Project for
+			
+		</h1>
+		<div class="col-xs-12 col-sm-4">
+		<select class="form-control" ng-model="selectedTeam" ng-change="loadProjects()">
+				<option ng-repeat="team in myteam" value="{{team.id}}">
+					{{team.teamName}}
+				</option>
+			</select></div>
+	</div>
+</div>
+<!-- / .page-header -->
+
+
+<div>
+	<div class="alert alert-danger alert-dismissible" role="alert"
+		ng-show="showerror">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{{error}}
+	</div>
+	<div class="alert alert-success alert-dismissible" role="alert"
+		ng-show="showsucess">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		{{success}}
+	</div>
+	<div class="col-md-12">
+		<fieldset class="form-group"  ng-init="selectedTab = 1;">
+					<legend>View My Team's Projects  
+					<select class="form-control pull-right" ng-model="status" ng-change="loadProjects()" style="width:40%" >
+					<option />
+				<option ng-repeat="sts in projectStatus" value="{{sts.status}}">
+					{{sts.status}}
+				</option>
+			</select> 
+			<div class="clearfix"></div>
+			</legend>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>
+								<button type="button" class="btn  btn-success btn-sm"
+									ng-click="loadProjects()">
+									<span class="fa fa-refresh"></span>&nbsp;
+								</button>
+							</th>
+							<th>Project Id</th>
+							<th>Name</th>
+							<th>Summary</th>
+
+						</tr>
+					</thead>
+					<tbody>
+						<input type="text" ng-model="searchKeyword"
+							class="form-control ng-valid ng-dirty input-sm" id="searchTable"
+							placeholder="Search table">
+						<tr ng-repeat="proj in projectList | filter: searchKeyword ">
+							<td>{{$index+1}}</td>
+							<td>{{proj.id}}</td>
+							<td>{{proj.name}}</td>
+							<td>{{proj.summary}}</td>
+						</tr>
+					</tbody>
+				</table>
+	</fieldset>
+
+</div>
+
+
+<div id="#myProjHelp" class="modal fade " role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header  bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h3 class="modal-title">My Project Help</h3>
+			</div>
+			<div class="modal-body">
+				<div id="myProj_help"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn  btn-outline"
+					data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+</main>

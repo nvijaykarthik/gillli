@@ -2,8 +2,11 @@ package in.expedite.project.service;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
@@ -13,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.w3c.dom.stylesheets.LinkStyle;
 
 import in.expedite.project.entity.DependencyMode;
+import in.expedite.project.entity.Estimates;
 import in.expedite.project.entity.Project;
 import in.expedite.project.entity.ProjectComments;
 import in.expedite.project.entity.ProjectDocType;
@@ -21,6 +25,7 @@ import in.expedite.project.entity.ProjectStatus;
 import in.expedite.project.entity.ProjectType;
 import in.expedite.project.entity.ReferenceProjects;
 import in.expedite.project.repository.DependencyModeRepo;
+import in.expedite.project.repository.EstimatesRepository;
 import in.expedite.project.repository.ProjectCommentsRepository;
 import in.expedite.project.repository.ProjectDocTypeRepository;
 import in.expedite.project.repository.ProjectDocumentsRepository;
@@ -55,6 +60,8 @@ public class ProjectService {
 	@Autowired
 	private DependencyModeRepo dependencyModeRepo;
 	
+	@Autowired
+	private EstimatesRepository estimatesRepo;
 	
 	@Autowired
 	private ProjectReferenceDao projrefdao;
@@ -160,5 +167,22 @@ public class ProjectService {
 		status.add("Rejected");
 		status.add("Completed");
 		return  projectRepository.findByStatusNotInIgnoreCase(status);
+	}
+
+	public List<Project> getMyProject(Long teamId, String status) {
+		//Estimated
+		
+		List<Estimates> esti=estimatesRepo.findByTeamId(teamId);
+		Set<Long> projId=new HashSet<>();
+		esti.forEach(est->{
+			projId.add(est.getProjectId());
+		});
+		if(StringUtils.isBlank(status))
+			status="New";
+		
+		//Planned
+		//Delivered
+		return projectRepository.findByIdInAndStatusIgnoreCase(projId, status);
+	
 	}
 }
