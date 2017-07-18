@@ -21,6 +21,8 @@ public class ResourcePlanData {
 	@JsonFormat(pattern="yyyy-MM-dd") 
 	private Date currentDate;
 	
+	private Integer currentPage;
+	
 	private List<ResourcePlan> data = new ArrayList<>();
 
 	public Integer getTotalCell() {
@@ -49,6 +51,15 @@ public class ResourcePlanData {
 
 	@Override
 	public String toString() {
-		return "ResourcePlanData [totalCell=" + totalCell + ", currentDate=" + currentDate + ", data=" + data + "]";
+		return "ResourcePlanData [totalCell=" + totalCell + ", currentDate=" + currentDate + ", currentPage="
+				+ currentPage + ", data=" + data + "]";
+	}
+
+	public Integer getCurrentPage() {
+		return currentPage;
+	}
+
+	public void setCurrentPage(Integer currentPage) {
+		this.currentPage = currentPage;
 	}
 }

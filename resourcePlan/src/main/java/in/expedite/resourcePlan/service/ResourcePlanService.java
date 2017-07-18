@@ -41,6 +41,8 @@ public class ResourcePlanService {
 	public ResourcePlanData getPlannedResource(Long teamId,Integer pgNo){
 		ResourcePlanData rpd = new ResourcePlanData();
 		
+		rpd.setCurrentPage(pgNo);
+		
 		rpd.setTotalCell(cellSize);
 		Integer startDtCnt=cellSize*pgNo;
 		Date currDate=new Date();

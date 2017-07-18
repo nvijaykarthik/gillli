@@ -22,7 +22,8 @@ app.controller('resourcePlanningController', function($scope,$http,$log,$httpPar
 
 		
 	$scope.range = [];
-
+	$scope.currentPage=0;
+	
 	$scope.getData=function(teamId,pgNo){
 		$scope.data={};
 		$scope.range=[];
@@ -32,7 +33,9 @@ app.controller('resourcePlanningController', function($scope,$http,$log,$httpPar
         //url:'/resource-plan.json'
     }).then(function success(response) {
         $scope.data=response.data;
- 
+        
+        $scope.currentPage=$scope.data.currentPage;
+        
         var date = new Date($scope.data.currentDate);
     	
     	for(var i=0;i<$scope.data.totalCell;i++) {
@@ -122,7 +125,6 @@ app.controller('resourcePlanningController', function($scope,$http,$log,$httpPar
 	$scope.getMyTeam();
 	
 	$scope.loadTeam=function(){
-		console.log();
 		$scope.getData($scope.selectedTeam,0);
 	}
 	
@@ -214,6 +216,16 @@ app.controller('resourcePlanningController', function($scope,$http,$log,$httpPar
 	   $scope.selectedProject.id=rd.projectId;
 	   $scope.selectedProject.name=rd.projectName;
 	}
+   
+   $scope.previousPage=function(){
+	   var prevPage=$scope.currentPage-1;
+	   $scope.getData($scope.selectedTeam,prevPage);
+   }
+   
+   $scope.nextPage=function(){
+	   var nxtPage=$scope.currentPage+1;
+	   $scope.getData($scope.selectedTeam,nxtPage);
+   }
    
 });
 
