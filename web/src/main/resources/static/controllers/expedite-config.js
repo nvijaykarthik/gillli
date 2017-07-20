@@ -73,6 +73,10 @@ app.config(function($routeProvider) {
    .when('/myProject', {
     templateUrl : 'pages/MyProjects.html',
   })
+  .when('/addDelivery', {
+    templateUrl : 'pages/AddDelivery.html',
+  })
+  
   .otherwise({redirectTo: '/'});
 });
 

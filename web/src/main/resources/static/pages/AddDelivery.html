@@ -1,0 +1,147 @@
+<main ng-controller="newDeliveryController">
+
+<ul class="breadcrumb breadcrumb-page">
+			<div class="breadcrumb-label text-light-gray">You are here: </div>
+			<li><a>Home</a></li>
+			<li><a>Core</a></li>
+			<li class="active"><a>Delivery</a></li>
+		</ul>
+		<div class="page-header">
+			<div class="row">
+				<!-- Page header, center on small screens -->
+				<h1 class="col-xs-12 col-sm-2 text-center text-left-sm"><i class="fa fa-coffee page-header-icon"></i>&nbsp;&nbsp;Team</h1>
+				<div class="col-xs-12 col-sm-10"> 
+				<div class="btn-group">
+			<button type="button" class="btn btn-warning" ng-click="getHelp()"
+				data-toggle="modal" data-target="#delivHelp">Help</button>
+			</div>
+				</div>
+			</div>
+		</div> <!-- / .page-header -->
+
+<div class="alert alert-danger alert-dismissible" role="alert" ng-show="showerror">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{error}}
+</div>
+<div class="alert alert-success alert-dismissible" role="alert" ng-show="showsucess">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{success}}
+</div>
+<div class="col-md-12">
+<div class="form-group">
+<label  class="control-label">Select Project</label>
+	<div ng-init="showSearchSelect=false">
+	<div class="input-group">
+      	<input class="input-grp-sm form-control" ng-click="toggleSearchSelect()" ng-model="selectedProject.name"/>
+	      <span class="input-group-btn">
+	        <button class="btn btn-primary" type="button" ng-click="loadDelivery()">Go!</button>
+	      </span>
+    </div>
+
+		<div class="searchSelect" ng-show="showSearchSelect">
+			<input type="text" class="form-control searchSelectText" placeholder="Filter" ng-model="SrchTxt"/>
+			<div class="searchSelectResult">
+				<ul>
+					<li ng-click="selectThisProject(project)" ng-repeat="project in projectList | filter: SrchTxt ">{{project.name}}</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<fieldset class="form-group">
+	<legend>Releases Made for the Project </legend>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>
+                              <button type="button" class="btn  btn-success btn-sm" ng-click="refresh()">
+                                  <span class="fa fa-refresh"></span>&nbsp;
+                              </button>
+                          </th>
+					<th>Team Name</th>
+					<th>Manager/Lead</th>
+					<th>Operations</th>
+				</tr>
+			</thead>
+			<tbody>
+			<input type="text" ng-model="searchKeyword" class="form-control ng-valid ng-dirty input-sm" id="searchTable" placeholder="Search table"  >
+			</tbody>
+		</table>
+</fieldset>
+</div>
+
+<div id="newTeamModal" class="modal fade" role="dialog">
+ <div class="modal-dialog">
+  <div class="modal-content">
+	<div class="modal-header  bg-warning">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h3 class="modal-title">New Team</h3>
+		</div>
+		<div class="modal-body">
+			<div style="padding:15px;">
+		  <form class="form-horizontal">
+			<div class="form-group">
+				<label  class="control-label">Team Name</label>
+				<div>
+					<input type="text" class="form-control" id="teamName" placeholder="Team Name" ng-model="formData.teamName">
+					<span class="help-block">Allowed : [a-zA-Z0-9] </span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label class="control-label">Department Name</label>
+				<div ng-init="showSearchSelect=false">
+					<div class="selectedProgram" ng-click="toggleSearchSelect()">{{selectedDept.departmentName}}</div>
+					<div class="searchSelect" ng-show="showSearchSelect">
+					<input type="text" class="form-control searchSelectText" placeholder="Filter" ng-model="SelectSearchTxt"/>
+					<div class="searchSelectResult">
+					<ul>
+						<li ng-click="selectThisDepartment(dept)" ng-repeat="dept in contentList | filter: SelectSearchTxt ">{{dept.departmentName}}</li>
+					</ul>
+					</div>
+					</div>
+				</div>
+				
+			</div>
+			<div class="form-group">
+				<label class="control-label">Manager</label>
+				<div ng-init="showSearchMngrSelect=false">
+					<div class="selectedProgram" ng-click="toggleMngrSearchSelect()">{{selectedManager.firstName}} {{selectedManager.secondName}}</div>
+					<div class="searchSelect" ng-show="showSearchMngrSelect">
+					<input type="text" class="form-control searchSelectText" placeholder="Filter" ng-model="SelectSearchMngrTxt"/>
+					<div class="searchSelectResult">
+					<ul>
+						<li ng-click="selectThisManager(user)" ng-repeat="user in Users | filter: SelectSearchMngrTxt ">{{user.firstName}} {{user.secondName}}</li>
+					</ul>
+					</div>
+					</div>
+				</div>
+			</div>
+		</form>
+			  </div>
+		</div>
+		<div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
+        <button type="button" class="btn btn-primary" ng-click="save()" data-dismiss="modal"><span class=" fa fa-floppy-o">&nbsp</span>Save</button>
+      </div>
+  </div>
+ </div>
+</div>
+
+<div id="delivHelp" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header  bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h3 class="modal-title">New Delivery Screen Help</h3>
+			</div>
+			<div class="modal-body">
+				<div id="deliv_help"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn  btn-outline"
+					data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+</main>
