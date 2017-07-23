@@ -1,6 +1,7 @@
 package in.expedite.delivery.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -27,17 +28,33 @@ public class Delivery implements Serializable{
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
+	public void setBigIntId(BigInteger id){
+		this.id=id.longValue();
+	}
+	
 	@Column
 	private Long teamId;
 	
+	public void setBigIntTeamId(BigInteger teamId){
+		this.teamId=teamId.longValue();
+	}
+	
 	@Column
 	private Long projectId;
+	
+	public void setBigIntProjectId(BigInteger projectId){
+		this.projectId=projectId.longValue();
+	}
 	
 	@Column 
 	private String userId;
 	
 	@Column
 	private Long applicationId;
+	
+	public void setBigIntApplicationId(BigInteger applicationId){
+		this.applicationId=applicationId.longValue();
+	}
 	
 	@Column
 	private String version;
@@ -56,6 +73,9 @@ public class Delivery implements Serializable{
 	@Column
 	private String createdBy;
 	
+	@Column
+	private String status;
+	
 	@Transient
 	private String teamName;
 	
@@ -64,6 +84,10 @@ public class Delivery implements Serializable{
 	
 	@Transient
 	private String userName;
+	
+
+	@Transient
+	private String applicationName;
 	
 	public Long getId() {
 		return id;
@@ -177,8 +201,6 @@ public class Delivery implements Serializable{
 		this.applicationName = applicationName;
 	}
 
-	@Transient
-	private String applicationName;
 	
 	@Override
 	public String toString() {
@@ -187,5 +209,13 @@ public class Delivery implements Serializable{
 				+ ", changeDescription=" + changeDescription + ", createdDate=" + createdDate + ", createdBy="
 				+ createdBy + ", teamName=" + teamName + ", projectName=" + projectName + ", userName=" + userName
 				+ ", applicationName=" + applicationName + "]";
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }

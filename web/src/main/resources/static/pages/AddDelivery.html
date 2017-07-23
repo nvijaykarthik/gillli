@@ -64,6 +64,8 @@
 					<th>Team</th>
 					<th>Created Date</th>
 					<th>User</th>
+					<th>Status</th>
+					<th>Option</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -81,6 +83,13 @@
 					<td>{{delivery.teamName}}</td>
 					<td>{{delivery.createdDate}}</td>
 					<td>{{delivery.userName}}</td>
+					<td>{{delivery.status}}</td>
+					<td>
+					         <button type="button" class="btn  btn-info btn-sm" ng-click="getTeamMembers(team.id)" data-toggle="modal" data-target="#teamMemberModal">
+							 <span class=" fa fa-pencil">&nbsp</span>
+								Edit
+                             </button>
+                            </td>
 				</tr>
 			</tbody>
 		</table>

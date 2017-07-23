@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import in.expedite.delivery.dao.DeliveryDao;
 import in.expedite.delivery.entity.Delivery;
 import in.expedite.delivery.repository.DeliveryRepository;
 
@@ -18,8 +19,11 @@ public class DeliveryService {
 	@Autowired
 	private DeliveryRepository deliveryRepository;
 	
+	@Autowired
+	private DeliveryDao deliveryDao;
+	
 	public List<Delivery> getDeliveryForProject(Long projectId){
-		List<Delivery> delivery= deliveryRepository.findByProjectId(projectId);
+		List<Delivery> delivery= deliveryDao.getDeliveryForProject(projectId);
 		return delivery;
 	}
 }
