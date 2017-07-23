@@ -3,11 +3,16 @@ package in.expedite.utils;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import in.expedite.entity.UserRole;
 
 
 public class CollectionUtil{
   
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	/**
 	 * Convert all the iteratables in to Array list 
 	 * @param iterable

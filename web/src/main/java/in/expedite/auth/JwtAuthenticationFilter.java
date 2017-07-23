@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.AbstractAuthenticationPro
  */
 public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFilter{
 	
-     private static final Logger LOG = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
+     private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
   
 	 public JwtAuthenticationFilter() {
 	        super("/**");
@@ -46,15 +46,15 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
 	        		   try {
 						header=URLDecoder.decode(cookie.getValue(), "UTF-8");
 					} catch (UnsupportedEncodingException e) {
-						LOG.error("Error Reading Authorization Cookie ",e);
+						log.error("Error Reading Authorization Cookie ",e);
 					}
-	        		   LOG.info("Retrieved Token from cookie");
+	        		   log.info("Retrieved Token from cookie");
 	        	   }
 	        	 }
 	        }
 	        
 	        if (header == null || !header.startsWith("Bearer ")) {
-	            LOG.error("No JWT token found in request headers");
+	            log.error("No JWT token found in request headers");
 	            throw new AuthorizationServiceException("No JWT token found in request headers");
 	        }
 

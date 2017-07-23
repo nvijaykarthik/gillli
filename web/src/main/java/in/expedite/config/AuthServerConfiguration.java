@@ -3,6 +3,8 @@ package in.expedite.config;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,6 +20,8 @@ import in.expedite.utils.ExceptionHandlerMapping;
 @ImportResource("classpath:spring-config.xml")
 public class AuthServerConfiguration {
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	@Value("${expedite.message.bad.request}")
 	private String badReqError;
 	

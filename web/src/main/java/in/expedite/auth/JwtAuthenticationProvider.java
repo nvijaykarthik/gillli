@@ -21,7 +21,7 @@ import in.expedite.entity.MyUser;
 @Component
 public class JwtAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
-	private static final Logger LOG = LoggerFactory.getLogger(JwtAuthenticationProvider.class);
+	private static final Logger log = LoggerFactory.getLogger(JwtAuthenticationProvider.class);
 	
 	@Autowired
 	private JwtTokenValidator jwtTokenValidator;
@@ -40,18 +40,18 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
 	protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken authentication)
 			throws AuthenticationException {
 		
-		LOG.debug("Authenticating ReST");
+		log.debug("Authenticating ReST");
 		JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) authentication;
 		String token = jwtAuthenticationToken.getToken();
 		
 		MyUser parsedUser = jwtTokenValidator.parseToken(token);
 		
 		if (parsedUser == null) {
-			LOG.error("JWT token is not valid");
+			log.error("JWT token is not valid");
 		}
 		
 		//List<GrantedAuthority> authorityList = (List<GrantedAuthority>) parsedUser.getAuthorities();
-		LOG.debug("Logged in User details:"+parsedUser);
+		log.debug("Logged in User details:"+parsedUser);
 		return parsedUser;
 	}
 }

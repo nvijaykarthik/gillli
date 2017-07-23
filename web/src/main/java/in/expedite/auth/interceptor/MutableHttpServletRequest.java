@@ -9,9 +9,15 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
  
 //not used 
 final class MutableHttpServletRequest extends HttpServletRequestWrapper {
+	
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
     // holds custom header and value mapping
     private final Map<String, String> customHeaders;
  

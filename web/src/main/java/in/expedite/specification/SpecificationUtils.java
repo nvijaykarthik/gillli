@@ -9,12 +9,16 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.data.jpa.domain.Specification;
 
 import in.expedite.entity.User;
 
 public class SpecificationUtils {
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	private SpecificationUtils() {
 	}
 	public static Specification<User> getUserSearchSpecs(String userId, String firstName, String secondName,

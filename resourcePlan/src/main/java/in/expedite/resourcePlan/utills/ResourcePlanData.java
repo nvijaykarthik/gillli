@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -15,6 +17,7 @@ import in.expedite.resourcePlan.entity.ResourcePlan;
 
 public class ResourcePlanData {
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	private Integer totalCell;
 	

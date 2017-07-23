@@ -1,11 +1,16 @@
 package in.expedite.delivery.utills;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Created by vijaykarthik on 28/8/16.
  * general class to handle the Json response
  */
 public class ExJsonResponse {
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
     private int code;
     private String message;
 

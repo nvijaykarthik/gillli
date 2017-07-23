@@ -1,5 +1,7 @@
 package in.expedite.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 /**
  * This class is handle the exception and custom messages.
@@ -8,6 +10,8 @@ import org.springframework.http.HttpStatus;
  */
 public class ExceptionErrorMapping {
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	private HttpStatus status;
 	private String customMessage;
 	

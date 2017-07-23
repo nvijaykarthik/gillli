@@ -2,8 +2,13 @@ package in.expedite.project.utils;
 
 import java.math.BigInteger;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ProjectReferenceXref {
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	private BigInteger id;
 	private Long projectId;
 	private BigInteger referenceId;

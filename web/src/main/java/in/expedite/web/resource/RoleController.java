@@ -24,47 +24,47 @@ import in.expedite.utils.ExJsonResponse;
 @RequestMapping("/resource/role")
 public class RoleController {
 
-	private static final Logger LOG = LoggerFactory.getLogger(RoleController.class);
+	private static final Logger log = LoggerFactory.getLogger(RoleController.class);
 	
 	@Autowired
 	RoleService rs;
 	
 	@RequestMapping(produces="application/json",method=RequestMethod.GET)
 	public List<Role> getRoles(){
-		LOG.info("Getting List of Available Roles");
+		log.info("Getting List of Available Roles");
 		return rs.getRoles();
 	}
 	
 	@RequestMapping(produces="application/json",method=RequestMethod.POST)
 	public ExJsonResponse addRole(@Valid @RequestBody Role role,@RequestAttribute(required=false) String username){
-		LOG.info("Adding new Role" + role.toString());
+		log.info("Adding new Role" + role.toString());
 		rs.addRole(role,username);
     	return new ExJsonResponse(0,"Sucessfully Added");
 	}
 	
 	@RequestMapping(produces="application/json",method=RequestMethod.PATCH)
 	public ExJsonResponse toggleStatus(@Valid @RequestBody Role role,@RequestAttribute(required=false) String username){
-		LOG.info("Toggling status" + role);
+		log.info("Toggling status" + role);
 		rs.toggleStatusRole(role,username);
     	return new ExJsonResponse(0,"Sucessfully Activated");
 	}
 	
 	@RequestMapping(path="/accessRef",produces="application/json",method=RequestMethod.GET)
 	public List<AccessCode> getRoleAccessRef(@Valid @RequestParam String roleCode){
-		LOG.info("Getting Access List for the Role" + roleCode);
+		log.info("Getting Access List for the Role" + roleCode);
 		return rs.getRoleAccessXref(roleCode);
 	}
 
 	@RequestMapping(path="/accessRef",produces="application/json",method=RequestMethod.POST)
 	public ExJsonResponse addRoleAccessRef(@Valid @RequestBody RoleAccessXref ref,@RequestAttribute(required=false) String username){
-		LOG.info("Getting Access List for the Role" + ref);
+		log.info("Getting Access List for the Role" + ref);
 		rs.addRoleAccess(ref,username);
 		return new ExJsonResponse(0,"Sucessfully Added");
 	}
 	
 	@RequestMapping(path="/accessRef",produces="application/json",method=RequestMethod.DELETE)
 	public ExJsonResponse delRoleAccessRef(@Valid @RequestBody RoleAccessXref ref){
-		LOG.info("Getting Access List for the Role" + ref);
+		log.info("Getting Access List for the Role" + ref);
 		rs.deleteRoleAccess(ref); 
 		return new ExJsonResponse(0,"Sucessfully Deleted");
 	}

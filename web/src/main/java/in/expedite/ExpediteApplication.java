@@ -45,7 +45,7 @@ import in.expedite.service.UserDetailsService;
 @EnableCaching
 public class ExpediteApplication extends SpringBootServletInitializer  {
 
-
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	public static void main(String[] args) {
 		SpringApplication.run(ExpediteApplication.class, args);

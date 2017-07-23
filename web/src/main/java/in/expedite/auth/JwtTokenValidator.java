@@ -20,7 +20,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JwtTokenValidator {
 
-	private static final Logger LOG = LoggerFactory.getLogger(JwtTokenValidator.class);
+	private static final Logger log = LoggerFactory.getLogger(JwtTokenValidator.class);
 	
 	@Value("${jwt.secret}")
     private String secret;
@@ -48,7 +48,7 @@ public class JwtTokenValidator {
             
         } catch (JwtException e) {
             // Simply print the exception and null will be returned for the userDto
-        	LOG.error("Error while parsing", e);
+        	log.error("Error while parsing", e);
         }
         return currentUser;
     }

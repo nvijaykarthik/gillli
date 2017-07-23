@@ -34,7 +34,7 @@ public class RoleService {
 	@Autowired
 	AccessCodeService accessCodeService;
 	
-	private static final Logger LOG = LoggerFactory.getLogger(RoleService.class);
+	private static final Logger log = LoggerFactory.getLogger(RoleService.class);
 	
 	@PersistenceContext
 	private EntityManager em;
@@ -44,9 +44,9 @@ public class RoleService {
 	 * @return
 	 */
 	public List<Role> getRoles(){
-		LOG.debug("Getting List of Available Roles ");
+		log.debug("Getting List of Available Roles ");
 		List<Role> roles=rRepo.findAll();
-		LOG.trace("Roles List :"+roles);
+		log.trace("Roles List :"+roles);
 		return roles;
 	}
 	
@@ -56,7 +56,7 @@ public class RoleService {
 	 * @return
 	 */
 	public Role addRole(Role role,String username){
-		LOG.debug("Adding Role :" + role);
+		log.debug("Adding Role :" + role);
 		role.setCreatedBy(username);
 		role.setModifiedBy(username);
 		role.setCreatedDate(new Date());
@@ -76,7 +76,7 @@ public class RoleService {
 			role.setStatus(State.ACTIVE.toString());
 		}
 		
-		LOG.debug("toggle Status:"+role);
+		log.debug("toggle Status:"+role);
 		role.setModifiedBy(username);
 		role.setModifiedDate(new Date());
 		return rRepo.save(role);
@@ -92,7 +92,7 @@ public class RoleService {
 		roleAccess.setModifiedBy(username);
 		roleAccess.setCreatedDate(new Date());
 		roleAccess.setModifiedDate(new Date());
-		LOG.debug("Adding Role Access : "+roleAccess);
+		log.debug("Adding Role Access : "+roleAccess);
 		return raxRepo.save(roleAccess);
 	}
 	
@@ -102,12 +102,12 @@ public class RoleService {
 	 * @return
 	 */
 	public void deleteRoleAccess(RoleAccessXref roleAccess){
-		LOG.debug("Removing Role Access : "+ roleAccess);
+		log.debug("Removing Role Access : "+ roleAccess);
 		raxRepo.delete(roleAccess.getRoleCode(),roleAccess.getAccessCode());
 	}
 	
 	public List<AccessCode> getRoleAccessXref(String roleCode){
-		LOG.debug("Getting Access Role Reference ");
+		log.debug("Getting Access Role Reference ");
 		List<RoleAccessXref> ref=raxRepo.findByRoleCode(roleCode);
 		List<AccessCode> access=accessCodeService.getAccessCodes();
 		access.forEach(acc->{

@@ -24,7 +24,7 @@ public class AccessCodeService {
 	@Autowired
 	AccessCodeRepository acRepo;
 	
-	private static final Logger LOG = LoggerFactory.getLogger(AccessCodeService.class);
+	private static final Logger log = LoggerFactory.getLogger(AccessCodeService.class);
 	
 	/**
 	 * Adding new ACCESS CODE WITH MENU LINK 
@@ -32,7 +32,7 @@ public class AccessCodeService {
 	 * @return
 	 */
 	public AccessCode addAccessCode(AccessCode accessCode){
-		LOG.debug("Adding new Access Code: "+accessCode);
+		log.debug("Adding new Access Code: "+accessCode);
 		return acRepo.save(accessCode);
 	}
 	
@@ -41,20 +41,20 @@ public class AccessCodeService {
 	 * @param accessCode
 	 */
 	public void deleteAccessCode(AccessCode accessCode){
-		LOG.debug("Removing the access code: "+ accessCode);
+		log.debug("Removing the access code: "+ accessCode);
 		acRepo.delete(accessCode);
 	}
 	
 	public List<AccessCode> getAccessCodes(){
-		LOG.debug("Retrieving all the Access codes available");
+		log.debug("Retrieving all the Access codes available");
 		 List<AccessCode> ac=acRepo.findAll();
-		LOG.trace("Access codes : "+ac);
+		log.trace("Access codes : "+ac);
 		return ac;
 	}
 	
 	@Cacheable
 	public String getAccessCodeForMappings(String mapping,String method){
-		LOG.debug("Retrieving Access codes for "+mapping+" on "+ method);
+		log.debug("Retrieving Access codes for "+mapping+" on "+ method);
 		AccessCode accessCode=acRepo.findByMappingAndMethod(mapping, method);
 		if(null==accessCode){
 			return null;

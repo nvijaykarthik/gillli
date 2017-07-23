@@ -6,6 +6,8 @@ import java.util.List;
 import org.commonmark.node.Node;
 import org.commonmark.parser.Parser;
 import org.commonmark.renderer.html.HtmlRenderer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,8 @@ import in.expedite.wiki.repository.PageRepository;
 @Service
 public class PageService {
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
    @Autowired
    private PageRepository pageRepo;
 	

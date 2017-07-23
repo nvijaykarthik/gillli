@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionControllerAdvice {
 
-	private static final Logger LOG= LoggerFactory.getLogger(ExceptionControllerAdvice.class.getName());
+	private static final Logger log= LoggerFactory.getLogger(ExceptionControllerAdvice.class.getName());
 	private  HttpStatus status=HttpStatus.SERVICE_UNAVAILABLE;
 
 	@Autowired
@@ -33,7 +33,7 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExJsonResponse> exceptionHandler(Exception ex) {
     	
-    	LOG.info("Capturing Exception");
+    	log.info("Capturing Exception");
     	
     	ExJsonResponse error = new ExJsonResponse(); 
     	ResponseEntity<ExJsonResponse> responseEntity=null;
@@ -42,14 +42,14 @@ public class ExceptionControllerAdvice {
     	String msg="";
     	if(clazz.equals(MethodArgumentNotValidException.class)){msg=","+((MethodArgumentNotValidException) ex).getBindingResult().getFieldError().getDefaultMessage();}
     	
-    	LOG.error(ex.getMessage(), ex);
+    	log.error(ex.getMessage(), ex);
     	if(null!=ee && !StringUtils.isEmpty(ee.getCustomMessage())){
-    		 LOG.info("Exception Identified : Code is "+ee.getStatus().value()+", Message is:"+ee.getCustomMessage());
+    		 log.info("Exception Identified : Code is "+ee.getStatus().value()+", Message is:"+ee.getCustomMessage());
     		  error.setCode(ee.getStatus().value());
      		  error.setMessage(ee.getCustomMessage()+msg);  
      		  responseEntity=new ResponseEntity<>(error, ee.getStatus());  
     	}else if(null!=ee && StringUtils.isEmpty(ee.getCustomMessage())){
-    		LOG.info("Exception Identified : Code is "+ee.getStatus().value()+", Message is:"+ee.getCustomMessage());
+    		log.info("Exception Identified : Code is "+ee.getStatus().value()+", Message is:"+ee.getCustomMessage());
 	    	  error.setCode(ee.getStatus().value());	    	  
 	   		  error.setMessage(ee.getStatus().name()+msg);  
 	   		  responseEntity=new ResponseEntity<>(error, ee.getStatus());  

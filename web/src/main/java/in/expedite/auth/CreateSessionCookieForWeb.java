@@ -28,7 +28,7 @@ public class CreateSessionCookieForWeb extends SimpleUrlAuthenticationSuccessHan
 	@Autowired
 	private JwtTokenValidator jwtTokenValidator;
 	
-	private static final Logger LOG = LoggerFactory.getLogger(CreateSessionCookieForWeb.class); 
+	private static final Logger log = LoggerFactory.getLogger(CreateSessionCookieForWeb.class); 
 	//private RequestCache requestCache = new HttpSessionRequestCache();
 	/**
 	 * Override the existing function to add jwt as cookie
@@ -37,7 +37,7 @@ public class CreateSessionCookieForWeb extends SimpleUrlAuthenticationSuccessHan
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
 		MyUser currentUser=(MyUser) authentication.getPrincipal();
-		LOG.info("Creating JWT cookie");
+		log.info("Creating JWT cookie");
 		final String cookieName = "Authorization";
 	    final String cookieValue = "Bearer " + jwtTokenValidator.generateToken(currentUser);  // you could assign it some encoded value
 	    final Boolean useSecureCookie = new Boolean(false);

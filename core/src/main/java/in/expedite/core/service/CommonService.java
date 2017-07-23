@@ -18,7 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class CommonService {
 
-	private final Logger LOG = LoggerFactory.getLogger(this.getClass());
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Value("${expedite.file.repo.path}")
 	private String repoHome;
@@ -49,13 +49,13 @@ public class CommonService {
             stream = new BufferedOutputStream(new FileOutputStream(new File(repoHomeDir+File.separator+name)));
             stream.write(bytes);
         } catch (Exception e) {
-        	LOG.error("Error while writting the file ",e);
+        	log.error("Error while writting the file ",e);
         }finally{
         	if(null!=stream)
 				try {
 					stream.close();
 				} catch (IOException e) {
-					LOG.error("Error while closing the stream",e);
+					log.error("Error while closing the stream",e);
 				}
         }
 	}

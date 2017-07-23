@@ -1,7 +1,12 @@
 package in.expedite.core.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class FileUploadResponse {
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	private String fileName;
 	private Long fileSize;
 	private String projectFileType;

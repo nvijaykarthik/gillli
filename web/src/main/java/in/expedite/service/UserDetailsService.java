@@ -27,7 +27,7 @@ public class UserDetailsService implements org.springframework.security.core.use
 	/**
 	 * Logging 
 	 */
-	private static final Logger LOG = LoggerFactory.getLogger(UserDetailsService.class.getName());
+	private static final Logger log = LoggerFactory.getLogger(UserDetailsService.class.getName());
 	
 	/**
 	 * getting user details from Database   
@@ -36,10 +36,10 @@ public class UserDetailsService implements org.springframework.security.core.use
     @Transactional(readOnly=true)
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
     	User user = userService.getUser(userId);
-        LOG.info("User : "+user);
+        log.info("User : "+user);
         
         if(user==null){
-        	 LOG.info("User not found");
+        	 log.info("User not found");
             throw new UsernameNotFoundException("Username not found"); 
         }
        
@@ -56,10 +56,10 @@ public class UserDetailsService implements org.springframework.security.core.use
         List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
          
         for(RoleAccessXref roleAccessXref: userService.getUserRoles(user.getUserId())){
-          LOG.info("Logged in User Role: "+roleAccessXref.getAccessCode());
+          log.info("Logged in User Role: "+roleAccessXref.getAccessCode());
             authorities.add(new SimpleGrantedAuthority(roleAccessXref.getAccessCode()));//+userProfile.getType()));
        }
-            LOG.info("authorities :"+authorities);
+            log.info("authorities :"+authorities);
         return authorities;
     }
      

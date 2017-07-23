@@ -2,6 +2,8 @@ package in.expedite.resourcePlan.resource;
 
 import java.util.Date;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,6 +21,8 @@ import in.expedite.resourcePlan.utills.ResourcePlanData;
 @RequestMapping("/resource/resourcePlan")
 public class ResourcePlanController {
 
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private ResourcePlanService resourcePlanService;
 	
