@@ -50,6 +50,7 @@ dependencies {
 	compile project(':project')
 	compile project(':wiki')
 	compile project(':resourcePlan')
+	compile project(':delivery')
 	compile("org.springframework.boot:spring-boot-devtools")
 	
 	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")

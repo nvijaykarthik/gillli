@@ -1,5 +1,6 @@
 app.controller('newDeliveryController', function($scope,$http,$log,$httpParamSerializerJQLike,
 		$routeParams,$location,authService) {
+	$scope.selectedProject={};
 	
 	$scope.selectThisProject=function(selProj){
 		$scope.selectedProject=selProj;
@@ -28,5 +29,17 @@ app.controller('newDeliveryController', function($scope,$http,$log,$httpParamSer
    }
    $scope.getProjects();
    
+   $scope.loadDelivery=function(){
+	   if($scope.selectedProject){
+	   $http({
+	        method : "GET",
+	        url : namespace+'/resource/delivery?projectId='+$scope.selectedProject.id
+	    }).then(function success(response) {
+	    	$scope.deliveryList=response.data;	    	
+	    }, function failure(response) {
+	        $log.error(response.status) 
+	    });
+   }
+   }
 	
 });

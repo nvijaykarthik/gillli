@@ -230,15 +230,6 @@ INSERT INTO PUBLIC.USER_ROLE(ID, CREATED_BY, CREATED_DATE, MODIFIED_BY, MODIFIED
 (39, 'vkarthik', TIMESTAMP '2017-07-09 18:28:10.81', 'vkarthik', TIMESTAMP '2017-07-09 18:28:10.81', 'DEVELOPER', 'teamMember29'),
 (40, 'vkarthik', TIMESTAMP '2017-07-09 18:28:10.811', 'vkarthik', TIMESTAMP '2017-07-09 18:28:10.811', 'DEVELOPER', 'teamMember30');       
 
-
-insert into project_status values('New');
-insert into project_status values('Live');
-insert into project_status values('Cancelled');
-insert into project_status values('Rejected');
-insert into project_status values('Completed');
-insert into project_status values('Planned');
-insert into project_status values('Elaboration');
-insert into project_status values('Design');
-insert into project_status values('Ready for Development');
-insert into project_status values('In Development');
+insert into DELIVERY(id,APPLICATION_ID,	CHANGE_DESCRIPTION,	CREATED_BY,	CREATED_DATE,	PROJECT_ID	,RELEASE_TAG,	TEAM_ID,	VERSION)
+(1,1,"Changes test",'vkarthik',now(),1,"ORDER_START",1,"1.0.0.0");
 

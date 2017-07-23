@@ -54,17 +54,34 @@
 			<thead>
 				<tr>
 					<th>
-                              <button type="button" class="btn  btn-success btn-sm" ng-click="refresh()">
+                              <button type="button" class="btn  btn-success btn-sm" ng-click="loadDelivery()">
                                   <span class="fa fa-refresh"></span>&nbsp;
                               </button>
                           </th>
-					<th>Team Name</th>
-					<th>Manager/Lead</th>
-					<th>Operations</th>
+                    <th>Version</th>
+					<th>Release Tag</th>
+					<th>Application</th>
+					<th>Team</th>
+					<th>Created Date</th>
+					<th>User</th>
 				</tr>
 			</thead>
 			<tbody>
-			<input type="text" ng-model="searchKeyword" class="form-control ng-valid ng-dirty input-sm" id="searchTable" placeholder="Search table"  >
+			<div class="input-group">
+			<input type="text" ng-model="searchKeyword" class="form-control ng-valid ng-dirty" id="searchTable" placeholder="Search table"  >
+			<span class="input-group-btn">
+	        	<button class="btn btn-primary" type="button" ng-click="addDelivery">Add Delivery</button>
+	      	</span>
+			</div>
+			<tr ng-repeat="delivery in deliveryList | filter: searchKeyword ">
+					<td>{{$index+1}}</td>
+                    <td>{{delivery.version}}</td>
+					<td>{{delivery.releaseTag}}</td>
+					<td>{{delivery.applicationName}}</td>
+					<td>{{delivery.teamName}}</td>
+					<td>{{delivery.createdDate}}</td>
+					<td>{{delivery.userName}}</td>
+				</tr>
 			</tbody>
 		</table>
 </fieldset>
