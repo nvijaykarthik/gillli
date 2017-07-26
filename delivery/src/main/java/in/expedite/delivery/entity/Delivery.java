@@ -15,6 +15,8 @@ import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
+import in.expedite.delivery.utills.Status;
+
 @Entity
 public class Delivery implements Serializable{
 
@@ -74,7 +76,7 @@ public class Delivery implements Serializable{
 	private String createdBy;
 	
 	@Column
-	private String status;
+	private String status=Status.NEW.getStatus();
 	
 	@Transient
 	private String teamName;

@@ -9,7 +9,7 @@
 		<div class="page-header">
 			<div class="row">
 				<!-- Page header, center on small screens -->
-				<h1 class="col-xs-12 col-sm-2 text-center text-left-sm"><i class="fa fa-coffee page-header-icon"></i>&nbsp;&nbsp;Team</h1>
+				<h1 class="col-xs-12 col-sm-2 text-center text-left-sm"><i class="fa fa-coffee page-header-icon"></i>&nbsp;&nbsp;Delivery</h1>
 				<div class="col-xs-12 col-sm-10"> 
 				<div class="btn-group">
 			<button type="button" class="btn btn-warning" ng-click="getHelp()"
@@ -70,9 +70,9 @@
 			</thead>
 			<tbody>
 			<div class="input-group">
-			<input type="text" ng-model="searchKeyword" class="form-control ng-valid ng-dirty" id="searchTable" placeholder="Search table"  >
+			<input type="text" ng-model="searchKeyword" class="form-control input-grp-sm ng-valid ng-dirty" id="searchTable" placeholder="Search table"  >
 			<span class="input-group-btn">
-	        	<button class="btn btn-primary" type="button" ng-click="addDelivery">Add Delivery</button>
+	        	<button class="btn btn-primary" type="button" ng-click="addDelivery()">Add Delivery</button>
 	      	</span>
 			</div>
 			<tr ng-repeat="delivery in deliveryList | filter: searchKeyword ">
@@ -96,54 +96,72 @@
 </fieldset>
 </div>
 
-<div id="newTeamModal" class="modal fade" role="dialog">
- <div class="modal-dialog">
+<div id="addDeliveryModal" class="modal fade" role="dialog">
+ <div class="modal-dialog modal-xl">
   <div class="modal-content">
-	<div class="modal-header  bg-warning">
+	<div class="modal-header  bg-primary">
 			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h3 class="modal-title">New Team</h3>
+			<h3 class="modal-title">Delivery : {{selectedProject.name}}</h3>
+			<p>Select Team : </p>
+			<select class="form-control" ng-model="selectedTeam" ng-change="show_del_frm=1;loadApplication()">
+					<option ng-repeat="team in myteam" value="{{team.id}}">
+						{{team.teamName}}
+					</option>
+			</select>
 		</div>
 		<div class="modal-body">
-			<div style="padding:15px;">
-		  <form class="form-horizontal">
-			<div class="form-group">
-				<label  class="control-label">Team Name</label>
-				<div>
-					<input type="text" class="form-control" id="teamName" placeholder="Team Name" ng-model="formData.teamName">
-					<span class="help-block">Allowed : [a-zA-Z0-9] </span>
-				</div>
-			</div>
-			<div class="form-group">
-				<label class="control-label">Department Name</label>
-				<div ng-init="showSearchSelect=false">
-					<div class="selectedProgram" ng-click="toggleSearchSelect()">{{selectedDept.departmentName}}</div>
-					<div class="searchSelect" ng-show="showSearchSelect">
-					<input type="text" class="form-control searchSelectText" placeholder="Filter" ng-model="SelectSearchTxt"/>
-					<div class="searchSelectResult">
-					<ul>
-						<li ng-click="selectThisDepartment(dept)" ng-repeat="dept in contentList | filter: SelectSearchTxt ">{{dept.departmentName}}</li>
-					</ul>
-					</div>
+		<div style="padding:15px;">
+			<div class="row" ng-show="show_del_frm">
+			<div class="col-md-8">
+				<div class="form-group">
+					<label  class="control-label">Select Application</label>
+					<div>
+						<select class="form-control" ng-model="selectedApp">
+							<option ng-repeat="app in applicationList" value="{{app.id}}">
+								{{app.appName}}
+							</option>
+						</select>
 					</div>
 				</div>
-				
-			</div>
-			<div class="form-group">
-				<label class="control-label">Manager</label>
-				<div ng-init="showSearchMngrSelect=false">
-					<div class="selectedProgram" ng-click="toggleMngrSearchSelect()">{{selectedManager.firstName}} {{selectedManager.secondName}}</div>
-					<div class="searchSelect" ng-show="showSearchMngrSelect">
-					<input type="text" class="form-control searchSelectText" placeholder="Filter" ng-model="SelectSearchMngrTxt"/>
-					<div class="searchSelectResult">
-					<ul>
-						<li ng-click="selectThisManager(user)" ng-repeat="user in Users | filter: SelectSearchMngrTxt ">{{user.firstName}} {{user.secondName}}</li>
-					</ul>
-					</div>
+			
+				<div class="form-group">
+					<label  class="control-label">Version </label>
+					<div>
+						<input type="text" class="form-control" ng-model="deliveryFrm.version" >
 					</div>
 				</div>
+				<div class="form-group">
+					<label  class="control-label">Release Tag </label>
+					<div>
+						<input type="text" class="form-control" ng-model="deliveryFrm.releaseTag" >
+					</div>
+				</div>
+				<div class="form-group">
+					<label  class="control-label">Change Description </label>
+					<div>
+						<textarea type="text" class="form-control" ng-model="deliveryFrm.changeDescription" rows="5"></textarea>
+					</div>
+				</div>
+				</div>
+			<div class="col-md-4">
+				<fieldset>
+					<legend>
+						Artifacts 
+					<button class="btn btn-sm btn-primary pull-right" ng-click="showFileUpload()">
+						<span class="fa fa-file"></span>
+					</button>
+						<div class="clearfix"></div>
+					</legend>
+					<div id="artifacts">
+					 <input type="file" id="artifact-fileupload" multiple style="display:none" />
+					 	<ul id="fileList">
+					 		<li ng-repeat="file in artifactFiles">{{file.name}}</li>
+					 	</ul>
+					</div>
+				</fieldset>
 			</div>
-		</form>
-			  </div>
+			</div>  
+		</div>
 		</div>
 		<div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
