@@ -154,8 +154,8 @@
 					</legend>
 					<div id="artifacts">
 					 <input type="file" id="artifact-fileupload" multiple style="display:none" />
-					 	<ul id="fileList">
-					 		<li ng-repeat="file in artifactFiles">{{file.name}}</li>
+					 	<ul id="fileList" class="list-group">
+					 		
 					 	</ul>
 					</div>
 				</fieldset>
@@ -165,7 +165,7 @@
 		</div>
 		<div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
-        <button type="button" class="btn btn-primary" ng-click="save()" data-dismiss="modal"><span class=" fa fa-floppy-o">&nbsp</span>Save</button>
+        <button type="button" class="btn btn-primary" ng-click="saveDelivery()" ><span class=" fa fa-floppy-o">&nbsp</span>Save</button>
       </div>
   </div>
  </div>

@@ -50,6 +50,8 @@ app.controller('newDeliveryController', function($scope,$http,$log,$httpParamSer
 		  return;
 	  }
 	  $('#addDeliveryModal').modal('show');
+	  $scope.artifactFiles=[];
+	  $('#fileList').empty();
   }
   
   $scope.loadApplication=function(){
@@ -78,13 +80,27 @@ app.controller('newDeliveryController', function($scope,$http,$log,$httpParamSer
 	$('#artifact-fileupload').on('change', prepareUpload);
 	function prepareUpload(event){
 		$scope.artifactFiles = event.target.files;
-		console.log($scope.artifactFiles);
+		//console.log($scope.artifactFiles);
+		var fileList=$('#fileList');
+		fileList.empty();
+		$.each($scope.artifactFiles, function(key, value){
+			var li = $('<li/>')
+		        .addClass('list-group-item')
+		        .text(value.name)
+		        .appendTo(fileList);
+		});
+		
 	}
 	
 	$scope.showFileUpload=function(){
 	  $('#artifact-fileupload').trigger('click'); 
 	}
 
-	
+	$scope.saveDelivery=function(){
+		var frmdata = new FormData();
+		$.each($scope.artifactFiles, function(key, value){
+			frmdata.append("file", value);
+		});
+	}
 	
 });
