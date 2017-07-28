@@ -42,10 +42,10 @@ public class DeliveryController {
     public String artifactUpload(@RequestParam(name="file",required=false) MultipartFile file,
     		@RequestParam("deliveryId") Long deliveryId,
     		@RequestParam("applicationId") Long applicationId,
-    		@RequestParam("version") String version){
+    		@RequestParam("version") String version,@RequestAttribute(required=false,name="username") String username){
 		
         if (!file.isEmpty()) {
-        	deliveryService.saveArtifactToRepo(file, deliveryId,applicationId,version);
+        	deliveryService.saveArtifactToRepo(file, deliveryId,applicationId,version,username);
         }else{
         	throw new RuntimeException("IOError Saving file.: File not found");
         }
@@ -67,6 +67,12 @@ public class DeliveryController {
 	@RequestMapping(produces=MediaType.APPLICATION_JSON_VALUE,method=RequestMethod.POST)
 	public Delivery saveDelivery(@RequestBody Delivery delivery,@RequestAttribute(required=false,name="username") String username){
 		return deliveryService.saveDelivery(delivery,username);
+	}
+	
+	
+	@RequestMapping(path="/getVersion",produces=MediaType.TEXT_PLAIN_VALUE,method=RequestMethod.GET)
+	public String getDeliveryVersion(@RequestParam Long appId){
+		return deliveryService.getDeliveryVersion(appId);
 	}
 	
 }

@@ -3,8 +3,8 @@
 <ul class="breadcrumb breadcrumb-page">
 			<div class="breadcrumb-label text-light-gray">You are here: </div>
 			<li><a>Home</a></li>
-			<li><a>Core</a></li>
-			<li class="active"><a>Delivery</a></li>
+			<li><a>Delivery</a></li>
+			<li class="active"><a>Add Delivery</a></li>
 		</ul>
 		<div class="page-header">
 			<div class="row">
@@ -116,8 +116,8 @@
 				<div class="form-group">
 					<label  class="control-label">Select Application</label>
 					<div>
-						<select class="form-control" ng-model="selectedApp">
-							<option ng-repeat="app in applicationList" value="{{app.id}}">
+						<select class="form-control" ng-model="selectedApp" ng-change="populateDelivery()">
+							<option ng-repeat="app in applicationList" value="{{app}}">
 								{{app.appName}}
 							</option>
 						</select>
@@ -128,6 +128,7 @@
 					<label  class="control-label">Version </label>
 					<div>
 						<input type="text" class="form-control" ng-model="delFrm.version" >
+						<span>Auto-populating the last version , please change to current version</span>
 					</div>
 				</div>
 				<div class="form-group">

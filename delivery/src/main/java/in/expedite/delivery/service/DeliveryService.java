@@ -51,7 +51,7 @@ public class DeliveryService {
 	public void saveArtifactToRepo(MultipartFile file, 
 			Long deliveryId,
 			Long applicationId,
-			String version) {
+			String version, String username) {
 		
 		File repoHomeDir=new File(getRepoHome()+File.separator+applicationId+File.separator+version);
 		
@@ -73,6 +73,7 @@ public class DeliveryService {
         artifacts.setArtifactName(name);
         artifacts.setArtifactUrl(applicationId+File.separator+version+File.separator+name);
         artifacts.setDeliveryId(deliveryId);
+        artifacts.setCreatedBy(username);
         artifactRepo.save(artifacts);
         
 	}
@@ -100,5 +101,15 @@ public class DeliveryService {
 	public Delivery saveDelivery(Delivery delivery,String username) {
 		delivery.setCreatedBy(username);
 		return deliveryRepository.save(delivery);
+	}
+
+	public String getDeliveryVersion(Long appId) {
+		Delivery d= deliveryRepository.findVersion(appId);
+		String lastVersion="0.0.0.0";
+		
+		if(null!=d) {
+			lastVersion=d.getVersion();
+		}
+		return lastVersion ;
 	}
 }

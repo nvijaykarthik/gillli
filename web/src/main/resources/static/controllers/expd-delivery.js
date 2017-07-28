@@ -16,8 +16,6 @@ app.controller('newDeliveryController', function($scope,$http,$log,$httpParamSer
 			
 	}
    $scope.getProjects=function(){
-	   
-	   
 	   $http({
 	        method : "GET",
 	        url : namespace+'/resource/project/availProject'
@@ -52,6 +50,10 @@ app.controller('newDeliveryController', function($scope,$http,$log,$httpParamSer
 	  $('#addDeliveryModal').modal('show');
 	  $scope.artifactFiles=[];
 	  $('#fileList').empty();
+	  $scope.delFrm={};
+	  $scope.selectedTeam="";
+	  $scope.selectedApp="";
+	  $scope.show_del_frm=0;
   }
   
   $scope.loadApplication=function(){
@@ -69,6 +71,26 @@ app.controller('newDeliveryController', function($scope,$http,$log,$httpParamSer
 				$scope.error = response.data.message;
 			});
   }
+  $scope.delFrm={};
+  
+	$scope.populateDelivery=function(){
+		$scope.selectedAppJson = JSON.parse($scope.selectedApp);
+		console.log($scope.selectedAppJson.appReleaseTag);
+		$scope.delFrm['releaseTag']=$scope.selectedAppJson.appReleaseTag;
+		
+		$http({
+			method : "GET",
+			url : namespace+"/resource/delivery/getVersion?appId="+ $scope.selectedAppJson.id
+		  	})
+		  	.then(
+				function success(response) {
+					$scope.delFrm['version'] = response.data;
+				},
+				function failure(response) {
+					$log.error(response.status)
+					alert("error while getting version");
+				});
+	}
   
    $scope.getMyTeam = function() {
 		authService.getTeamListForUser().success(function(data, status) {
@@ -82,26 +104,24 @@ app.controller('newDeliveryController', function($scope,$http,$log,$httpParamSer
 		$scope.artifactFiles = event.target.files;
 		//console.log($scope.artifactFiles);
 		var fileList=$('#fileList');
-		fileList.empty();
 		$.each($scope.artifactFiles, function(key, value){
 			var li = $('<li/>')
 		        .addClass('list-group-item')
 		        .text(value.name)
 		        .appendTo(fileList);
 		});
-		
 	}
 	
 	$scope.showFileUpload=function(){
 	  $('#artifact-fileupload').trigger('click'); 
 	}
 	
-	$scope.delFrm={};
+	
 	
 	$scope.saveDelivery=function(){
 		$scope.delFrm['teamId']=$scope.selectedTeam;
 		$scope.delFrm['projectId']=$scope.selectedProject.id;
-		$scope.delFrm['applicationId']=$scope.selectedApp;
+		$scope.delFrm['applicationId']=$scope.selectedAppJson.id;
 		
 		$http({
             method  : 'POST',
@@ -116,7 +136,7 @@ app.controller('newDeliveryController', function($scope,$http,$log,$httpParamSer
 	       		$.each($scope.artifactFiles, function(key, value){
 	       			var frmdata = new FormData();
 	                frmdata.append("deliveryId",resp.data.id);
-		       		frmdata.append("applicationId",$scope.selectedApp);
+		       		frmdata.append("applicationId",$scope.selectedAppJson.id);
 		       		frmdata.append("version",$scope.delFrm.version);
 	       			frmdata.append("file", value);
 	       			$.ajax({
@@ -135,6 +155,7 @@ app.controller('newDeliveryController', function($scope,$http,$log,$httpParamSer
 	    			});
 	       		});
                }
+               
             },
            function failure(resp){
             alert("Error Updating Project");
