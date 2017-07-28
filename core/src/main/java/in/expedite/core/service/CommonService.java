@@ -43,20 +43,12 @@ public class CommonService {
 		}
 		
 		String name=file.getOriginalFilename();
-		BufferedOutputStream stream = null;
-        try {
+
+        try(BufferedOutputStream stream=new BufferedOutputStream(new FileOutputStream(new File(repoHomeDir+File.separator+name)));) {
             byte[] bytes = file.getBytes();
-            stream = new BufferedOutputStream(new FileOutputStream(new File(repoHomeDir+File.separator+name)));
             stream.write(bytes);
         } catch (Exception e) {
         	log.error("Error while writting the file ",e);
-        }finally{
-        	if(null!=stream)
-				try {
-					stream.close();
-				} catch (IOException e) {
-					log.error("Error while closing the stream",e);
-				}
         }
 	}
 	

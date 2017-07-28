@@ -95,12 +95,55 @@ app.controller('newDeliveryController', function($scope,$http,$log,$httpParamSer
 	$scope.showFileUpload=function(){
 	  $('#artifact-fileupload').trigger('click'); 
 	}
-
+	
+	$scope.delFrm={};
+	
 	$scope.saveDelivery=function(){
-		var frmdata = new FormData();
-		$.each($scope.artifactFiles, function(key, value){
-			frmdata.append("file", value);
-		});
+		$scope.delFrm['teamId']=$scope.selectedTeam;
+		$scope.delFrm['projectId']=$scope.selectedProject.id;
+		$scope.delFrm['applicationId']=$scope.selectedApp;
+		
+		$http({
+            method  : 'POST',
+            url     : namespace+'/resource/delivery',
+            data    : $scope.delFrm,
+            headers : {'Content-Type': 'application/json'}
+           }).then(
+           function success(resp){
+               $log.info(resp.data);
+               if($scope.artifactFiles.length>0){
+               
+	       		$.each($scope.artifactFiles, function(key, value){
+	       			var frmdata = new FormData();
+	                frmdata.append("deliveryId",resp.data.id);
+		       		frmdata.append("applicationId",$scope.selectedApp);
+		       		frmdata.append("version",$scope.delFrm.version);
+	       			frmdata.append("file", value);
+	       			$.ajax({
+	    			    url: namespace+'/resource/delivery/uploadArtifacts',
+	    			    data: frmdata,
+	    			    cache: false,
+	    			    contentType: false,
+	    			    processData: false,
+	    			    type: 'POST',
+	    			    success: function(data){
+	    			        console.log(data.message);
+	    			    },
+	    			    error:function(data){
+	    			    	console.log(data.message);
+	    			    }
+	    			});
+	       		});
+               }
+            },
+           function failure(resp){
+            alert("Error Updating Project");
+            $log.error(resp.data)
+            $scope.project=$scope.projectInfoData;
+           });
+		
+		
+		
 	}
 	
 });
