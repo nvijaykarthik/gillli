@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import in.expedite.delivery.entity.Artifacts;
 import in.expedite.delivery.entity.Delivery;
 import in.expedite.delivery.service.DeliveryService;
+import in.expedite.delivery.utills.ExJsonResponse;
 
 @RestController
 @RequestMapping("/resource/delivery")
@@ -75,4 +77,14 @@ public class DeliveryController {
 		return deliveryService.getDeliveryVersion(appId);
 	}
 	
+	@RequestMapping(path="/getArtifacts",produces=MediaType.APPLICATION_JSON_VALUE,method=RequestMethod.GET)
+	public List<Artifacts> getArtifactsByDelivery(@RequestParam Long deliveryId){
+		return deliveryService.getArtifactsByDelivery(deliveryId);
+	}
+	
+	@RequestMapping(path="/deleteArtifacts",produces=MediaType.APPLICATION_JSON_VALUE,method=RequestMethod.DELETE)
+	public ExJsonResponse deleteArtifact(@RequestParam Long id){
+		 deliveryService.deleteArtifact(id);
+		 return new ExJsonResponse(0,"Successfully deleted");
+	}
 }

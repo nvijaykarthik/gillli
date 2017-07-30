@@ -34,7 +34,7 @@
 	<div class="input-group">
       	<input class="input-grp-sm form-control" ng-click="toggleSearchSelect()" ng-model="selectedProject.name"/>
 	      <span class="input-group-btn">
-	        <button class="btn btn-primary" type="button" ng-click="loadDelivery()">Go!</button>
+	        <button class="btn btn-primary" type="button" ng-click="loadDelivery()">Get Deliveries</button>
 	      </span>
     </div>
 
@@ -85,7 +85,8 @@
 					<td>{{delivery.userName}}</td>
 					<td>{{delivery.status}}</td>
 					<td>
-					         <button type="button" class="btn  btn-info btn-sm" ng-click="getTeamMembers(team.id)" data-toggle="modal" data-target="#teamMemberModal">
+					         <button type="button" class="btn  btn-info btn-sm" 
+					         ng-click="editDelivery(delivery)"  ng-show="delivery.status=='New' || delivery.status=='SentForReview'">
 							 <span class=" fa fa-pencil">&nbsp</span>
 								Edit
                              </button>
@@ -149,7 +150,7 @@
 					<legend>
 						Artifacts 
 					<button class="btn btn-sm btn-primary pull-right" ng-click="showFileUpload()">
-						<span class="fa fa-file"></span>
+						<span class="fa fa-file"> clear and add files</span>
 					</button>
 						<div class="clearfix"></div>
 					</legend>
@@ -166,6 +167,84 @@
 		<div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
         <button type="button" class="btn btn-primary" ng-click="saveDelivery()" ><span class=" fa fa-floppy-o">&nbsp</span>Save</button>
+      </div>
+  </div>
+ </div>
+</div>
+
+
+<div id="editDeliveryModal" class="modal fade" role="dialog">
+ <div class="modal-dialog modal-xl">
+  <div class="modal-content">
+	<div class="modal-header  bg-primary">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h3 class="modal-title">Delivery : {{selectedProject.name}} , Team : {{editDel.teamName}}</h3>
+			
+		</div>
+		<div class="modal-body">
+		<div style="padding:15px;">
+			<div class="row">
+			<div class="col-md-8">
+				<div class="form-group">
+					<label  class="control-label">Application</label>
+					<div>
+						{{editDel.applicationName}}
+					</div>
+				</div>
+			
+				<div class="form-group">
+					<label  class="control-label">Version </label>
+					<div>
+						<input type="text" class="form-control" ng-model="editDel.version" >
+						<span>Auto-populating the last version , please change to current version</span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label  class="control-label">Release Tag </label>
+					<div>
+						<input type="text" class="form-control" ng-model="editDel.releaseTag" >
+					</div>
+				</div>
+				<div class="form-group">
+					<label  class="control-label">Change Description </label>
+					<div>
+						<textarea type="text" class="form-control" ng-model="editDel.changeDescription" rows="5"></textarea>
+					</div>
+				</div>
+				</div>
+			<div class="col-md-4">
+			<fieldset>
+				<legend>Artifacts
+				</legend>
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="artifact in artificatList"> 
+					  {{artifact.artifactName}}
+					  <a class="badge badge-danger " ng-click="deleteArtifact(artifact)">Delete</a>
+					</li>	
+			 	</ul>
+			</fieldset>
+				<fieldset>
+					<legend>
+						clear and upload 
+					<button class="btn btn-sm btn-primary pull-right" ng-click="showEditFileUpload()">
+						<span class="fa fa-file"></span>
+					</button>
+						<div class="clearfix"></div>
+					</legend>
+					<div id="artifacts">
+					 <input type="file" id="edit-artifact-fileupload" multiple style="display:none" />
+					 	<ul id="editfileList" class="list-group">
+					 		
+					 	</ul>
+					</div>
+				</fieldset>
+			</div>
+			</div>  
+		</div>
+		</div>
+		<div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
+        <button type="button" class="btn btn-primary" ng-click="saveEditedDelivery()" ><span class=" fa fa-floppy-o">&nbsp</span>Save</button>
       </div>
   </div>
  </div>

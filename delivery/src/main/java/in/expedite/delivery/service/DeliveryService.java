@@ -112,4 +112,12 @@ public class DeliveryService {
 		}
 		return lastVersion ;
 	}
+	
+	public List<Artifacts> getArtifactsByDelivery(Long deliveryId){
+		return artifactRepo.findByDeliveryId(deliveryId);
+	}
+	
+	public void deleteArtifact(Long id){
+		 artifactRepo.delete(id);
+	}
 }
