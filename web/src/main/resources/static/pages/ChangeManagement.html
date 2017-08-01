@@ -1,0 +1,161 @@
+<main ng-controller="changeMgmtController">
+
+<ul class="breadcrumb breadcrumb-page">
+			<div class="breadcrumb-label text-light-gray">You are here: </div>
+			<li><a>Home</a></li>
+			<li><a>Delivery</a></li>
+			<li class="active"><a>Change Management</a></li>
+		</ul>
+		<div class="page-header">
+			<div class="row">
+				<!-- Page header, center on small screens -->
+				<h1 class="col-xs-12 col-sm-2 text-center text-left-sm"><i class="fa fa-coffee page-header-icon"></i>&nbsp;&nbsp;Change Management</h1>
+				<div class="col-xs-12 col-sm-10"> 
+				<div class="btn-group">
+			<button type="button" class="btn btn-warning" ng-click="getHelp()"
+				data-toggle="modal" data-target="#delivHelp">Help</button>
+			</div>
+				</div>
+			</div>
+		</div> <!-- / .page-header -->
+
+<div class="alert alert-danger alert-dismissible" role="alert" ng-show="showerror">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{error}}
+</div>
+<div class="alert alert-success alert-dismissible" role="alert" ng-show="showsucess">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{success}}
+</div>
+<div class="col-md-12">
+
+<fieldset class="form-group">
+	<legend>Deliveries Waiting for Review and Approval</legend>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>
+                      <button type="button" class="btn  btn-success btn-sm" ng-click="loadDelivery()">
+                          <span class="fa fa-refresh"></span>&nbsp;
+                      </button>
+                    </th>
+                    <th>Version</th>
+					<th>Release Tag</th>
+					<th>Application</th>
+					<th>Team</th>
+					<th>Created Date</th>
+					<th>User</th>
+					<th>Status</th>
+					<th>Option</th>
+				</tr>
+			</thead>
+			<tbody>
+			<input type="text" ng-model="searchKeyword" class="form-control input-grp-sm ng-valid ng-dirty" id="searchTable" placeholder="Search table"  >
+			<tr ng-repeat="delivery in deliveryList | filter: searchKeyword ">
+					<td>{{$index+1}}</td>
+                    <td>{{delivery.version}}</td>
+					<td>{{delivery.releaseTag}}</td>
+					<td>{{delivery.applicationName}}</td>
+					<td>{{delivery.teamName}}</td>
+					<td>{{delivery.createdDate}}</td>
+					<td>{{delivery.userName}}</td>
+					<td>{{delivery.status}}</td>
+					<td>
+			         <button type="button" class="btn  btn-info btn-sm"        ng-click="viewDelivery(delivery)">
+					 <span class=" fa fa-pencil">&nbsp</span>
+						View 
+                     </button>
+                    </td>
+				</tr>
+			</tbody>
+		</table>
+</fieldset>
+</div>
+
+
+
+<div id="viewDeliveryModal" class="modal fade" role="dialog">
+ <div class="modal-dialog modal-xl">
+  <div class="modal-content">
+	<div class="modal-header  bg-primary">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h3 class="modal-title">Delivery : {{selectedProject.name}}</h3>
+			
+		</div>
+		<div class="modal-body">
+		<div style="padding:15px;">
+			<div class="row">
+			<div class="col-md-8">
+			<div class="form-group">
+					<label  class="control-label">Team</label>
+					<div>
+						{{editDel.teamName}}
+					</div>
+				</div>
+				<div class="form-group">
+					<label  class="control-label">Application</label>
+					<div>
+						{{editDel.applicationName}}
+					</div>
+				</div>
+			
+				<div class="form-group">
+					<label  class="control-label">Version </label>
+					<div>
+						{{editDel.version}}
+					</div>
+				</div>
+				<div class="form-group">
+					<label  class="control-label">Release Tag </label>
+					<div>
+						{{editDel.releaseTag}}
+					</div>
+				</div>
+				<div class="form-group">
+					<label  class="control-label">Change Description </label>
+					<div>
+						{{editDel.changeDescription}}
+					</div>
+				</div>
+				</div>
+			<div class="col-md-4">
+			<fieldset>
+				<legend>Artifacts
+				</legend>
+				<ul class="list-group">
+					<li class="list-group-item" ng-repeat="artifact in artificatList"> 
+					  {{artifact.artifactName}}
+					</li>	
+			 	</ul>
+			</fieldset>
+			</div>
+			</div>  
+		</div>
+		</div>
+		<div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
+        <button type="button" class="btn btn-primary" ng-click="approvedDelivery(editDel)" ><span class=" fa fa-floppy-o">&nbsp</span>Approve</button>
+        <button type="button" class="btn btn-danger" ng-click="sendBackDelivery(editDel)" ><span class=" fa fa-ban">&nbsp</span>Send Back For Review</button>
+      </div>
+  </div>
+ </div>
+</div>
+
+<div id="delivHelp" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header  bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h3 class="modal-title">New Delivery Screen Help</h3>
+			</div>
+			<div class="modal-body">
+				<div id="deliv_help"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn  btn-outline"
+					data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+</main>

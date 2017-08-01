@@ -76,6 +76,10 @@ app.config(function($routeProvider) {
   .when('/addDelivery', {
     templateUrl : 'pages/AddDelivery.html',
   })
+  .when('/changeManagement', {
+    templateUrl : 'pages/ChangeManagement.html',
+  })
+ 
   
   .otherwise({redirectTo: '/'});
 });

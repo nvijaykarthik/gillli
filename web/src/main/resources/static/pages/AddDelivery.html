@@ -90,6 +90,16 @@
 							 <span class=" fa fa-pencil">&nbsp</span>
 								Edit
                              </button>
+                              <button type="button" class="btn  btn-info btn-sm" 
+					         ng-click="submitDelivery(delivery)"  ng-show="delivery.status=='New' || delivery.status=='SentForReview'">
+							 <span class=" fa fa-check">&nbsp</span>
+								Submit For Approval
+                             </button>
+                             <button type="button" class="btn  btn-info btn-sm"  
+					         ng-click="viewComments(delivery)" data-toggle="modal" data-target="#commentsModal">
+							 <span class=" fa fa-check">&nbsp</span>
+								View Comments
+                             </button>
                             </td>
 				</tr>
 			</tbody>
@@ -265,6 +275,33 @@
 					data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
 			</div>
 		</div>
-	</div>
 </div>
+	
+	
+
+</div>
+<div class="modal fade" id="commentsModal" role="dialog">
+	  <div class="modal-dialog modal-lg">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h4 class="modal-title" id="myModalLabel">Comments</h4>
+		  </div>
+		  <div class="modal-body">
+			 <div style="padding:15px;">
+		  		<ul class="list-group">
+  					<li class="list-group-item" ng-repeat="comment in commentList">
+						{{comment.comment}}
+						<p style="font-size:11px;color:#aaa;">By {{comment.createdBy}} on {{comment.createdDate}}</p>
+					</li>
+  				</ul>
+			 </div>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
 </main>

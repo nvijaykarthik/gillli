@@ -23,8 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 import in.expedite.delivery.dao.DeliveryDao;
 import in.expedite.delivery.entity.Artifacts;
 import in.expedite.delivery.entity.Delivery;
+import in.expedite.delivery.entity.ReviewComment;
 import in.expedite.delivery.repository.ArtifactsRepository;
 import in.expedite.delivery.repository.DeliveryRepository;
+import in.expedite.delivery.repository.ReviewCommentRepository;
+import in.expedite.delivery.utills.Status;
 
 @Service
 public class DeliveryService {
@@ -43,11 +46,19 @@ public class DeliveryService {
 	@Value("${expedite.file.repo.path}")
 	private String repoHome;
 	
+	@Autowired
+	private ReviewCommentRepository commentRepository;
+	
 	public List<Delivery> getDeliveryForProject(Long projectId){
 		List<Delivery> delivery= deliveryDao.getDeliveryForProject(projectId);
 		return delivery;
 	}
 
+	public List<Delivery> getDeliveryForStatus(String status){
+		List<Delivery> delivery= deliveryDao.getDeliveryForStatus(status);
+		return delivery;
+	}
+	
 	public void saveArtifactToRepo(MultipartFile file, 
 			Long deliveryId,
 			Long applicationId,
@@ -119,5 +130,34 @@ public class DeliveryService {
 	
 	public void deleteArtifact(Long id){
 		 artifactRepo.delete(id);
+	}
+	
+	public Delivery sendForApproval(Delivery delivery){
+		delivery.setStatus(Status.SUBMITTED_FOR_APPROVAL.getStatus());
+		 return deliveryRepository.save(delivery);
+	}
+	
+	public Delivery sendForReview(Delivery delivery){
+		delivery.setStatus(Status.SENT_FOR_REVIEW.getStatus());
+		 return deliveryRepository.save(delivery);
+	}
+	
+	public Delivery approve(Delivery delivery){
+		delivery.setStatus(Status.APPROVED.getStatus());
+		 return deliveryRepository.save(delivery);
+	}
+	
+	public Delivery cancel(Delivery delivery){
+		delivery.setStatus(Status.CANCEL.getStatus());
+		 return deliveryRepository.save(delivery);
+	}
+	
+	public ReviewComment addReviewComment(ReviewComment comment,String username) {
+		comment.setCreatedBy(username);
+		return commentRepository.save(comment);
+	}
+	
+	public List<ReviewComment> getCommentsByDelivery(Long deliveryId){
+		return commentRepository.findByDeliveryIdOrderByCreatedDateDesc(deliveryId);
 	}
 }

@@ -278,4 +278,103 @@ app.controller('newDeliveryController', function($scope,$http,$log,$httpParamSer
 	           });
 		}
 	
+		$scope.submitDelivery=function(delivery){
+			$http({
+	 	        method : "POST",
+	 	        url : namespace+'/resource/delivery/submitForApproval',
+	 	        data:delivery,
+	 	        headers : {'Content-Type': 'application/json'},
+	 	    }).then(function success(response) {
+	 	    	alert("successfully submited for approval");
+	 	    	$scope.loadDelivery();
+	 	    }, function failure(response) {
+	 	        $log.error(response.data);
+	 	        alert("Error while submitting for approval");
+	 	    });
+		}
+		
+		$scope.viewComments=function(delivery){
+			$http({
+		        method : "GET",
+		        url : namespace+'/resource/delivery/getComment?deliveryId='+delivery.id
+		    }).then(function success(response) {
+		    	$scope.commentList=response.data;	    	
+		    }, function failure(response) {
+		        $log.error(response.status)
+		        alert("Error retrieving Comments");
+		    });
+		}
+});
+
+
+app.controller('changeMgmtController', function($scope,$http,$log,$httpParamSerializerJQLike,
+		$routeParams,$location,authService,$q) {
+	
+	$scope.loadDelivery=function(){
+	   $http({
+	        method : "GET",
+	        url : namespace+'/resource/delivery/toReview'
+	    }).then(function success(response) {
+	    	$scope.deliveryList=response.data;	    	
+	    }, function failure(response) {
+	        $log.error(response.status) 
+	        alert("Error retrieving Deliveries");
+	    });
+	   }
+	$scope.loadDelivery();
+	
+	$scope.approvedDelivery=function(delivery){
+		$http({
+ 	        method : "POST",
+ 	        url : namespace+'/resource/delivery/approve',
+ 	        data:delivery,
+ 	        headers : {'Content-Type': 'application/json'},
+ 	    }).then(function success(response) {
+ 	    	alert("successfully submited for approval");
+ 	    	$scope.loadDelivery();
+ 	    	$('#viewDeliveryModal').modal('hide');
+ 	    }, function failure(response) {
+ 	        $log.error(response.data);
+ 	        alert("Error while submitting for approval");
+ 	    });
+	}
+	
+	
+	$scope.sendBackDelivery=function(delivery){
+		$http({
+ 	        method : "POST",
+ 	        url : namespace+'/resource/delivery/sendForReview',
+ 	        data:delivery,
+ 	        headers : {'Content-Type': 'application/json'},
+ 	    }).then(function success(response) {
+ 	    	alert("successfully Sent back for Review");
+ 	    	$scope.loadDelivery();
+ 	    	$('#viewDeliveryModal').modal('hide');
+ 	    }, function failure(response) {
+ 	        $log.error(response.data);
+ 	        alert("Error while submitting for approval");
+ 	    });
+	}
+	
+	 $scope.viewDelivery=function(delivery){
+		  $scope.editDel=delivery;
+		  $('#viewDeliveryModal').modal('show');
+		  $scope.loadArtifact(delivery.id);
+	  }
+	 
+	  $scope.loadArtifact=function(deliveryId){
+		  $http({
+				method : "GET",
+				url : namespace+"/resource/delivery/getArtifacts?deliveryId="+ deliveryId
+			  	})
+			  	.then(
+					function success(response) {
+						$scope.artificatList = response.data;
+					},
+					function failure(response) {
+						$log.error(response.status)
+						alert("error while retrieving artifacts")
+					});
+	  }
+	  
 });

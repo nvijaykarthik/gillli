@@ -5,7 +5,8 @@ public enum Status {
 		NEW("New"),
 		SUBMITTED_FOR_APPROVAL("SubmittedForApproval"),
 		APPROVED("Approved"),
-		SENT_FOR_REVIEW("SentForReview");
+		SENT_FOR_REVIEW("SentForReview"),
+		CANCEL("Cancel");
 		
 		private String status;
 		
