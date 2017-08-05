@@ -324,36 +324,80 @@ app.controller('changeMgmtController', function($scope,$http,$log,$httpParamSeri
 	$scope.loadDelivery();
 	
 	$scope.approvedDelivery=function(delivery){
-		$http({
- 	        method : "POST",
- 	        url : namespace+'/resource/delivery/approve',
- 	        data:delivery,
- 	        headers : {'Content-Type': 'application/json'},
- 	    }).then(function success(response) {
- 	    	alert("successfully submited for approval");
- 	    	$scope.loadDelivery();
- 	    	$('#viewDeliveryModal').modal('hide');
- 	    }, function failure(response) {
- 	        $log.error(response.data);
- 	        alert("Error while submitting for approval");
- 	    });
+		
+		var delRevComment = prompt("Please Enter the comment on your action : Approve", "Approved");
+		 if (delRevComment == null || delRevComment == "") {
+		        alert("comment is required ");
+		        return
+		    } else {
+		    	
+		    	$http({
+		 	        method : "POST",
+		 	        url : namespace+'/resource/delivery/approve',
+		 	        data:delivery,
+		 	        headers : {'Content-Type': 'application/json'},
+		 	    }).then(function success(response) {
+		 	    	alert("successfully submited for approval");
+		 	    	$scope.loadDelivery();
+		 	    	$('#viewDeliveryModal').modal('hide');
+		 	    }, function failure(response) {
+		 	        $log.error(response.data);
+		 	        alert("Error while submitting for approval");
+		 	    });
+		    	$scope.delcmt={};
+		    	$scope.delcmt['comment']=delRevComment;
+		    	$scope.delcmt['deliveryId']=delivery.id;
+		    	$http({
+		 	        method : "POST",
+		 	        url : namespace+'/resource/delivery/addComment',
+		 	        data:$scope.delcmt,
+		 	        headers : {'Content-Type': 'application/json'},
+		 	    }).then(function success(response) {
+		 	    	alert("Comments added successfully");
+		 	    }, function failure(response) {
+		 	        $log.error(response.data);
+		 	        alert("Error while submitting for Comment");
+		 	    });
+		    }
+		
 	}
 	
 	
 	$scope.sendBackDelivery=function(delivery){
-		$http({
- 	        method : "POST",
- 	        url : namespace+'/resource/delivery/sendForReview',
- 	        data:delivery,
- 	        headers : {'Content-Type': 'application/json'},
- 	    }).then(function success(response) {
- 	    	alert("successfully Sent back for Review");
- 	    	$scope.loadDelivery();
- 	    	$('#viewDeliveryModal').modal('hide');
- 	    }, function failure(response) {
- 	        $log.error(response.data);
- 	        alert("Error while submitting for approval");
- 	    });
+		var delRevComment = prompt("Please Enter the comment on your action : Send for Review", "Approved");
+		 if (delRevComment == null || delRevComment == "") {
+		        alert("comment is required ");
+		        return
+		    } else {
+				$http({
+		 	        method : "POST",
+		 	        url : namespace+'/resource/delivery/sendForReview',
+		 	        data:delivery,
+		 	        headers : {'Content-Type': 'application/json'},
+		 	    }).then(function success(response) {
+		 	    	alert("successfully Sent back for Review");
+		 	    	$scope.loadDelivery();
+		 	    	$('#viewDeliveryModal').modal('hide');
+		 	    }, function failure(response) {
+		 	        $log.error(response.data);
+		 	        alert("Error while submitting for approval");
+		 	    });
+				
+				$scope.delcmt={};
+		    	$scope.delcmt['comment']=delRevComment;
+		    	$scope.delcmt['deliveryId']=delivery.id;
+		    	$http({
+		 	        method : "POST",
+		 	        url : namespace+'/resource/delivery/addComment',
+		 	        data:$scope.delcmt,
+		 	        headers : {'Content-Type': 'application/json'},
+		 	    }).then(function success(response) {
+		 	    	alert("Comments added successfully");
+		 	    }, function failure(response) {
+		 	        $log.error(response.data);
+		 	        alert("Error while submitting for Comment");
+		 	    });
+		    }
 	}
 	
 	 $scope.viewDelivery=function(delivery){
@@ -376,5 +420,69 @@ app.controller('changeMgmtController', function($scope,$http,$log,$httpParamSeri
 						alert("error while retrieving artifacts")
 					});
 	  }
+	  $scope.viewComments=function(delivery){
+			$http({
+		        method : "GET",
+		        url : namespace+'/resource/delivery/getComment?deliveryId='+delivery.id
+		    }).then(function success(response) {
+		    	$scope.commentList=response.data;	    	
+		    }, function failure(response) {
+		        $log.error(response.status)
+		        alert("Error retrieving Comments");
+		    });
+		}
+	  
+	  
+});
+
+
+app.controller('approvedDeliveryController', function($scope,$http,$log,$httpParamSerializerJQLike,
+		$routeParams,$location,authService,$q) {
+	
+	$scope.loadDelivery=function(){
+	   $http({
+	        method : "GET",
+	        url : namespace+'/resource/delivery/approved'
+	    }).then(function success(response) {
+	    	$scope.deliveryList=response.data;	    	
+	    }, function failure(response) {
+	        $log.error(response.status) 
+	        alert("Error retrieving Deliveries");
+	    });
+	   }
+	$scope.loadDelivery();
+	
+	 $scope.viewDelivery=function(delivery){
+		  $scope.editDel=delivery;
+		  $('#viewDeliveryModal').modal('show');
+		  $scope.loadArtifact(delivery.id);
+	  }
+	 
+	  $scope.loadArtifact=function(deliveryId){
+		  $http({
+				method : "GET",
+				url : namespace+"/resource/delivery/getArtifacts?deliveryId="+ deliveryId
+			  	})
+			  	.then(
+					function success(response) {
+						$scope.artificatList = response.data;
+					},
+					function failure(response) {
+						$log.error(response.status)
+						alert("error while retrieving artifacts")
+					});
+	  }
+	  $scope.viewComments=function(delivery){
+			$http({
+		        method : "GET",
+		        url : namespace+'/resource/delivery/getComment?deliveryId='+delivery.id
+		    }).then(function success(response) {
+		    	$scope.commentList=response.data;	    	
+		    }, function failure(response) {
+		        $log.error(response.status)
+		        alert("Error retrieving Comments");
+		    });
+		}
+	  
 	  
 });

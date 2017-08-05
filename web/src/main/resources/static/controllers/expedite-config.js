@@ -79,7 +79,9 @@ app.config(function($routeProvider) {
   .when('/changeManagement', {
     templateUrl : 'pages/ChangeManagement.html',
   })
- 
+ .when('/approvedDelivery', {
+    templateUrl : 'pages/ApprovedDelivery.html',
+  })
   
   .otherwise({redirectTo: '/'});
 });

@@ -48,6 +48,11 @@ public class DeliveryController {
 		return deliveryService.getDeliveryForStatus(Status.SUBMITTED_FOR_APPROVAL.getStatus());
 	}
 	
+	@RequestMapping(path="/approved",produces=MediaType.APPLICATION_JSON_VALUE,method=RequestMethod.GET)
+	public List<Delivery> getApprovedDelivery(){
+		return deliveryService.getDeliveryForStatus(Status.APPROVED.getStatus());
+	}
+	
 	@RequestMapping(value="/uploadArtifacts", method=RequestMethod.POST)
     public String artifactUpload(@RequestParam(name="file",required=false) MultipartFile file,
     		@RequestParam("deliveryId") Long deliveryId,
