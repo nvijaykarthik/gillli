@@ -49,8 +49,13 @@ public class DeliveryController {
 	}
 	
 	@RequestMapping(path="/approved",produces=MediaType.APPLICATION_JSON_VALUE,method=RequestMethod.GET)
-	public List<Delivery> getApprovedDelivery(){
-		return deliveryService.getDeliveryForStatus(Status.APPROVED.getStatus());
+	public List<Delivery> getApprovedDelivery(
+			@RequestParam(required=false) Long teamId,
+			@RequestParam(required=false) String releaseTag,
+			@RequestParam(required=false) Long applicationId,
+			@RequestParam(required=false) Long projectId){
+		
+		return deliveryService.getDelivery(Status.APPROVED.getStatus(),teamId,releaseTag,applicationId,projectId);
 	}
 	
 	@RequestMapping(value="/uploadArtifacts", method=RequestMethod.POST)

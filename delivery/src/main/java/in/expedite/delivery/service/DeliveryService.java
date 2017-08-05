@@ -160,4 +160,10 @@ public class DeliveryService {
 	public List<ReviewComment> getCommentsByDelivery(Long deliveryId){
 		return commentRepository.findByDeliveryIdOrderByCreatedDateDesc(deliveryId);
 	}
+
+	public List<Delivery> getDelivery(String status, Long teamId, String releaseTag, Long applicationId,
+			Long projectId) {
+		List<Delivery> delivery= deliveryDao.getDelivery(status,teamId,releaseTag,applicationId,projectId);
+		return delivery;
+	}
 }

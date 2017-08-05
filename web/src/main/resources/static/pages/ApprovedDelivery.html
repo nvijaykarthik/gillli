@@ -27,17 +27,15 @@
     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     {{success}}
 </div>
-<div class="col-md-12">
+<div class="row">
+<div class="col-md-9">
 
 <fieldset class="form-group">
-	<legend>Approved Delivery</legend>
 		<table class="table">
 			<thead>
 				<tr>
 					<th>
-                      <button type="button" class="btn  btn-success btn-sm" ng-click="loadDelivery()">
-                          <span class="fa fa-refresh"></span>&nbsp;
-                      </button>
+					#
                     </th>
                     <th>Version</th>
 					<th>Release Tag</th>
@@ -72,7 +70,35 @@
 		</table>
 </fieldset>
 </div>
-
+<div class="col-md-3" style="border-left:solid 1px skyblue">
+<h3>Search:</h3>
+	<div class="form-group">
+		<label  class="control-label">Team</label>
+		<div>
+			<input type="text" class="form-control" ng-model="search.teamId"/>
+		</div>
+	</div>
+	<div class="form-group">
+		<label  class="control-label">Application</label>
+		<div>
+			<input type="text" class="form-control" ng-model="search.applicationId"/>
+		</div>
+	</div>
+	<div class="form-group">
+		<label  class="control-label">Project</label>
+		<div>
+			<input type="text" class="form-control" ng-model="search.projectId"/>
+		</div>
+	</div>
+	<div class="form-group">
+		<label  class="control-label">Release Tag</label>
+		<div>
+			<input type="text" class="form-control" ng-model="search.releaseTag"/>
+		</div>
+	</div>
+	<button ng-click="loadDelivery()" class="btn btn-success">Search</button>
+</div>
+</div>
 
 
 <div id="viewDeliveryModal" class="modal fade" role="dialog">

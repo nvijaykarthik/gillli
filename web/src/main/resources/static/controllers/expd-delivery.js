@@ -439,18 +439,26 @@ app.controller('changeMgmtController', function($scope,$http,$log,$httpParamSeri
 app.controller('approvedDeliveryController', function($scope,$http,$log,$httpParamSerializerJQLike,
 		$routeParams,$location,authService,$q) {
 	
+	$scope.search={};
+	
 	$scope.loadDelivery=function(){
-	   $http({
+		console.log($scope.search);
+		if(angular.equals({}, $scope.search))
+		{
+			alert("Please search by atleast one field");
+			return;
+		}
+		$http({
 	        method : "GET",
-	        url : namespace+'/resource/delivery/approved'
+	        url : namespace+'/resource/delivery/approved?'+$httpParamSerializerJQLike($scope.search)
 	    }).then(function success(response) {
-	    	$scope.deliveryList=response.data;	    	
+	    	$scope.deliveryList=response.data;	    
 	    }, function failure(response) {
 	        $log.error(response.status) 
 	        alert("Error retrieving Deliveries");
 	    });
+		
 	   }
-	$scope.loadDelivery();
 	
 	 $scope.viewDelivery=function(delivery){
 		  $scope.editDel=delivery;
