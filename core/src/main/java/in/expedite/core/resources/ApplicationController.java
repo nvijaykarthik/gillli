@@ -35,4 +35,9 @@ public class ApplicationController {
 		return applicationService.save(app,username);
 	}
 	
+	@RequestMapping(path="/find",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<Application> getApplication(@RequestParam(required=false) String q){
+		return applicationService.findAppl(q);
+	}
+	
 }

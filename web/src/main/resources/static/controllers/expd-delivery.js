@@ -492,5 +492,114 @@ app.controller('approvedDeliveryController', function($scope,$http,$log,$httpPar
 		    });
 		}
 	  
-	  
+	  $scope.selectedProject={};
+		
+		$scope.selectThisProject=function(selProj){
+			$scope.selectedProject=selProj;
+			$scope.showSearchSelect=false;
+			$scope.search['projectId']=selProj.id;
+		}
+		
+		$scope.toggleSearchSelect=function(){
+			if($scope.showSearchSelect===false){
+				$scope.showSearchSelect=true;
+			}else{
+				$scope.showSearchSelect=false;
+			}
+				
+		}
+	   $scope.getProjects=function(){
+		   $http({
+		        method : "GET",
+		        url : namespace+'/resource/project/availProject'
+		    }).then(function success(response) {
+		    	$scope.projectList=response.data;	    	
+		    }, function failure(response) {
+		        $log.error(response.status) 
+		    });
+	   }
+	   $scope.getProjects();
+	   
+	   $scope.toggleTeamSelect=function(){
+		   if($scope.showTeamSelect===false){
+				$scope.showTeamSelect=true;
+			}else{
+				$scope.showTeamSelect=false;
+			}
+	   }
+	   
+	   $scope.selectTeam=function(team){
+		$scope.teamSearchText=team.teamName;
+		$scope.search.teamId=team.id;
+		$scope.showTeamSelect=false;
+	   }
+	   
+	   $scope.autoSearchTeam=function(){
+		   if($scope.teamSearchText.length>2){
+		   $http({
+		        method : "GET",
+		        url : namespace+'/resource/team/find?q='+$scope.teamSearchText
+		    }).then(function success(response) {
+		    	$scope.teamList=response.data;	    	
+		    }, function failure(response) {
+		        $log.error(response.status) 
+		    });
+		   }else{
+			   $scope.getTeams(); 
+		   }
+	   }
+	   
+	   $scope.getTeams=function(){
+		   $http({
+		        method : "GET",
+		        url : namespace+'/resource/team/find'
+		    }).then(function success(response) {
+		    	$scope.teamList=response.data;	    	
+		    }, function failure(response) {
+		        $log.error(response.status) 
+		    });
+	   }
+	   $scope.getTeams();
+	   
+	   $scope.toggleAppSelect=function(){
+		   if($scope.showAppSelect===false){
+				$scope.showAppSelect=true;
+			}else{
+				$scope.showAppSelect=false;
+			}
+	   }
+	   
+	   $scope.selectApp=function(app){
+			$scope.appSearchText=app.appName;
+			$scope.search.applicationId=app.id;
+			$scope.showAppSelect=false;
+		   }
+	   
+	   $scope.autoSearchApp=function(){
+		   if($scope.appSearchText.length>2){
+		   $http({
+		        method : "GET",
+		        url : namespace+'/resource/application/find?q='+$scope.appSearchText
+		    }).then(function success(response) {
+		    	$scope.appList=response.data;	    	
+		    }, function failure(response) {
+		        $log.error(response.status) 
+		    });
+		   }else{
+			   $scope.getApplications(); 
+		   }
+	   }
+	   
+	   
+	   $scope.getApplications=function(){
+		   $http({
+		        method : "GET",
+		        url : namespace+'/resource/application/find'
+		    }).then(function success(response) {
+		    	$scope.appList=response.data;	    	
+		    }, function failure(response) {
+		        $log.error(response.status) 
+		    });
+	   }
+	   $scope.getApplications();
 });

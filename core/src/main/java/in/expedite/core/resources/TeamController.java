@@ -37,6 +37,11 @@ public class TeamController {
 	}
 	
 
+	@RequestMapping(path="find",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<Team> findTeam(@RequestParam(required=false) String q){
+		return teamServices.findTeam(q);
+	}
+	
 	@RequestMapping(path="/forIds", method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<Team> getTeam(@RequestBody List<Long> ids){
 		return teamServices.getTeamForId(ids);

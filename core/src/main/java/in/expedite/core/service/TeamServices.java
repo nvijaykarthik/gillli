@@ -7,11 +7,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 
+import in.expedite.core.entity.Application;
 import in.expedite.core.entity.Department;
 import in.expedite.core.entity.Team;
 import in.expedite.core.entity.TeamMember;
@@ -89,5 +95,16 @@ public class TeamServices {
 				.collect(Collectors.toList());
 		
 		return teams;
+	}
+	
+	public List<Team> findTeam(String q) {
+		List<Team> appLst=new ArrayList<>();
+		if(StringUtils.isBlank(q)) {
+			Pageable page= new PageRequest(0, 25,Sort.Direction.DESC,"createdDate");
+			appLst=teamRepository.findAll(page).getContent();
+		}else {
+			appLst=teamRepository.findByTeamNameIgnoreCaseContaining(q);
+		}
+		return appLst;
 	}
 }

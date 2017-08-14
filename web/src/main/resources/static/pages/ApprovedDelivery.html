@@ -74,20 +74,35 @@
 <h3>Search:</h3>
 	<div class="form-group">
 		<label  class="control-label">Team</label>
-		<div>
-			<input type="text" class="form-control" ng-model="search.teamId"/>
+		<div ng-init="showTeamSelect=false"  ng-blur="showTeamSelect=false">
+			<input type="text" class="form-control" ng-model="teamSearchText" ng-click="toggleTeamSelect()" ng-change="autoSearchTeam()"/>
+			<div class="dropDownSelect" ng-show="showTeamSelect">
+				<ul class="autoLoadList">
+					<li ng-click="selectTeam(team)" ng-repeat="team in teamList">{{team.teamName}}</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 	<div class="form-group">
 		<label  class="control-label">Application</label>
-		<div>
-			<input type="text" class="form-control" ng-model="search.applicationId"/>
+		<div ng-init="showAppSelect=false">
+			<input type="text" class="form-control" ng-model="appSearchText" ng-click="toggleAppSelect()" ng-change="autoSearchApp()"/>
+			<div class="dropDownSelect" ng-show="showAppSelect">
+				<ul class="autoLoadList">
+					<li ng-click="selectApp(app)" ng-repeat="app in appList">{{app.appName}}</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 	<div class="form-group">
-		<label  class="control-label">Project</label>
-		<div>
-			<input type="text" class="form-control" ng-model="search.projectId"/>
+	<label  class="control-label">Project</label>
+		<div ng-init="showProjSelect=false">
+			<input type="text" class="form-control" ng-model="projSearchText" ng-click="toggleProjSelect()" ng-change="autoSearchProj()"/>
+			<div class="dropDownSelect" ng-show="showAppSelect">
+				<ul class="autoLoadList">
+					<li ng-click="selectproject(app)" ng-repeat="project in projectList">{{project.name}}</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 	<div class="form-group">
