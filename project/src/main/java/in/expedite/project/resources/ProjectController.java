@@ -122,5 +122,9 @@ public class ProjectController {
 	}
 	
 	
+	@RequestMapping(path="/find",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
+	public List<Project> findProject(@RequestParam(required=false) String q){
+		return projectService.findProject(q);
+	}
 	
 }

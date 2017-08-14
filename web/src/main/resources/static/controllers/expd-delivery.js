@@ -492,26 +492,41 @@ app.controller('approvedDeliveryController', function($scope,$http,$log,$httpPar
 		    });
 		}
 	  
-	  $scope.selectedProject={};
-		
-		$scope.selectThisProject=function(selProj){
-			$scope.selectedProject=selProj;
-			$scope.showSearchSelect=false;
-			$scope.search['projectId']=selProj.id;
-		}
-		
-		$scope.toggleSearchSelect=function(){
-			if($scope.showSearchSelect===false){
-				$scope.showSearchSelect=true;
+	 
+		$scope.toggleProjSelect=function(){
+			if($scope.showProjSelect===false){
+				$scope.showProjSelect=true;
 			}else{
-				$scope.showSearchSelect=false;
+				$scope.showProjSelect=false;
 			}
 				
 		}
+		
+		 $scope.selectProject=function(project){
+				$scope.projSearchText=project.name;
+				$scope.search.projectId=project.id;
+				$scope.showProjSelect=false;
+			   }
+		 
+		 $scope.autoSearchProj=function(){
+			 
+			 if($scope.projSearchText.length>2){
+				   $http({
+				        method : "GET",
+				        url : namespace+'/resource/project/find?q='+$scope.projSearchText
+				    }).then(function success(response) {
+				    	$scope.projectList=response.data;	    	
+				    }, function failure(response) {
+				        $log.error(response.status) 
+				    });
+				   }else{
+					   $scope.getProjects(); 
+				   }
+		 }
 	   $scope.getProjects=function(){
 		   $http({
 		        method : "GET",
-		        url : namespace+'/resource/project/availProject'
+		        url : namespace+'/resource/project/find'
 		    }).then(function success(response) {
 		    	$scope.projectList=response.data;	    	
 		    }, function failure(response) {

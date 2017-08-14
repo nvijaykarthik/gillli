@@ -98,9 +98,9 @@
 	<label  class="control-label">Project</label>
 		<div ng-init="showProjSelect=false">
 			<input type="text" class="form-control" ng-model="projSearchText" ng-click="toggleProjSelect()" ng-change="autoSearchProj()"/>
-			<div class="dropDownSelect" ng-show="showAppSelect">
+			<div class="dropDownSelect" ng-show="showProjSelect">
 				<ul class="autoLoadList">
-					<li ng-click="selectproject(app)" ng-repeat="project in projectList">{{project.name}}</li>
+					<li ng-click="selectProject(project)" ng-repeat="project in projectList">{{project.name}}</li>
 				</ul>
 			</div>
 		</div>

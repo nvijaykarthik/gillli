@@ -14,6 +14,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.stylesheets.LinkStyle;
 
@@ -188,5 +191,16 @@ public class ProjectService {
 		//Delivered
 		return projectRepository.findByIdInAndStatusIgnoreCase(projId, status);
 	
+	}
+
+	public List<Project> findProject(String q) {
+			List<Project> appLst=new ArrayList<>();
+			if(StringUtils.isBlank(q)) {
+				Pageable page= new PageRequest(0, 25,Sort.Direction.DESC,"createdDate");
+				appLst=projectRepository.findAll(page).getContent();
+			}else {
+				appLst=projectRepository.findByNameIgnoreCaseContaining(q);
+			}
+			return appLst;
 	}
 }
