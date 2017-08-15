@@ -13,7 +13,7 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 
 jar {
-	baseName = 'delivery'
+	baseName = 'environment'
 }
 
 sourceCompatibility = 1.8
