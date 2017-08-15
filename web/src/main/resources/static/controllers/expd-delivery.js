@@ -509,7 +509,7 @@ app.controller('approvedDeliveryController', function($scope,$http,$log,$httpPar
 			   }
 		 
 		 $scope.autoSearchProj=function(){
-			 
+			 $scope.search.projectId="";
 			 if($scope.projSearchText.length>2){
 				   $http({
 				        method : "GET",
@@ -550,6 +550,7 @@ app.controller('approvedDeliveryController', function($scope,$http,$log,$httpPar
 	   }
 	   
 	   $scope.autoSearchTeam=function(){
+		   $scope.search.teamId="";
 		   if($scope.teamSearchText.length>2){
 		   $http({
 		        method : "GET",
@@ -591,6 +592,7 @@ app.controller('approvedDeliveryController', function($scope,$http,$log,$httpPar
 		   }
 	   
 	   $scope.autoSearchApp=function(){
+		   $scope.search.applicationId="";
 		   if($scope.appSearchText.length>2){
 		   $http({
 		        method : "GET",
