@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import in.expedite.environment.entity.Environment;
+import in.expedite.environment.entity.EnvironmentDetails;
+import in.expedite.environment.repository.EnvironmentDetailsRepo;
 import in.expedite.environment.repository.EnvironmentRepository;
 
 @Service
@@ -32,6 +34,8 @@ public class EnvironmentService {
 	@Autowired
 	private EnvironmentRepository envRepo; 
 	
+	@Autowired
+	private EnvironmentDetailsRepo envDetRepo;
 	
 	@Value("${expedite.file.repo.path}")
 	private String repoHome;
@@ -43,7 +47,19 @@ public class EnvironmentService {
 	}
 
 	
-	public Environment save(Environment env){
+	public Environment save(Environment env,String username){
+		env.setCreatedBy(username);
 		return envRepo.save(env);
+	}
+	
+	
+	public EnvironmentDetails getDetails(Long appId, Long envId) {
+		return envDetRepo.findByApplicationIdAndEnvironmentId(appId,envId);
+	}
+
+
+	public EnvironmentDetails save(EnvironmentDetails env,String username) {
+		env.setCreatedBy(username);
+		return envDetRepo.save(env);
 	}
 }

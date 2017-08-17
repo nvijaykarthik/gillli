@@ -85,6 +85,10 @@ app.config(function($routeProvider) {
   .when('/environment', {
     templateUrl : 'pages/Environment.html',
   })
+  .when('/envDetails', {
+    templateUrl : 'pages/EnvDetails.html',
+  })
+  
   .otherwise({redirectTo: '/'});
 });
 

@@ -1,0 +1,60 @@
+<main ng-controller="envDetailsController">
+		<ul class="breadcrumb breadcrumb-page">
+			<div class="breadcrumb-label text-light-gray">You are here: </div>
+			<li><a>Home</a></li>
+			<li><a>Environment</a></li>
+			<li class="active"><a>Details</a></li>
+		</ul>
+		<div class="page-header">
+			<div class="row">
+				<!-- Page header, center on small screens -->
+				<h1 class="col-xs-12 col-sm-2 text-center text-left-sm">
+					<i class="fa fa-snowflake-o page-header-icon"></i>&nbsp;&nbsp;Details for Application : 
+					
+				</h1>
+				<div class="col-xs-12 col-sm-4">
+					<div ng-init="showAppSelect=false">
+						<input type="text" class="form-control" ng-model="appSearchText" ng-click="toggleAppSelect()" ng-change="autoSearchApp()"/>
+						<div class="dropDownSelect" ng-show="showAppSelect">
+							<ul class="autoLoadList">
+								<li ng-click="selectApp(app)" ng-repeat="app in appList">{{app.appName}}</li>
+							</ul>
+						</div>
+					</div>
+					</div>
+			</div>
+		</div>
+		
+<div class="alert alert-danger alert-dismissible" role="alert" ng-show="showerror">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{error}}
+</div>
+<div class="alert alert-success alert-dismissible" role="alert" ng-show="showsucess">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{success}}
+</div>
+
+<div class="col-md-12">
+	<fieldset class="form-group">
+		<legend>Details for the environment : {{appSearchText}}</legend>
+		<div class="modal-body" ng-init="selectedTab = 0;">
+				<ul class="nav nav-tabs">
+					<li ng-repeat="env in envList" >
+						<a href	ng-click="getDetails(env)">{{env.name}}</a>
+					</li>
+				</ul>
+			
+			<div class="tab-content">
+			<strong>{{envname}}</strong>
+				 <textarea rows="10" class="form-control" ng-model="formData.envDetails">
+				 </textarea>
+				 <hr/>
+				 <button class="btn btn-success" ng-click="save()">Save</button>
+			</div>
+			</div>		
+	</fieldset>
+
+</div>
+
+
+</main>

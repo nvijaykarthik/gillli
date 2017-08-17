@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import in.expedite.environment.entity.Environment;
+import in.expedite.environment.entity.EnvironmentDetails;
 import in.expedite.environment.service.EnvironmentService;
 import in.expedite.environment.utills.ExJsonResponse;
 
@@ -46,10 +47,18 @@ public class EnvironmentController {
 	 * @return
 	 */
 	@RequestMapping(produces=MediaType.APPLICATION_JSON_VALUE,method=RequestMethod.POST)
-	public Environment saveEnvironments(@RequestBody Environment env){
-		return envService.save(env);
+	public Environment saveEnvironments(@RequestBody Environment env,@RequestAttribute(required=false,name="username") String username){
+		return envService.save(env,username);
 	}
 	
+	@RequestMapping(path="/envDetails",produces=MediaType.APPLICATION_JSON_VALUE,method=RequestMethod.GET)
+	public EnvironmentDetails getDetails(@RequestParam Long appId, @RequestParam Long envId) {
+		return envService.getDetails(appId,envId);
+	}
 	
+	@RequestMapping(path="/envDetails",produces=MediaType.APPLICATION_JSON_VALUE,method=RequestMethod.POST)
+	public EnvironmentDetails saveEnvironmentDetails(@RequestBody EnvironmentDetails env,@RequestAttribute(required=false,name="username") String username){
+		return envService.save(env,username);
+	}
 	
 }
