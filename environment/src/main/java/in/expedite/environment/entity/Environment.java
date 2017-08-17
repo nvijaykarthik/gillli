@@ -8,27 +8,37 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
+@Table(name="APP_ENV")
 public class Environment implements Serializable{
+
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -7572173934741577184L;
+	private static final long serialVersionUID = -7101984998674804629L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	
+	@NotBlank(message="Name should not be Empty")
+	@Pattern(regexp="^[a-zA-Z0-9_]*$",message="inValid Input")
 	@Column
 	private String name;
 	
-	@Column
+	@NotBlank(message="Group should not be Empty")
+	@Pattern(regexp="^[a-zA-Z0-9_]*$",message="inValid Input")
+	@Column(name="grp")
 	private String group;
 	
 	@Column

@@ -82,7 +82,9 @@ app.config(function($routeProvider) {
  .when('/approvedDelivery', {
     templateUrl : 'pages/ApprovedDelivery.html',
   })
-  
+  .when('/environment', {
+    templateUrl : 'pages/Environment.html',
+  })
   .otherwise({redirectTo: '/'});
 });
 

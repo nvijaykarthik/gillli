@@ -1,0 +1,128 @@
+<main ng-controller="environmentController">
+		<ul class="breadcrumb breadcrumb-page">
+			<div class="breadcrumb-label text-light-gray">You are here: </div>
+			<li><a>Home</a></li>
+			<li><a>Environment</a></li>
+			<li class="active"><a>Configuration</a></li>
+		</ul>
+		<div class="page-header">
+			<div class="row">
+				<!-- Page header, center on small screens -->
+				<h1 class="col-xs-12 col-sm-2 text-center text-left-sm"><i class="fa fa-cog page-header-icon"></i>&nbsp;&nbsp;Environments</h1>
+				<div class="col-xs-12 col-sm-10">
+				  	
+					<div class="btn-group">
+						<button type="button" class="btn btn-warning"  ng-click="clearData()" 
+							data-toggle="modal" data-target="#newEnvModal">Add Environment</button>
+						<!-- <button type="button" class="btn btn-warning" ng-click="getHelp()"
+							data-toggle="modal" data-target="#envHelp">Help</button> -->
+					</div>
+					
+				</div>
+			</div>
+		</div> <!-- / .page-header -->
+		
+<div class="alert alert-danger alert-dismissible" role="alert" ng-show="showerror">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{error}}
+</div>
+<div class="alert alert-success alert-dismissible" role="alert" ng-show="showsucess">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    {{success}}
+</div>
+
+<div class="col-md-12">
+		<fieldset class="form-group">
+			<legend>View Available Environment</legend>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>
+                                <button type="button" class="btn  btn-success btn-sm" ng-click="refresh()">
+                                    <span class="fa fa-refresh"></span>&nbsp;
+                                </button>
+                            </th>
+							<th>Environment Name</th>
+							<th>Environment Group</th>
+							<th>Operation</th>
+						</tr>
+					</thead>
+					<tbody>
+					<input type="text" ng-model="searchKeyword" class="form-control ng-valid ng-dirty input-sm" id="searchTable" placeholder="Search table"/>
+					<tr ng-repeat="env in envList | filter: searchKeyword ">
+							<td>{{$index+1}}</td>
+							<td>{{env.name}}</td>
+							<td>{{env.group}}</td>
+							<td>
+							<button type="button" class="btn  btn-info btn-sm " ng-click="edit(env)" data-toggle="modal" data-target="#newEnvModal">
+							 <span class=" fa fa-pencil">&nbsp</span>
+								Edit
+                             </button>
+                            </td>
+						</tr>
+					</tbody>
+				</table>
+	</fieldset>
+
+</div>
+
+<!-- Modal -->
+	<div class="modal fade " id="newEnvModal" role="dialog" aria-labelledby="newDeptModalLabel">
+	  <div class="modal-dialog" role="document">
+		<div class="modal-content">
+		  <div class="modal-header bg-warning">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+			<h3 class="modal-title" id="myModalLabel">Environment </h3>
+		  </div>
+		  <div class="modal-body">
+			 <div style="padding:15px;">
+		  <form class="form-horizontal">
+			<div class="form-group">
+				<label  class="control-label">Environment Name</label>
+				<div>
+					<input type="text" class="form-control" placeholder="Name" ng-model="formData.name">
+					<span class="help-block">Allowed : [a-zA-Z0-9] </span>
+				</div>
+			</div>
+			<div class="form-group">
+				<label  class="control-label">Environment Group</label>
+				<div>
+					<input type="text" class="form-control" placeholder="Group" ng-model="formData.group">
+					<span class="help-block">Allowed : [a-zA-Z0-9] </span>
+				</div>
+			</div>
+
+		</form>
+			  </div>
+		  </div>
+		  <div class="modal-footer">
+			<button type="button" class="btn btn-outline" data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
+			<button type="button" class="btn btn-primary" ng-click="save()" data-dismiss="modal"><span class=" fa fa-floppy-o">&nbsp</span>Save</button>
+		  </div>
+		</div>
+	  </div>
+	</div>
+
+
+
+
+	
+	<div id="envHelp" class="modal fade" role="dialog">
+	<div class="modal-dialog modal-lg">
+		<div class="modal-content">
+			<div class="modal-header  bg-warning">
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+				<h3 class="modal-title">Environment Screen Help</h3>
+			</div>
+			<div class="modal-body">
+				<div id="env_help"></div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn  btn-outline"
+					data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+</main>

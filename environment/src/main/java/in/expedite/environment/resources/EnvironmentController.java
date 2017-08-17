@@ -27,7 +27,7 @@ import in.expedite.environment.utills.ExJsonResponse;
 
 
 @RestController
-@RequestMapping("/resource/delivery")
+@RequestMapping("/resource/environment")
 public class EnvironmentController {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
