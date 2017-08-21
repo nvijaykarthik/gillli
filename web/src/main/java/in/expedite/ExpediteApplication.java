@@ -116,7 +116,7 @@ public class ExpediteApplication extends SpringBootServletInitializer  {
 				.permitAll()
 			.and()
 				.authorizeRequests()
-				.antMatchers("/login","/pages/**").permitAll()
+				.antMatchers("/login","/pages/**","/forgotpwd*","/reset*","/openresource/*").permitAll()
 				.anyRequest().authenticated()
 			.and()
 				.logout().logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login").permitAll();

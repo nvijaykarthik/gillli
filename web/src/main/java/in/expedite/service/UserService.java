@@ -2,6 +2,7 @@ package in.expedite.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.transaction.Transactional;
 
@@ -15,11 +16,13 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import in.expedite.entity.ResetPassword;
 import in.expedite.entity.Role;
 import in.expedite.entity.RoleAccessXref;
 import in.expedite.entity.State;
 import in.expedite.entity.User;
 import in.expedite.entity.UserRole;
+import in.expedite.repository.ResetPasswordRepo;
 import in.expedite.repository.RoleAccessXrefRepository;
 import in.expedite.repository.UserRepository;
 import in.expedite.repository.UserRoleRepository;
@@ -53,9 +56,17 @@ public class UserService {
 	@Autowired
 	UserServiceDAO userDao;
 	
+	@Autowired
+	ResetPasswordRepo restPasswordRepo;
+	
+	@Value("${gilli.domain.name}")
+	private String domainName;
+	
 	@Value("${expedite.page.size}")
 	private Integer pageSize;
 
+	public final static long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
+	
 	/**
 	 * Add new user
 	 * 
@@ -203,6 +214,39 @@ public class UserService {
 
 	public Iterable<User> getAllUsers() {
 		return userRepository.findAll();
+	}
+
+	public void forgotpassword(String loginId) throws Exception{
+		User user=userRepository.findByUserId(loginId);
+		if(null==user) {
+			throw new Exception("User not found");
+		}
+		String id="GI"+UUID.randomUUID().toString();
+		
+		ResetPassword rp = new ResetPassword();
+		rp.setLinkId(id);
+		rp.setUserId(user.getUserId());
+		restPasswordRepo.save(rp);
+		//send mail as link
+		String restLink=domainName+"/resetpwd.html?resetId="+id;
+		
+		log.debug("Reset Link : "+restLink);
+	}
+
+	public String verifyToken(String resetId) throws Exception {
+		ResetPassword rp= restPasswordRepo.findOne(resetId);
+		if(null!=rp) {
+			Long createdTime= rp.getCreatedDate().getTime();
+			Long nowTime=new Date().getTime();
+			Long timeDiff= Math.abs(createdTime-nowTime);
+			
+			if(timeDiff>MILLIS_PER_DAY) {
+				throw new Exception("Your link is expired . it is more than 24 hrs");
+			}
+		}else {
+			throw new Exception("Your link is not available . it is either expired or not created");
+		}
+		return rp.getUserId();
 	}
 
 }

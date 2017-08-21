@@ -22,5 +22,7 @@ public interface UserRepository extends JpaRepository<User, Integer>,JpaSpecific
 	
 	@Query("Select u from User u where u.userId in (select T.userId from TeamMember T where T.teamId=:teamId)")
 	public List<User> getMembersForTeam(@Param(value = "teamId") Long teamId);
+
+	public User findByUserId(String loginId);
 	
 }

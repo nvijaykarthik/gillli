@@ -51,30 +51,16 @@
 	
 
 	<!-- Form -->
-	<form action="login" method="post" id="signin-form_id" class="panel">
-	<#if RequestParameters['error']??>
-		<div class="alert alert-danger alert-dismissible" role="alert" ng-show="showerror">
-    	<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	   		<ul><li>There was a problem logging in. Please try again.</li>
-	   		<li>Wrong Username/Password </li>
-	   		</ul>
-		</div>
-	</#if>
-	
-		<div class="form-group">
-			<input type="text" name="username" id="username" class="form-control input-lg" placeholder="Username or email">
-		</div> <!-- / Username -->
-
-		<div class="form-group signin-password">
-			<input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password">
-			<a href="/forgotpwd.html" class="forgot">Forgot?</a>
-		</div> <!-- / Password -->
-
-		<div class="form-actions">
-			<input type="hidden" id="csrf_token" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-			<input type="submit" value="Sign In" class="btn btn-primary btn-block btn-lg">
-		</div> <!-- / .form-actions -->
-	</form>
+	<div class="panel" ng-controller="forgotPwdController">
+	  Below form to choose your new password, click <a href="/login">Login</a> if you remember old password 
+	  <hr/>
+	  <input type="password" class="form-control input-lg" placeholder="New Password" id="newpwd"/>
+	  <input type="password" class="form-control input-lg" placeholder="Re Enter New password" id="reNewpwd"/>  
+	  <input type="hidden" id="userId"/>
+	  <hr/>
+	  <button class="btn btn-primary" id="changePwd">Change password</button>
+		
+	</div>
 	<!-- / Form -->
 <!-- 
 	<div class="signin-with">
@@ -96,23 +82,57 @@
 
 
 
-
 <script type="text/javascript">
-	$(document).ready(function(){
-			/* $("#signin-form_id").validate({ focusInvalid: true, errorPlacement: function () {} });
-			
-			// Validate username
-			$("#username").rules("add", {
-				required: true,
-				minlength: 3
-			});
 
-			// Validate password
-			$("#password").rules("add", {
-				required: true,
-				minlength: 6
-			}); 
-			*/
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}
+
+	$(document).ready(function(){
+		
+		var resetId=getParameterByName('resetId',window.location.href );
+		
+		$.ajax( "/openresource/verifyToken?resetId="+resetId).success(function(data) {
+		    $("#userId").val(data);
+		  }).error(function(data) {
+		    console.log( "Invalid Reset token passed, please regenetate the link from forgot password");
+		    console.log(data);
+		  });
+		
+		$('#changePwd').click(function() {
+			var newpwd=$('#newPwd').val();
+			var reNewpwd=$('#reNewPwd').val();
+			
+			if(newpwd==""){
+				alert("Please enter New Password");
+				return;
+			}
+			if(reNewpwd==""){
+				alert("Please Re enter New Password");
+				return;
+			}
+			
+			if(reNewpwd!=newpwd){
+				alert("Password doesn't match");
+				return;
+			}
+			
+			
+			$.ajax( "/openresource/changePwd" )
+			  .success(function() {
+			    alert( "success" );
+			  })
+			  .error(function() {
+			    alert( "error" );
+			  })
+		});
+		
 	});
 </script>
 
