@@ -9,8 +9,8 @@ app.controller('resourcePlanningController', function($scope,$http,$log,$httpPar
 	$scope.mmdd = function(date) {
 		  var mm = date.getMonth(); // getMonth() is zero-based
 		  var dd = date.getDate();
-
-		  return [$scope.monthNames[mm]," ",
+		  var yy = date.getFullYear().toString().substr(-2);
+		  return [yy," ",$scope.monthNames[mm]," ",
 			      (dd>9 ? '' : '0') + dd
 		         ].join('');
 		};

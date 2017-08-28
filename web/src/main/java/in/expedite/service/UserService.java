@@ -248,5 +248,9 @@ public class UserService {
 		}
 		return rp.getUserId();
 	}
+	
+	public void deleteToken(String resetId) throws Exception {
+		restPasswordRepo.delete(resetId);
+	}
 
 }

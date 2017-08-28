@@ -76,10 +76,10 @@
 			
 			$.ajax( "/openresource/forgotpassword?loginId="+loginid )
 			  .success(function() {
-			    alert( "success" );
+			    alert( "your reset link is sent successfully to your email, please click the link and reset your pwd or contact administrator" );
 			  })
 			  .error(function() {
-			    alert( "error" );
+			    alert( "error sending reset password link , please retry or contact administrator" );
 			  })
 		});
 		

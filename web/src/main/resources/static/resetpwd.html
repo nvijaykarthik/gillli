@@ -5,7 +5,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	<title>Sign In - Gillli</title>
+	<title>Sign In - Reset password</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
 	<!-- Open Sans font from Google CDN -->
@@ -54,9 +54,19 @@
 	<div class="panel" ng-controller="forgotPwdController">
 	  Below form to choose your new password, click <a href="/login">Login</a> if you remember old password 
 	  <hr/>
-	  <input type="password" class="form-control input-lg" placeholder="New Password" id="newpwd"/>
-	  <input type="password" class="form-control input-lg" placeholder="Re Enter New password" id="reNewpwd"/>  
-	  <input type="hidden" id="userId"/>
+	    <div class="form-group">
+			<label  class="control-label">New Password</label>
+			<div>
+				 <input type="password" class="form-control input-lg" placeholder="New Password" id="newpwd"/>
+			</div>
+		</div>
+	    <div class="form-group">
+			<label  class="control-label">Re-Enter New Password</label>
+			<div>
+				 <input type="password" class="form-control input-lg" placeholder="Re Enter New password" id="reNewpwd"/>  
+			</div>
+		</div>
+	  <input type="hidden" id="userTkn"/>
 	  <hr/>
 	  <button class="btn btn-primary" id="changePwd">Change password</button>
 		
@@ -98,18 +108,23 @@ function getParameterByName(name, url) {
 		
 		var resetId=getParameterByName('resetId',window.location.href );
 		
-		$.ajax( "/openresource/verifyToken?resetId="+resetId).success(function(data) {
-		    $("#userId").val(data);
-		  }).error(function(data) {
-		    console.log( "Invalid Reset token passed, please regenetate the link from forgot password");
-		    console.log(data);
-		  });
+		$.ajax({
+				url:"/openresource/verifyToken?resetId="+resetId,
+				dataType:"text"
+				})
+				  .success(function(data) {
+					$("#userTkn").val(resetId);
+				  }).error(function(data) {
+				    console.log( "Invalid Reset token passed, please regenetate the link from forgot password");
+				    console.log(data);
+				  });
 		
 		$('#changePwd').click(function() {
-			var newpwd=$('#newPwd').val();
-			var reNewpwd=$('#reNewPwd').val();
+			var newpwd=$('#newpwd').val();
+			var reNewpwd=$('#reNewpwd').val();
+			var userTkn=$('#userTkn').val();
 			
-			if(newpwd==""){
+			if(newpwd===""){
 				alert("Please enter New Password");
 				return;
 			}
@@ -123,14 +138,17 @@ function getParameterByName(name, url) {
 				return;
 			}
 			
-			
-			$.ajax( "/openresource/changePwd" )
-			  .success(function() {
-			    alert( "success" );
-			  })
-			  .error(function() {
-			    alert( "error" );
-			  })
+			 $.ajax({
+			    url: '/openresource/changePwd?token='+userTkn+'&password='+newpwd,
+			    success: function(data){
+			        console.log(data);
+			        alert(data.message);
+			    },
+			    error:function(data){
+			    	console.log(data);
+			    	alert("Error while changing the password"+data.message);
+			    }
+			}); 
 		});
 		
 	});

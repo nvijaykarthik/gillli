@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import in.expedite.entity.User;
 import in.expedite.service.UserService;
 import in.expedite.utils.ExJsonResponse;
 
@@ -31,11 +32,16 @@ public class PasswordMgmtController {
 	
 	@RequestMapping(path="/verifyToken",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	public String verifyToken(@RequestParam String resetId) throws Exception{
-		return userService.verifyToken(resetId);
+		userService.verifyToken(resetId);
+		 
+		return "Token verified";
 	}
 	
 	@RequestMapping(path="/changePwd",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
-	public String changePwd() throws Exception{
-		return null;
+	public ExJsonResponse changePwd(@RequestParam String token,@RequestParam String password ) throws Exception{
+		String userId=userService.verifyToken(token);
+		 userService.updatePassword(userId, password, userId);
+		 userService.deleteToken(token);
+		 return new ExJsonResponse(0,"Your password changed successfully");
 	}
 }
