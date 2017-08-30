@@ -28,12 +28,13 @@ import in.expedite.delivery.repository.ArtifactsRepository;
 import in.expedite.delivery.repository.DeliveryRepository;
 import in.expedite.delivery.repository.ReviewCommentRepository;
 import in.expedite.delivery.utills.Status;
+import in.expedite.email.service.MailService;
 
 @Service
 public class DeliveryService {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
-	
+		
 	@Autowired
 	private DeliveryRepository deliveryRepository;
 	

@@ -16,6 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import in.expedite.email.service.PassworManagmentService;
 import in.expedite.entity.ResetPassword;
 import in.expedite.entity.Role;
 import in.expedite.entity.RoleAccessXref;
@@ -65,6 +66,10 @@ public class UserService {
 	@Value("${expedite.page.size}")
 	private Integer pageSize;
 
+	@Autowired
+	private PassworManagmentService pwdservice;
+	
+	
 	public final static long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;
 	
 	/**
@@ -228,11 +233,12 @@ public class UserService {
 		rp.setUserId(user.getUserId());
 		restPasswordRepo.save(rp);
 		//send mail as link
-		String restLink=domainName+"/resetpwd.html?resetId="+id;
-		
-		log.debug("Reset Link : "+restLink);
+		String resetLink=domainName+"/resetpwd.html?resetId="+id;
+		pwdservice.sendForgotPasswordMail(resetLink, user.getEmail());
+		log.debug("Reset Link : "+resetLink);
 	}
 
+	
 	public String verifyToken(String resetId) throws Exception {
 		ResetPassword rp= restPasswordRepo.findOne(resetId);
 		if(null!=rp) {
