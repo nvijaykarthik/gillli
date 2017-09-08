@@ -143,7 +143,8 @@ public class DeliveryService {
 		try {
 			delmailService.sendMailForApprovalRequest(delivery.getId().toString(), delivery.getProjectName(),
 						delivery.getTeamName(), delivery.getApplicationName(),
-						delivery.getVersion(), delivery.getReleaseTag(), delivery.getChangeDescription(), delivery.getStatus());
+						delivery.getVersion(), delivery.getReleaseTag(), delivery.getChangeDescription(), 
+						delivery.getStatus(),delivery.getTeamId());
 		} catch (Exception e) {
 			log.error("Exception while sending mail", e);
 		}

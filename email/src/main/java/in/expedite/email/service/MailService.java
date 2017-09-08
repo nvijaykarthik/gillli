@@ -1,8 +1,12 @@
 package in.expedite.email.service;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
+import org.apache.commons.collections4.ListUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +32,10 @@ public class MailService {
     	MimeMessage msg = mailSender.createMimeMessage();
     	try{
     		MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(msg, true /* multipart */, "UTF-8");
-    	    mimeMessageHelper.setTo(domain.getTo().split(","));
+    		String[] mails=domain.getTo().split(",");
+    		List<String> mailList=Arrays.asList(mails);
+    		mailList.addAll(domain.getToMails());
+    	    mimeMessageHelper.setTo((String[])mailList.toArray());
     	    mimeMessageHelper.setFrom(domain.getFrom());
     	    mimeMessageHelper.setSubject(domain.getSubject());
     	    mimeMessageHelper.setText(domain.getBody(),true);            

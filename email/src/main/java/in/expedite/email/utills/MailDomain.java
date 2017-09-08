@@ -1,5 +1,8 @@
 package in.expedite.email.utills;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MailDomain {
 
 	private String to;
@@ -8,6 +11,7 @@ public class MailDomain {
 	private String cc;
 	private String subject;
 	private String body;
+	private List<String> toMails= new ArrayList<>();
 	
 	public String getTo() {
 		return to;
@@ -48,6 +52,12 @@ public class MailDomain {
 	@Override
 	public String toString() {
 		return "MailDomain [to=" + to + ", from=" + from + ", bcc=" + bcc + ", cc=" + cc + ", subject=" + subject
-				+ ", body=" + body + "]";
+				+ ", body=" + body + ", toMails=" + toMails + "]";
+	}
+	public List<String> getToMails() {
+		return toMails;
+	}
+	public void setToMails(List<String> toMails) {
+		this.toMails = toMails;
 	}
 }
