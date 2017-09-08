@@ -15,7 +15,7 @@ import freemarker.template.Configuration;
 import in.expedite.email.utills.MailDomain;
 
 @Service
-public class PassworManagmentService {
+public class PasswordManagmentService {
 
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	

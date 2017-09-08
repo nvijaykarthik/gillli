@@ -16,7 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import in.expedite.email.service.PassworManagmentService;
+import in.expedite.email.service.PasswordManagmentService;
 import in.expedite.entity.ResetPassword;
 import in.expedite.entity.Role;
 import in.expedite.entity.RoleAccessXref;
@@ -67,7 +67,7 @@ public class UserService {
 	private Integer pageSize;
 
 	@Autowired
-	private PassworManagmentService pwdservice;
+	private PasswordManagmentService pwdservice;
 	
 	
 	public final static long MILLIS_PER_DAY = 24 * 60 * 60 * 1000L;

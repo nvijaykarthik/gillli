@@ -43,6 +43,9 @@ public class Configuration implements Serializable{
 	
 	private String value;
 	
+	@Column
+	private String valueStr;
+	
 	
 	@Column
 	@Temporal(TemporalType.TIMESTAMP)
@@ -114,12 +117,11 @@ public class Configuration implements Serializable{
 		this.value = value;
 	}
 	
-	/**
-	 * toString
-	 */
 	@Override
 	public String toString() {
-		return "Configuration [id=" + id + ", key=" + key + ", Value=" + value + "]";
+		return "Configuration [id=" + id + ", key=" + key + ", value=" + value + ", valueStr=" + valueStr
+				+ ", createdDate=" + createdDate + ", modifiedDate=" + modifiedDate + ", createdBy=" + createdBy
+				+ ", modifiedBy=" + modifiedBy + "]";
 	}
 	public Date getCreatedDate() {
 		return createdDate;
@@ -144,6 +146,12 @@ public class Configuration implements Serializable{
 	}
 	public void setModifiedBy(String modifiedBy) {
 		this.modifiedBy = modifiedBy;
+	}
+	public String getValueStr() {
+		return valueStr;
+	}
+	public void setValueStr(String valueStr) {
+		this.valueStr = valueStr;
 	}
 
 }

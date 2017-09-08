@@ -28,6 +28,7 @@ import in.expedite.delivery.repository.ArtifactsRepository;
 import in.expedite.delivery.repository.DeliveryRepository;
 import in.expedite.delivery.repository.ReviewCommentRepository;
 import in.expedite.delivery.utills.Status;
+import in.expedite.email.service.DeliveryMailService;
 import in.expedite.email.service.MailService;
 
 @Service
@@ -46,6 +47,9 @@ public class DeliveryService {
 	
 	@Value("${expedite.file.repo.path}")
 	private String repoHome;
+	
+	@Autowired
+	private DeliveryMailService delmailService;
 	
 	@Autowired
 	private ReviewCommentRepository commentRepository;
@@ -133,9 +137,17 @@ public class DeliveryService {
 		 artifactRepo.delete(id);
 	}
 	
+	
 	public Delivery sendForApproval(Delivery delivery){
 		delivery.setStatus(Status.SUBMITTED_FOR_APPROVAL.getStatus());
-		 return deliveryRepository.save(delivery);
+		try {
+			delmailService.sendMailForApprovalRequest(delivery.getId().toString(), delivery.getProjectName(),
+						delivery.getTeamName(), delivery.getApplicationName(),
+						delivery.getVersion(), delivery.getReleaseTag(), delivery.getChangeDescription(), delivery.getStatus());
+		} catch (Exception e) {
+			log.error("Exception while sending mail", e);
+		}
+		return deliveryRepository.save(delivery);
 	}
 	
 	public Delivery sendForReview(Delivery delivery){
