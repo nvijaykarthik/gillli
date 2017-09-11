@@ -32,10 +32,13 @@ public class MailService {
     	MimeMessage msg = mailSender.createMimeMessage();
     	try{
     		MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(msg, true /* multipart */, "UTF-8");
-    		String[] mails=domain.getTo().split(",");
-    		List<String> mailList=Arrays.asList(mails);
-    		mailList.addAll(domain.getToMails());
-    	    mimeMessageHelper.setTo((String[])mailList.toArray());
+    		if(null!=domain.getTo() && !domain.getTo().isEmpty())
+    	    mimeMessageHelper.setTo(domain.getTo().toArray(getStringArray(domain.getTo().size())));
+    		if(null != domain.getBcc() && !domain.getBcc().isEmpty())
+    		mimeMessageHelper.setBcc((String[])domain.getBcc().toArray(getStringArray(domain.getBcc().size())));
+    		if(null!=domain.getCc()&&!domain.getCc().isEmpty())
+    	    mimeMessageHelper.setCc((String[])domain.getCc().toArray(getStringArray(domain.getCc().size())));
+    	    
     	    mimeMessageHelper.setFrom(domain.getFrom());
     	    mimeMessageHelper.setSubject(domain.getSubject());
     	    mimeMessageHelper.setText(domain.getBody(),true);            
@@ -47,4 +50,7 @@ public class MailService {
         log.info("Finished Send...");
     }
 
+	private String[] getStringArray(Integer size) {
+		return new String[size];
+	}
 }

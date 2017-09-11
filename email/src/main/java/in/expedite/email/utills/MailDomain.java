@@ -5,18 +5,17 @@ import java.util.List;
 
 public class MailDomain {
 
-	private String to;
+	private List<String> to;
 	private String from;
-	private String bcc;
-	private String cc;
+	private List<String> bcc;
+	private List<String> cc;
 	private String subject;
 	private String body;
-	private List<String> toMails= new ArrayList<>();
 	
-	public String getTo() {
+	public List<String> getTo() {
 		return to;
 	}
-	public void setTo(String to) {
+	public void setTo(List<String> to) {
 		this.to = to;
 	}
 	public String getFrom() {
@@ -25,16 +24,16 @@ public class MailDomain {
 	public void setFrom(String from) {
 		this.from = from;
 	}
-	public String getBcc() {
+	public List<String> getBcc() {
 		return bcc;
 	}
-	public void setBcc(String bcc) {
+	public void setBcc(List<String> bcc) {
 		this.bcc = bcc;
 	}
-	public String getCc() {
+	public List<String> getCc() {
 		return cc;
 	}
-	public void setCc(String cc) {
+	public void setCc(List<String> cc) {
 		this.cc = cc;
 	}
 	public String getSubject() {
@@ -52,12 +51,9 @@ public class MailDomain {
 	@Override
 	public String toString() {
 		return "MailDomain [to=" + to + ", from=" + from + ", bcc=" + bcc + ", cc=" + cc + ", subject=" + subject
-				+ ", body=" + body + ", toMails=" + toMails + "]";
+				+ ", body=" + body + "]";
 	}
-	public List<String> getToMails() {
-		return toMails;
-	}
-	public void setToMails(List<String> toMails) {
-		this.toMails = toMails;
-	}
+	
+	
+	
 }

@@ -153,11 +153,27 @@ public class DeliveryService {
 	
 	public Delivery sendForReview(Delivery delivery){
 		delivery.setStatus(Status.SENT_FOR_REVIEW.getStatus());
+		try {
+			delmailService.sendMailForRejection(delivery.getId().toString(), delivery.getProjectName(),
+						delivery.getTeamName(), delivery.getApplicationName(),
+						delivery.getVersion(), delivery.getReleaseTag(), delivery.getChangeDescription(), 
+						delivery.getStatus(),delivery.getTeamId(),delivery.getTempCmt());
+		} catch (Exception e) {
+			log.error("Exception while sending mail", e);
+		}
 		 return deliveryRepository.save(delivery);
 	}
 	
 	public Delivery approve(Delivery delivery){
 		delivery.setStatus(Status.APPROVED.getStatus());
+		try {
+			delmailService.sendMailForApproved(delivery.getId().toString(), delivery.getProjectName(),
+						delivery.getTeamName(), delivery.getApplicationName(),
+						delivery.getVersion(), delivery.getReleaseTag(), delivery.getChangeDescription(), 
+						delivery.getStatus(),delivery.getTeamId(),delivery.getTempCmt());
+		} catch (Exception e) {
+			log.error("Exception while sending mail", e);
+		}
 		 return deliveryRepository.save(delivery);
 	}
 	

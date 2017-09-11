@@ -1,6 +1,8 @@
 package in.expedite.email.service;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -57,12 +59,70 @@ public class DeliveryMailService {
 
 		MailDomain domain = new MailDomain();
 		String toEmailIds = getEmailIdsOfDelivery();
-		domain.setTo(toEmailIds);
-		domain.setToMails(configurationDao.getTeamEmail(teamId));
+		List<String> emails=configurationDao.getTeamEmail(teamId);
+		emails.addAll(Arrays.asList(toEmailIds.split(",")));
+		domain.setTo(emails);
 		domain.setSubject("Gillli : Delivery Approval Request : " + reqId);
 		domain.setBody(text);
 		domain.setFrom(fromAddress);
 		mailservice.sendMail(domain);
 	}
 
+	@Async
+	public void sendMailForRejection(String reqId, String project, String team, String application,
+			String version, String tag, String changeDesc, String status,Long teamId,String rejectComment) throws Exception {
+
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("requestId", reqId);
+		model.put("project", project);
+		model.put("team", team);
+		model.put("application", application);
+		model.put("version", version);
+		model.put("tag", tag);
+		model.put("changeDesc", changeDesc);
+		model.put("status", status);
+		model.put("rejMsg", rejectComment);
+
+		String text = FreeMarkerTemplateUtils
+				.processTemplateIntoString(freeMakerConfig.getTemplate("velocity/deliveryReject.html"), model);
+
+		MailDomain domain = new MailDomain();
+		String toEmailIds = getEmailIdsOfDelivery();
+		List<String> emails=configurationDao.getTeamEmail(teamId);
+		emails.addAll(Arrays.asList(toEmailIds.split(",")));
+		domain.setTo(emails);
+		domain.setSubject("Gillli : Delivery Sent for Review Request : " + reqId);
+		domain.setBody(text);
+		domain.setFrom(fromAddress);
+		mailservice.sendMail(domain);
+	}
+	
+	@Async
+	public void sendMailForApproved(String reqId, String project, String team, String application,
+			String version, String tag, String changeDesc, String status,Long teamId,String apprComment) throws Exception {
+
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("requestId", reqId);
+		model.put("project", project);
+		model.put("team", team);
+		model.put("application", application);
+		model.put("version", version);
+		model.put("tag", tag);
+		model.put("changeDesc", changeDesc);
+		model.put("status", status);
+		model.put("apprMsg", apprComment);
+
+		String text = FreeMarkerTemplateUtils
+				.processTemplateIntoString(freeMakerConfig.getTemplate("velocity/deliveryApprove.html"), model);
+
+		MailDomain domain = new MailDomain();
+		String toEmailIds = getEmailIdsOfDelivery();
+		List<String> emails=configurationDao.getTeamEmail(teamId);
+		emails.addAll(Arrays.asList(toEmailIds.split(",")));
+		domain.setTo(emails);
+		domain.setSubject("Gillli : Delivery Sent for Review Request : " + reqId);
+		domain.setBody(text);
+		domain.setFrom(fromAddress);
+		mailservice.sendMail(domain);
+	}
 }

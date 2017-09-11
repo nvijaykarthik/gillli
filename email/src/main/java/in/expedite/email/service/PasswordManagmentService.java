@@ -1,6 +1,8 @@
 package in.expedite.email.service;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -35,9 +37,9 @@ public class PasswordManagmentService {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("resetLink",resetLink);
 		String text=FreeMarkerTemplateUtils.processTemplateIntoString(freeMakerConfig.getTemplate("velocity/resetPassword.html"),model);
-		
+		List<String> emails= Arrays.asList(userEmail.split(","));
 		MailDomain domain = new MailDomain();
-		domain.setTo(userEmail);
+		domain.setTo(emails);
 		domain.setSubject("Gillli : Reset Your Password");
 		domain.setBody(text);
 		domain.setFrom(fromAddress);

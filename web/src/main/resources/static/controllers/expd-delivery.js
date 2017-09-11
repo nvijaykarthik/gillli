@@ -330,7 +330,7 @@ app.controller('changeMgmtController', function($scope,$http,$log,$httpParamSeri
 		        alert("comment is required ");
 		        return
 		    } else {
-		    	
+		    	delivery['tempCmt']=delRevComment
 		    	$http({
 		 	        method : "POST",
 		 	        url : namespace+'/resource/delivery/approve',
@@ -364,11 +364,12 @@ app.controller('changeMgmtController', function($scope,$http,$log,$httpParamSeri
 	
 	
 	$scope.sendBackDelivery=function(delivery){
-		var delRevComment = prompt("Please Enter the comment on your action : Send for Review", "Approved");
+		var delRevComment = prompt("Please Enter the comment on your action : Send for Review", "Send Back for Review");
 		 if (delRevComment == null || delRevComment == "") {
 		        alert("comment is required ");
 		        return
 		    } else {
+		    	delivery['tempCmt']=delRevComment
 				$http({
 		 	        method : "POST",
 		 	        url : namespace+'/resource/delivery/sendForReview',

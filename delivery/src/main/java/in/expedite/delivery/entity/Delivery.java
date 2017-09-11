@@ -91,6 +91,9 @@ public class Delivery implements Serializable{
 	@Transient
 	private String applicationName;
 	
+	@Transient
+	private String tempCmt;
+	
 	public Long getId() {
 		return id;
 	}
@@ -209,8 +212,8 @@ public class Delivery implements Serializable{
 		return "Delivery [id=" + id + ", teamId=" + teamId + ", projectId=" + projectId + ", userId=" + userId
 				+ ", applicationId=" + applicationId + ", version=" + version + ", releaseTag=" + releaseTag
 				+ ", changeDescription=" + changeDescription + ", createdDate=" + createdDate + ", createdBy="
-				+ createdBy + ", teamName=" + teamName + ", projectName=" + projectName + ", userName=" + userName
-				+ ", applicationName=" + applicationName + "]";
+				+ createdBy + ", status=" + status + ", teamName=" + teamName + ", projectName=" + projectName
+				+ ", userName=" + userName + ", applicationName=" + applicationName + ", tempCmt=" + tempCmt + "]";
 	}
 
 	public String getStatus() {
@@ -219,5 +222,13 @@ public class Delivery implements Serializable{
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getTempCmt() {
+		return tempCmt;
+	}
+
+	public void setTempCmt(String tempCmt) {
+		this.tempCmt = tempCmt;
 	}
 }
