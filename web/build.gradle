@@ -53,6 +53,7 @@ dependencies {
 	compile project(':resourcePlan')
 	compile project(':delivery')
 	compile project(':environment')
+	compile project(':deployment')
 	compile("org.springframework.boot:spring-boot-devtools")
 	 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
