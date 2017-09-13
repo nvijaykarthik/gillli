@@ -16,7 +16,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import in.expedite.deployment.service.PasswordManagmentService;
+import in.expedite.email.service.PasswordManagmentService;
 import in.expedite.entity.ResetPassword;
 import in.expedite.entity.Role;
 import in.expedite.entity.RoleAccessXref;

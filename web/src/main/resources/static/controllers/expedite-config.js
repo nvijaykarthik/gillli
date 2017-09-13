@@ -88,7 +88,10 @@ app.config(function($routeProvider) {
   .when('/envDetails', {
     templateUrl : 'pages/EnvDetails.html',
   })
-  
+   .when('/searchDeployment', {
+    templateUrl : 'pages/Deployment.html',
+  })
+ 
   .otherwise({redirectTo: '/'});
 });
 

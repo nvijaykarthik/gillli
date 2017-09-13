@@ -69,6 +69,9 @@ public class Deployment implements Serializable{
 	@Column
 	private String createdBy;
 	
+	@Column
+	private Long forTeamId;
+	
 	public Long getId() {
 		return id;
 	}
@@ -176,11 +179,19 @@ public class Deployment implements Serializable{
 
 	@Override
 	public String toString() {
-		return "Deployment [id=" + id + ", title=" + title + ",  status=" + status
+		return "Deployment [id=" + id + ", title=" + title + ", description=" + description + ", status=" + status
 				+ ", changeBefore=" + changeBefore + ", changeAfter=" + changeAfter + ", prevDeplNo=" + prevDeplNo
 				+ ", nextDeplNo=" + nextDeplNo + ", startDateTime=" + startDateTime + ", endDateTime=" + endDateTime
 				+ ", projectReference=" + projectReference + ", createdDate=" + createdDate + ", createdBy=" + createdBy
-				+ "]";
+				+ ", forTeamId=" + forTeamId + "]";
+	}
+
+	public Long getForTeamId() {
+		return forTeamId;
+	}
+
+	public void setForTeamId(Long forTeamId) {
+		this.forTeamId = forTeamId;
 	}
 
 }
