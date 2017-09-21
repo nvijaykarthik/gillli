@@ -91,6 +91,9 @@ app.config(function($routeProvider) {
    .when('/searchDeployment', {
     templateUrl : 'pages/Deployment.html',
   })
+  .when('/deploymentDetails/:deploymentId', {
+    templateUrl : 'pages/DeploymentDetails.html',
+  })
  
   .otherwise({redirectTo: '/'});
 });

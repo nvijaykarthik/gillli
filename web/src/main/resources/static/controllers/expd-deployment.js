@@ -6,55 +6,48 @@ app.controller('deploymentController', function($scope,$http,$log,$httpParamSeri
 			$scope.myteam = data;
 	    });
 	}
-	$scope.getMyTeam();
-	$scope.loadProjects=function(){
-		var restUrl=namespace+"/resource/project/myProject?teamId="+ $scope.selectedTeam 
-		
-		if(!$scope.selectedTeam ){
-			alert("Please select the team");
-			return;
-		}
-		
-		if($scope.status)
-			restUrl=restUrl+"&status="+$scope.status
-			
+	
+	$scope.formData={};
+	
+	$scope.search=function(){	
+		var restUrl=namespace+"/resource/deployment/search?"+$httpParamSerializerJQLike($scope.formData) 		
 		$http({
 			method : "GET",
 			url :restUrl 
 		})
 		.then(
 			function success(response) {
-				$scope.projectList = response.data;
-				
+				$scope.depList = response.data;
 			},
 			function failure(response) {
-				$log.error(response.status)
-				$scope.showerror = true;
-				$scope.error = response.data.message;
+				$log.error(response.data)
+				alert("Error while retrieving the deployment search result: "+response.data.message);
 			}
 		);
 	}
-	
-	$scope.getHelp = function() {
-		
-	}
-	
-	$scope.getStatus = function() {
-		
+});
+
+app.controller('deploymentDetailController', function($scope,$http,$log,$httpParamSerializerJQLike,
+		$routeParams,$location,authService) {
+
+	$scope.getDeployment=function(deploymentId){	
+		var restUrl=namespace+"/resource/deployment?id="+deploymentId		
 		$http({
 			method : "GET",
-			url : namespace+"/resource/project/projectStatus"
+			url :restUrl 
 		})
 		.then(
 			function success(response) {
-				$scope.projectStatus = response.data;
+				$scope.formData = response.data;
 			},
 			function failure(response) {
-				$log.error(response.status)
-				$scope.showerror = true;
-				$scope.error = response.data.message;
+				$log.error(response.data)
+				alert("Error while retrieving the deployment details: "+response.data.message);
 			}
 		);
 	}
-	$scope.getStatus();
+	if($routeParams.deploymentId!=0){
+		$scope.getDeployment($routeParams.deploymentId)
+	}
 });
+

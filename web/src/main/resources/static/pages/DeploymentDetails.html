@@ -1,0 +1,143 @@
+<main ng-controller="deploymentDetailController">
+
+<ul class="breadcrumb breadcrumb-page">
+			<div class="breadcrumb-label text-light-gray">You are here: </div>
+			<li><a>Home</a></li>
+			<li><a>Deployment</a></li>
+			<li class="active"><a>Details</a></li>
+		</ul>
+		<div class="page-header">
+			<div class="row">
+				<!-- Page header, center on small screens -->
+				<h1 class="col-xs-12 col-sm-2 text-center text-left-sm"><i class="fa fa-coffee page-header-icon"></i>&nbsp;&nbsp;Deployment Details</h1>
+			</div>
+		</div> <!-- / .page-header -->
+		
+
+<fieldset class="form-group">
+			<legend>Details</legend>
+<div class="row">
+<div class="col-md-5">
+		  <div class="form-group">
+				<label  class="control-label">Deployment Number</label>
+				<div>
+					<input type="text" readonly class="form-control" placeholder="Deployment Number" ng-model="formData.id">
+				</div>
+			</div>
+			<div class="form-group">
+				<label  class="control-label">Title</label>
+				<div>
+					<input type="text" class="form-control" placeholder="Title" ng-model="formData.title">
+				</div>
+			</div>
+			<div class="form-group">
+				<label  class="control-label">Description</label>
+				<div>
+					<textarea rows="2" class="form-control" ng-model="formData.description"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label  class="control-label">Change Before</label>
+				<div>
+					<textarea rows="2" class="form-control" ng-model="formData.changeBefore"></textarea>
+				</div>
+			</div>
+			<div class="form-group">
+				<label  class="control-label">Change After</label>
+				<div>
+					<textarea rows="2" class="form-control" ng-model="formData.changeAfter"></textarea>
+				</div>
+			</div>
+			
+</div>
+<div class="col-md-4">
+	<div class="form-group">
+		<label  class="control-label">Project reference </label>
+		<div>
+			<input type="text" class="form-control" placeholder="Project reference Id/Name" ng-model="formData.projectReference">
+		</div>
+	</div>
+	<div class="form-group">
+		<label  class="control-label">Status</label>
+		<div>
+			<input type="text" class="form-control" placeholder="Status" ng-model="formData.status">
+		</div>
+	</div>
+		<div class="form-group">
+		<label  class="control-label">Start Date Time</label>
+		<div>
+			<input type="text" class="form-control" placeholder="Start Date Time" ng-model="formData.startDateTime">
+		</div>
+	</div>
+	<div class="form-group">
+		<label  class="control-label">End Date Time</label>
+		<div>
+			<input type="text" class="form-control" placeholder="End Date Time" ng-model="formData.endDateTime">
+		</div>
+	</div>		
+	<div class="form-group">
+				<label  class="control-label">Created By</label>
+				<div>
+					<input type="text" class="form-control" placeholder="Created By " ng-model="formData.createdBy">
+				</div>
+			</div>		
+
+</div>
+<div class="col-md-3">
+<Strong>Team Approval</Strong>
+		<ul class="list-group">
+		  <li class="list-group-item">
+		    <span class="badge">approved </span>
+		     Team 1
+		  </li>
+		</ul>
+
+</div>
+</div>
+		<div class="form-group">
+			<button type="button" class="btn btn-primary" ng-click="save()" data-dismiss="modal">
+				<span class=" fa fa-search">&nbsp</span>Save</button>
+	</div>
+</fieldset>
+<div class="row">
+<fieldset>
+	<legend>Tasks</legend>
+	<table class="table">
+					<thead>
+						<tr>
+							<th>
+                                #
+                            </th>
+							<th>Task Id</th>
+							<th>Name</th>
+							<th>Sequence</th>
+							<th>Start Date-Time</th>
+							<th>End Date-Time</th>
+							<th>Owner</th>
+							<th>Status</th>
+							<th>Operation</th>
+						</tr>
+					</thead>
+					<tbody>
+				
+						<tr ng-repeat="task in taskList ">
+							<td>{{$index+1}}</td>
+							<td>{{task.id}}</td>
+							<td>{{task.name}}</td>
+							<td>{{task.sequence}}</td>
+							<td>{{task.startDateTime}}</td>
+							<td>{{task.endDateTime}}</td>
+							<td>{{task.owner}}</td>
+							<td>{{task.status}}</td>
+							<td>
+								<a href ng-click="edit(task)">
+									Edit
+								</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+</fieldset>
+</div>
+
+</main>

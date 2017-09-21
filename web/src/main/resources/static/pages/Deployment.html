@@ -55,7 +55,7 @@
 							<td>{{dep.createdBy}}</td>
 							<td>{{dep.createdDate}}</td>
 							<td>
-								<a href ng-click="edit(dep)">
+								<a href="#/deploymentDetails/{{dep.id}}">
 								Edit</a> &nbsp;
 								<a href ng-click="copy(dep)">
 								Copy</a>
@@ -87,7 +87,7 @@
 				</div>
 			</div>
 			<div class="form-group">
-				<label  class="control-label">Project Id</label>
+				<label  class="control-label">Project Ref</label>
 				<div>
 					<input type="text" class="form-control" placeholder="Project Id" ng-model="formData.projectReference">
 				</div>
