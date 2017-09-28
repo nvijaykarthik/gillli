@@ -241,3 +241,8 @@ values (1,1,'Changes test','vkarthik',now(),1,'ORDER_START',1,'1.0.0.0');
 
 INSERT INTO DEPLOYMENT(ID,CHANGE_AFTER,CHANGE_BEFORE,CREATED_BY,CREATED_DATE,DESCRIPTION,END_DATE_TIME,FOR_TEAM_ID,PROJECT_REFERENCE,START_DATE_TIME,STATUS,TITLE)
 VALUES(1,'Change after','change before','vkarthik',now(),'first deployment',now()+10,'1','1',now(),'new','First deployment'); 
+
+
+INSERT INTO TASK(ID,CREATED_BY,CREATED_DATE,DEPOLYMENT_ID,DETAILS,END_DATE_TIME,NAME,OWNER,SEQUENCE,START_DATE_TIME,STATUS)
+VALUES(1,'vkarthik',now(),1,'Install Handset ',now()+5,'Handset Installation','RG25',1,now(),'New') 
+

@@ -91,7 +91,7 @@ app.config(function($routeProvider) {
    .when('/searchDeployment', {
     templateUrl : 'pages/Deployment.html',
   })
-  .when('/deploymentDetails/:deploymentId', {
+  .when('/deploymentDetails/:deploymentId/:copy', {
     templateUrl : 'pages/DeploymentDetails.html',
   })
  

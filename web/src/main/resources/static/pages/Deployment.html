@@ -55,10 +55,20 @@
 							<td>{{dep.createdBy}}</td>
 							<td>{{dep.createdDate}}</td>
 							<td>
-								<a href="#/deploymentDetails/{{dep.id}}">
-								Edit</a> &nbsp;
-								<a href ng-click="copy(dep)">
-								Copy</a>
+							<div class="btn-group">
+										<button type="button"
+											class="btn btn-sm btn-info dropdown-toggle"
+											data-toggle="dropdown"><span class="fa fa-bars">&nbsp;</span>
+											Operations&nbsp;<i class="fa fa-caret-down"></i>
+										</button>
+										<ul class="dropdown-menu">
+											<li><a href="#/deploymentDetails/{{dep.id}}/false">
+											Edit</a>
+											</a></li>
+											<li><a href="#/deploymentDetails/{{dep.id}}/true">Copy</a></li>
+										</ul>
+									</div>
+								
 							</td>
 						</tr>
 					</tbody>

@@ -9,43 +9,47 @@
 		<div class="page-header">
 			<div class="row">
 				<!-- Page header, center on small screens -->
-				<h1 class="col-xs-12 col-sm-2 text-center text-left-sm"><i class="fa fa-coffee page-header-icon"></i>&nbsp;&nbsp;Deployment Details</h1>
+				<h1 class="col-xs-12 col-sm-2 text-center text-left-sm"><i class="fa fa-rocket page-header-icon"></i>&nbsp;&nbsp;Deployment Details</h1>
 			</div>
 		</div> <!-- / .page-header -->
 		
 
 <fieldset class="form-group">
-			<legend>Details</legend>
+			<legend>Details
+			<button type="button" class="btn btn-primary pull-right" ng-click="saveDeploymentDetails()" data-dismiss="modal">
+				<span class="fa fa-floppy-o">&nbsp</span>Save</button>
+				<div class="clearfix"></div>
+			</legend>
 <div class="row">
 <div class="col-md-5">
 		  <div class="form-group">
 				<label  class="control-label">Deployment Number</label>
 				<div>
-					<input type="text" readonly class="form-control" placeholder="Deployment Number" ng-model="formData.id">
+					<input type="text" readonly class="form-control input-sm" placeholder="Deployment Number" ng-model="formData.id">
 				</div>
 			</div>
 			<div class="form-group">
 				<label  class="control-label">Title</label>
 				<div>
-					<input type="text" class="form-control" placeholder="Title" ng-model="formData.title">
+					<input type="text" class="form-control input-sm" placeholder="Title" ng-model="formData.title">
 				</div>
 			</div>
 			<div class="form-group">
 				<label  class="control-label">Description</label>
 				<div>
-					<textarea rows="2" class="form-control" ng-model="formData.description"></textarea>
+					<textarea rows="2" class="form-control input-sm" ng-model="formData.description"></textarea>
 				</div>
 			</div>
 			<div class="form-group">
 				<label  class="control-label">Change Before</label>
 				<div>
-					<textarea rows="2" class="form-control" ng-model="formData.changeBefore"></textarea>
+					<textarea rows="2" class="form-control input-sm" ng-model="formData.changeBefore"></textarea>
 				</div>
 			</div>
 			<div class="form-group">
 				<label  class="control-label">Change After</label>
 				<div>
-					<textarea rows="2" class="form-control" ng-model="formData.changeAfter"></textarea>
+					<textarea rows="2" class="form-control input-sm" ng-model="formData.changeAfter"></textarea>
 				</div>
 			</div>
 			
@@ -54,31 +58,40 @@
 	<div class="form-group">
 		<label  class="control-label">Project reference </label>
 		<div>
-			<input type="text" class="form-control" placeholder="Project reference Id/Name" ng-model="formData.projectReference">
+			<input type="text" class="form-control input-sm" placeholder="Project reference Id/Name" ng-model="formData.projectReference">
 		</div>
 	</div>
 	<div class="form-group">
 		<label  class="control-label">Status</label>
 		<div>
-			<input type="text" class="form-control" placeholder="Status" ng-model="formData.status">
+			<input type="text" class="form-control input-sm" placeholder="Status" ng-model="formData.status" readonly>
 		</div>
 	</div>
 		<div class="form-group">
-		<label  class="control-label">Start Date Time</label>
+		<label  class="control-label">Start Date</label>
+
+			<div class="input-group date" id="startDtClndr">
+				<input type="text" class="input-sm form-control" name="start" ng-model="formData.startDateTime"	placeholder="YYYY-MM-DD HH:mm" />
+				<span class="input-group-addon"> <i
+					class="fa fa-calendar"></i></span>
+			</div>
+
+	</div>
+		<div class="form-group">
+		<label  class="control-label">End Date</label>
+		<div class="input-group date" id="edDateRange">
+				<input type="text" class="input-sm form-control" name="end"	ng-model="formData.endDateTime" placeholder="YYYY-MM-DD HH:mm"/>
+				<span class="input-group-addon"> <i
+					class="fa fa-calendar"></i></span>
+			</div>
 		<div>
-			<input type="text" class="form-control" placeholder="Start Date Time" ng-model="formData.startDateTime">
+			
 		</div>
 	</div>
 	<div class="form-group">
-		<label  class="control-label">End Date Time</label>
-		<div>
-			<input type="text" class="form-control" placeholder="End Date Time" ng-model="formData.endDateTime">
-		</div>
-	</div>		
-	<div class="form-group">
 				<label  class="control-label">Created By</label>
 				<div>
-					<input type="text" class="form-control" placeholder="Created By " ng-model="formData.createdBy">
+					<input type="text" class="form-control input-sm" placeholder="Created By " ng-model="formData.createdBy" >
 				</div>
 			</div>		
 
@@ -87,21 +100,18 @@
 <Strong>Team Approval</Strong>
 		<ul class="list-group">
 		  <li class="list-group-item">
-		    <span class="badge">approved </span>
+		    <span class="badge badge-success">approved </span>
 		     Team 1
 		  </li>
 		</ul>
-
 </div>
-</div>
-		<div class="form-group">
-			<button type="button" class="btn btn-primary" ng-click="save()" data-dismiss="modal">
-				<span class=" fa fa-search">&nbsp</span>Save</button>
-	</div>
 </fieldset>
 <div class="row">
 <fieldset>
-	<legend>Tasks</legend>
+	<legend>Tasks
+		<button class="btn btn-primary pull-right"><span class="fa fa-plus"></span>Add Task</button>
+		<div class="clearfix"></div>
+	</legend>
 	<table class="table">
 					<thead>
 						<tr>
@@ -130,7 +140,7 @@
 							<td>{{task.owner}}</td>
 							<td>{{task.status}}</td>
 							<td>
-								<a href ng-click="edit(task)">
+								<a href class="btn btn-sm btn-success"ng-click="edit(task)">
 									Edit
 								</a>
 							</td>
@@ -141,3 +151,11 @@
 </div>
 
 </main>
+<script>
+ $('#startDtClndr').datetimepicker({
+	 format : "YYYY-MM-DD HH:mm:00"
+ });
+ $('#edDateRange').datetimepicker({
+	 format : "YYYY-MM-DD HH:mm:00"
+ });
+</script>
