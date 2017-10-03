@@ -31,11 +31,15 @@ app.controller('deploymentDetailController', function($scope,$http,$log,$httpPar
 		$routeParams,$location,authService) {
 
 	$scope.formData={};
+	$scope.formTaskData={};
+	$scope.viewOnly=false;
+	$scope.addTaskEnablement=true;
 	
 	 authService.getPrincipal().success(function(data, status) {
 	        $scope.user = data;
 	        console.log($scope.user);
 	    	$scope.formData['createdBy']=$scope.user.username;
+	    	
 	    });
 	    
 	
@@ -54,6 +58,19 @@ app.controller('deploymentDetailController', function($scope,$http,$log,$httpPar
 				if($routeParams.copy==='true'){
 					$scope.formData['id']="";
 				}
+				if($routeParams.view==='true'){
+					$scope.viewOnly=true;
+				}else{
+					$scope.viewOnly=false;
+				}
+
+				if($scope.user.username===$scope.formData.createdBy){
+					$scope.viewOnly=false;
+				}else{
+					$scope.viewOnly=true;
+				}
+				
+				$scope.addTaskEnablement=false;
 			},
 			function failure(response) {
 				$log.error(response.data)
@@ -84,6 +101,8 @@ app.controller('deploymentDetailController', function($scope,$http,$log,$httpPar
 	}
 	
 	$scope.saveDeploymentDetails=function(){
+		$scope.formData['startDateTime']=$('#startDateTime').val();
+		$scope.formData['endDateTime']=$('#endDateTime').val();
 		$http({
             method  : 'POST',
             url     : namespace+'/resource/deployment',
@@ -93,6 +112,7 @@ app.controller('deploymentDetailController', function($scope,$http,$log,$httpPar
            function success(resp){
                console.log(resp.data);
                $scope.formData=resp.data;
+               $scope.addTaskEnablement=false;
             },
            function failure(resp){
             alert("Error Saving Deployment Details");
@@ -100,5 +120,36 @@ app.controller('deploymentDetailController', function($scope,$http,$log,$httpPar
            });
 	}
 	
+	
+	$scope.editTsk=function(task){
+		$scope.formTaskData=task;
+	}
+	
+	$scope.newTask=function(){
+		$scope.formTaskData={};
+		$scope.formTaskData['createdBy']=$scope.user.username;
+	}
+	
+	$scope.saveTaskDetails=function(){
+		$scope.formTaskData['depolymentId']=$scope.formData.id
+		$scope.formTaskData['startDateTime']=$('#tskStDt').val();
+		$scope.formTaskData['endDateTime']=$('#tskEdDt').val();
+		
+		$http({
+            method  : 'POST',
+            url     : namespace+'/resource/deployment/saveTask',
+            data    : $scope.formTaskData,
+            headers : {'Content-Type': 'application/json'}
+           }).then(
+           function success(resp){
+               console.log(resp.data);
+               $scope.formTaskData=resp.data;
+               $scope.getTasksForDeployment($scope.formData.id);
+            },
+           function failure(resp){
+            alert("Error Saving Task");
+            $log.error(resp.data)
+           });
+	}
 });
 

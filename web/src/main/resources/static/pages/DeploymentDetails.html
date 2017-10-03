@@ -16,7 +16,7 @@
 
 <fieldset class="form-group">
 			<legend>Details
-			<button type="button" class="btn btn-primary pull-right" ng-click="saveDeploymentDetails()" data-dismiss="modal">
+			<button ng-hide="viewOnly" type="button" class="btn btn-primary pull-right" ng-click="saveDeploymentDetails()" data-dismiss="modal">
 				<span class="fa fa-floppy-o">&nbsp</span>Save</button>
 				<div class="clearfix"></div>
 			</legend>
@@ -71,7 +71,7 @@
 		<label  class="control-label">Start Date</label>
 
 			<div class="input-group date" id="startDtClndr">
-				<input type="text" class="input-sm form-control" name="start" ng-model="formData.startDateTime"	placeholder="YYYY-MM-DD HH:mm" />
+				<input type="text" class="input-sm form-control" name="start" id="startDateTime" ng-model="formData.startDateTime"	placeholder="YYYY-MM-DD HH:mm:00" />
 				<span class="input-group-addon"> <i
 					class="fa fa-calendar"></i></span>
 			</div>
@@ -80,7 +80,7 @@
 		<div class="form-group">
 		<label  class="control-label">End Date</label>
 		<div class="input-group date" id="edDateRange">
-				<input type="text" class="input-sm form-control" name="end"	ng-model="formData.endDateTime" placeholder="YYYY-MM-DD HH:mm"/>
+				<input type="text" class="input-sm form-control" name="end"	id="endDateTime" ng-model="formData.endDateTime" placeholder="YYYY-MM-DD HH:mm:00"/>
 				<span class="input-group-addon"> <i
 					class="fa fa-calendar"></i></span>
 			</div>
@@ -109,7 +109,9 @@
 <div class="row">
 <fieldset>
 	<legend>Tasks
-		<button class="btn btn-primary pull-right"><span class="fa fa-plus"></span>Add Task</button>
+		<button ng-hide="viewOnly || addTaskEnablement"  class="btn btn-primary pull-right" data-toggle="modal"
+								data-target="#taskModal" ng-click="newTask()"><span class="fa fa-plus" ></span>Add Task</button>
+		<span ng-show="addTaskEnablement" class="pull-right" style="color:blue">Add task will be enabled once you save the deployment details.</span>
 		<div class="clearfix"></div>
 	</legend>
 	<table class="table">
@@ -140,7 +142,8 @@
 							<td>{{task.owner}}</td>
 							<td>{{task.status}}</td>
 							<td>
-								<a href class="btn btn-sm btn-success"ng-click="edit(task)">
+								<a ng-hide="viewOnly" href class="btn btn-sm btn-success" ng-click="editTsk(task)"  data-toggle="modal"
+								data-target="#taskModal">
 									Edit
 								</a>
 							</td>
@@ -148,6 +151,91 @@
 					</tbody>
 				</table>
 </fieldset>
+</div>
+
+
+<div id="taskModal" class="modal fade" role="dialog">
+ <div class="modal-dialog modal-xl">
+  <div class="modal-content">
+	<div class="modal-header  bg-warning">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h3 class="modal-title">Team Members</h3>
+	</div>
+	<div class="modal-body">
+		<div class="row">
+			<div class="col-md-8">
+			<div class="form-group">
+					<label  class="control-label">Name</label>
+					<div>
+						<input type="text" class="form-control input-sm" placeholder="Name/title" ng-model="formTaskData.name" >
+					</div>
+				</div>
+			
+			<div class="form-group">
+					<label  class="control-label">Details/steps</label>
+					<div>
+						<textarea rows="15" class="form-control" ng-model="formTaskData.details"></textarea>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-4">
+				<div class="form-group">
+					<label  class="control-label">Id</label>
+					<div>
+						<input type="text" class="form-control input-sm" placeholder="id" ng-model="formTaskData.id" readonly>
+					</div>
+				</div>
+				<div class="form-group">
+					<label  class="control-label">Sequence</label>
+					<div>
+						<input type="text" class="form-control input-sm" placeholder="sequence" ng-model="formTaskData.sequence">
+					</div>
+				</div>
+				<div class="form-group">
+					<label  class="control-label">Owner</label>
+					<div>
+						<input type="text" class="form-control input-sm" placeholder="owner" ng-model="formTaskData.owner">
+					</div>
+				</div>
+				<div class="form-group">
+					<label  class="control-label">Status</label>
+					<div>
+						<select class="form-control input-sm" ng-model="formTaskData.status">
+						<option></option>
+							<option value="New" ng-selected="formTaskData.status=='New'">New</option>
+							<option value="Open" ng-selected="formTaskData.status=='Open'">Open</option>
+							<option value="Success" ng-selected="formTaskData.status=='Success'">Success</option>
+							<option value="Failed" ng-selected="formTaskData.status=='Failed'">Failed</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group">
+					<label  class="control-label">Start Date time</label>
+					<div  class="input-group date" id="tskStDateRange">
+						<input type="text" class="form-control input-sm" placeholder="YYYY-MM-DD HH:mm:00" ng-model="formTaskData.startDateTime" id="tskStDt">
+						<span class="input-group-addon"> <i class="fa fa-calendar"></i></span>
+					</div>
+				</div>
+				<div class="form-group">
+					<label  class="control-label">End Date time</label>
+					<div  class="input-group date" id="tskEdDateRange">
+						<input type="text" class="form-control input-sm" placeholder="YYYY-MM-DD HH:mm:00" ng-model="formTaskData.endDateTime" id="tskEdDt">
+						<span class="input-group-addon"> <i	class="fa fa-calendar"></i></span>
+					</div>
+				</div>
+
+			</div>
+		</div>   
+	</div>
+	<div class="modal-footer">
+	 <button ng-hide="viewOnly" type="button" class="btn btn-primary pull-right" ng-click="saveTaskDetails()" data-dismiss="modal">
+		<span class="fa fa-floppy-o">&nbsp</span>Save</button>
+	 
+	<button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>  
+	&nbsp;
+    </div>
+  </div>
+ </div>
 </div>
 
 </main>
@@ -158,4 +246,12 @@
  $('#edDateRange').datetimepicker({
 	 format : "YYYY-MM-DD HH:mm:00"
  });
+ $('#tskStDateRange').datetimepicker({
+	 format : "YYYY-MM-DD HH:mm:00"
+ });
+ $('#tskEdDateRange').datetimepicker({
+	 format : "YYYY-MM-DD HH:mm:00"
+ });
+ 
+ 
 </script>
