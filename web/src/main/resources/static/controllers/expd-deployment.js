@@ -151,5 +151,124 @@ app.controller('deploymentDetailController', function($scope,$http,$log,$httpPar
             $log.error(resp.data)
            });
 	}
+	
+	
+	$scope.getAvailteam=function(){
+		
+		$http({
+			method : "GET",
+			url :namespace+ "/resource/team",
+		}).then(function success(response) {
+			$log.log(response.data.content)
+			$scope.availTeams = response.data;
+		}, function failure(response) {
+			$log.error(response.status)
+			alert("Error Retrieving teams");
+		});
+
+	}
+	$scope.getAvailteam();
+	
+	$scope.getTeamsForApproval=function(deploymentId){	
+		var restUrl=namespace+"/resource/teamApproval?deploymentId="+deploymentId		
+		$http({
+			method : "GET",
+			url :restUrl 
+		})
+		.then(
+			function success(response) {
+				$scope.teamList = response.data;
+				$scope.refreshDeploymentStatusOnApproval();
+			},
+			function failure(response) {
+				$log.error(response.data)
+				alert("Error while retrieving the Approval Team List : "+response.data.message);
+			}
+		);
+	}
+	
+	$scope.getTeamsForApproval($routeParams.deploymentId);
+	
+	$scope.addTeamForApproval=function(){
+		$scope.teamApproval={};
+		var team=angular.fromJson($scope.selectedTeam);
+		$scope.teamApproval['teamId']=team.id;
+		$scope.teamApproval['teamName']=team.teamName;
+		$scope.teamApproval['deploymentId']=$routeParams.deploymentId;
+		
+		$http({
+            method  : 'POST',
+            url     : namespace+'/resource/teamApproval',
+            data    : $scope.teamApproval,
+            headers : {'Content-Type': 'application/json'}
+           }).then(
+           function success(resp){
+               console.log(resp.data);
+               $scope.getTeamsForApproval($routeParams.deploymentId);
+            },
+           function failure(resp){
+            alert("Error adding team approval");
+            $log.error(resp.data)
+           });
+		
+	}
+	
+	$scope.removeTeamFromApproval=function(team){
+		$http({
+			method : "DELETE",
+			url : namespace+'/resource/teamApproval?appId='+ team.id
+		  	})
+		  	.then(
+				function success(response) {
+					console.log(response.data);
+					alert("successfully deleted")
+					$scope.getTeamsForApproval($routeParams.deploymentId);
+				},
+				function failure(response) {
+					$log.error(response.status)
+					alert("Error while deleting the Team from approval");
+				});
+	}
+	
+	$scope.cast=function(approval){
+		var teamApproval={};
+		teamApproval['id']=$scope.cast_team.id;
+		teamApproval['approved']=approval;
+		teamApproval['teamId']=$scope.cast_team.teamId;
+		teamApproval['teamName']=$scope.cast_team.teamName;
+		teamApproval['deploymentId']=$scope.cast_team.deploymentId;
+		
+		$http({
+            method  : 'POST',
+            url     : namespace+'/resource/teamApproval/ApproveOrReject',
+            data    : teamApproval,
+            headers : {'Content-Type': 'application/json'}
+           }).then(
+           function success(resp){
+               console.log(resp.data);
+               $scope.getTeamsForApproval($routeParams.deploymentId);
+               
+            },
+           function failure(resp){
+            alert("Error While Approving ");
+            $log.error(resp.data)
+           });
+	}
+	
+	$scope.showCast=function(team){
+		$scope.cast_team=team;
+	}
+	
+	$scope.refreshDeploymentStatusOnApproval=function(){
+		var refresh = true;
+		angular.forEach($scope.teamList, function(team){
+		  if(refresh) {
+		    if(!team.approved){
+		    	refresh = false;
+		    }
+		  }
+		});
+		$scope.getDeployment($routeParams.deploymentId)
+	}
 });
 

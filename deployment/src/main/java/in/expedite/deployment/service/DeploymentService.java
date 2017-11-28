@@ -1,6 +1,8 @@
 package in.expedite.deployment.service;
 
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import in.expedite.deployment.entity.Deployment;
 import in.expedite.deployment.entity.Task;
+import in.expedite.deployment.entity.TeamApproval;
 import in.expedite.deployment.repository.DeploymentRepository;
 import in.expedite.deployment.repository.TaskRepository;
 import in.expedite.deployment.specifications.SpecificationUtils;
@@ -61,5 +64,17 @@ public class DeploymentService {
 	
 	public Task saveTask(Task task) {
 		return taskRepo.save(task);
+	}
+	
+	public void processDeploymentStatusOnApproval(List<TeamApproval> teamApprovalList,Long deploymentId) {
+		int size=teamApprovalList
+				.stream()
+				.filter(ta->!ta.getApproved())
+				.collect(Collectors.toList()).size();
+		if(size==0) {
+			Deployment d=getDeploymentById(deploymentId);
+			d.setStatus("Approved");
+			deploymentRepo.save(d);
+		}
 	}
 }

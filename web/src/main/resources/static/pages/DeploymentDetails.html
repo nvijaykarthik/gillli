@@ -97,13 +97,23 @@
 
 </div>
 <div class="col-md-3">
-<Strong>Team Approval</Strong>
-		<ul class="list-group">
-		  <li class="list-group-item">
-		    <span class="badge badge-success">approved </span>
-		     Team 1
-		  </li>
-		</ul>
+ <button type="button" ng-hide="viewOnly || addTaskEnablement" class="btn btn-primary pull-right" data-toggle="modal" data-target="#configApprovalModal">
+		<span class="fa fa-cog">&nbsp</span>Config Approvals</button>
+<span ng-show="addTaskEnablement" class="pull-right" style="color:blue">Config Approvals will be enabled once you save the deployment details.</span>
+		<div class="clearfix"></div>
+<Strong>Approvals</Strong>
+<table class="table">
+	<tr>
+	<th>Team</th>
+	<th>Approved</th>
+	<th>cast</th>
+	</tr>
+	<tr ng-repeat="team in teamList">
+	<td>{{team.teamName}}</td>
+	<td>{{team.approved}}</td>
+	<td><button ng-hide="team.approved" class="btn btn-sm btn-success" data-toggle="modal" data-target="#castModal" ng-click="showCast(team)" >Cast</button></td>
+	</tr>
+</table>
 </div>
 </fieldset>
 <div class="row">
@@ -233,6 +243,65 @@
 	 
 	<button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>  
 	&nbsp;
+    </div>
+  </div>
+ </div>
+</div>
+
+<div id="configApprovalModal" class="modal fade" role="dialog">
+ <div class="modal-dialog modal-xs">
+  <div class="modal-content">
+	<div class="modal-header  bg-warning">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h3 class="modal-title">Configure Approvals</h3>
+	</div>
+	<div class="modal-body">
+		<div class="input-group">
+			<select class="form-control" ng-model="selectedTeam">
+				<option ng-repeat="team in availTeams" value="{{team}}">
+				{{team.teamName}}
+			</option>
+			</select>
+			<span class="input-group-btn">
+			<button class="btn btn-success" type="button" ng-click="addTeamForApproval()">Add </button>
+			</span>
+		</div>
+		<table class="table">
+			<tr>
+				<th>s.no</th>
+				<th>Team Id</th>
+				<th>Team Name</th>
+				<th>Remove</th>
+			</tr>
+			<tr ng-repeat="team in teamList">
+				<td>{{$index}}</td>
+				<td>{{team.teamId}}</td>
+				<td>{{team.teamName}}</td>
+				<td><button class="btn btn-sm btn-danger" ng-click="removeTeamFromApproval(team)">Remove</button></td>
+			</tr>
+		</table>
+		
+				
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal"><span class="fa fa-times">&nbsp</span>Close</button>  
+    </div>
+  </div>
+ </div>
+</div>
+
+<div id="castModal" class="modal fade" role="dialog">
+ <div class="modal-dialog modal-xs">
+  <div class="modal-content">
+	<div class="modal-header  bg-warning">
+			<button type="button" class="close" data-dismiss="modal">&times;</button>
+			<h3 class="modal-title">Decide : {{cast_team.teamName}} </h3>
+	</div>
+	<div class="modal-body">
+		<button class="btn  btn-success" ng-click="cast(true)" data-dismiss="modal">Approve</button>
+		<button class="btn btn-danger" ng-click="cast(false)" data-dismiss="modal">Reject</button>		
+	</div>
+	<div class="modal-footer">  
     </div>
   </div>
  </div>
