@@ -164,6 +164,9 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
            });
 	}
 	$scope.preview=function(){
+		if($scope.projectInfoData.description===null){
+			return;
+		}
 		$http({
 	        method : "POST",
 	        url : namespace+'/resource/common/parseToHtml',
@@ -223,6 +226,9 @@ app.controller('projectViewController', function($scope,$http,$log,$httpParamSer
 	
 	
 	$scope.previewComment=function(){
+		if($scope.projectComments.comment===null){
+			return;
+		}
 		$http({
 	        method : "POST",
 	        url : namespace+'/resource/common/parseToHtml',

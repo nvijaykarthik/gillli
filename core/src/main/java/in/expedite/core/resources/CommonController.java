@@ -8,6 +8,7 @@ import java.io.InputStream;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class CommonController {
 
 	@RequestMapping(path="/parseToHtml",method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
 	public String getParsedContent(@RequestBody String content) {
+		if(StringUtils.isBlank(content)) {
+			return null;
+		}
 		return commonService.getParsedText(content);
 	}
 	

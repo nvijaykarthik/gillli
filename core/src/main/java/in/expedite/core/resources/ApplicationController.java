@@ -27,16 +27,19 @@ public class ApplicationController {
 	
 	@RequestMapping(method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<Application> getApplicationForTeam(@RequestParam Long teamId){
+		log.debug("request data {}",teamId);
 		return applicationService.getApplicationForTeam(teamId);
 	}
 	
 	@RequestMapping(method=RequestMethod.POST,produces=MediaType.APPLICATION_JSON_VALUE)
 	public Application saveApplication(@RequestBody Application app,@RequestAttribute(required=false) String username){
+		log.debug("request data {}, where logged in user is {}",app,username);
 		return applicationService.save(app,username);
 	}
 	
 	@RequestMapping(path="/find",method=RequestMethod.GET,produces=MediaType.APPLICATION_JSON_VALUE)
 	public List<Application> getApplication(@RequestParam(required=false) String q){
+		log.debug("request data {}",q);
 		return applicationService.findAppl(q);
 	}
 	

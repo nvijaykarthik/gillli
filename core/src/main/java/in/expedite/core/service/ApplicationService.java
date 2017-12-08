@@ -25,6 +25,7 @@ public class ApplicationService {
 	private ApplicationRepository applicationRepository;
 	
 	public List<Application> getApplicationForTeam(Long teamId){
+		log.debug("Getting Application for team id : {}",teamId);
 		return applicationRepository.findByTeamId(teamId);
 	}
 
@@ -33,15 +34,20 @@ public class ApplicationService {
 			app.setModifiedBy(username);
 			app.setCreatedDate(new Date());
 			app.setModifiedDate(new Date());
+			log.debug("Saving the application {}", app);
+			
 			return applicationRepository.save(app);
 	}
 
 	public List<Application> findAppl(String q) {
 		List<Application> appLst=new ArrayList<>();
+		log.debug("Search Query is  {}",q);
 		if(StringUtils.isBlank(q)) {
+			log.debug("Getting all the Applications with max 25 data order by created date");
 			Pageable page= new PageRequest(0, 25,Sort.Direction.DESC,"createdDate");
 			appLst=applicationRepository.findAll(page).getContent();
 		}else {
+			log.debug("Getting the Application for the query {}",q);
 			appLst=applicationRepository.findByAppNameIgnoreCaseContaining(q);
 		}
 		return appLst;

@@ -67,11 +67,22 @@ public class DeploymentService {
 	}
 	
 	public void processDeploymentStatusOnApproval(List<TeamApproval> teamApprovalList,Long deploymentId) {
-		int size=teamApprovalList
-				.stream()
-				.filter(ta->!ta.getApproved())
-				.collect(Collectors.toList()).size();
-		if(size==0) {
+		
+		boolean changeStatusToApprove=false;
+		try {
+		for(TeamApproval t:teamApprovalList) {
+			if(t.getApproved()) {
+				changeStatusToApprove=true;
+			}else if(!t.getApproved()) {
+				changeStatusToApprove=false;
+				break;
+			}
+		}
+		}catch(Exception e) {
+			changeStatusToApprove=false;
+			log.error("Error while Processing the list of Deployment Status On Approval ",e);
+		}
+		if(changeStatusToApprove) {
 			Deployment d=getDeploymentById(deploymentId);
 			d.setStatus("Approved");
 			deploymentRepo.save(d);
